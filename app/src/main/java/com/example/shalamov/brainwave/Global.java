@@ -6,4 +6,5 @@ package com.example.shalamov.brainwave;
 
 public class Global {
     public static ActivityNavigation sNavigation;
+    // comment for Git
 }
