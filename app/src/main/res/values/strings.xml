@@ -1,0 +1,21 @@
+<resources>
+    <string name="app_name">Learning tool</string>
+
+    <string name="data">Brainwave Brainwave Brainwave Brainwave
+    Brainwave Brainwave Brainwave Brainwave Brainwave ef ef efew;,f ;lf wfe  few
+    sefse e Brainwave Brainwave Brainwave Brainwave
+    </string>
+
+    <string-array name="animals">
+        <item>Кот</item>
+        <item>Кошка</item>
+        <item>Котёнок</item>
+        <item>Животное</item>
+    </string-array>
+    <string name="title_activity_navigation">ActivityNavigation</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
+</resources>

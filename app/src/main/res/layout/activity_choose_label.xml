@@ -1,0 +1,247 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.example.shalamov.brainwave.ChooseLabel">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal">
+
+
+            <GridLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:columnCount="3"
+                android:rowCount="10"
+
+                >
+
+                <LinearLayout
+                    android:id="@+id/layout1"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_column="0"
+                    android:layout_margin="5dp"
+                    android:layout_row="0"
+                    android:background="@drawable/press_selector"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/ic_school" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/layout2"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_column="1"
+                    android:layout_margin="5dp"
+                    android:layout_row="0"
+                    android:background="@drawable/press_selector"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/ic_apple_books" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/layout3"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_column="2"
+                    android:layout_margin="5dp"
+                    android:layout_row="0"
+
+                    android:background="@drawable/press_selector"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/ic_apple_books_color" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/layout4"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_column="0"
+                    android:layout_margin="5dp"
+                    android:layout_row="1"
+                    android:background="@drawable/press_selector"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/ic_australia_flag" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/layout5"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_column="1"
+                    android:layout_margin="5dp"
+                    android:layout_row="1"
+
+                    android:background="@drawable/press_selector"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/ic_face"/>
+                </LinearLayout> />
+
+                <LinearLayout
+
+                    android:id="@+id/layout6"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_column="2"
+                    android:layout_margin="5dp"
+                    android:layout_row="1"
+                    android:background="@drawable/press_selector"
+                    android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/ic_message"/>
+        </LinearLayout> />
+
+                <LinearLayout
+
+                    android:id="@+id/layout7"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_column="0"
+                    android:layout_margin="5dp"
+                    android:layout_row="2"
+                    android:background="@drawable/press_selector"
+                    android:orientation="horizontal" >
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/ic_music"/>
+        </LinearLayout> />
+
+                <LinearLayout
+
+                    android:id="@+id/layout8"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_column="1"
+                    android:layout_margin="5dp"
+                    android:layout_row="2"
+                    android:background="@drawable/press_selector"
+                    android:orientation="horizontal" >
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/ic_ok"/>
+        </LinearLayout> />
+
+                <LinearLayout
+
+                    android:id="@+id/layout9"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_column="2"
+                    android:layout_margin="5dp"
+                    android:layout_row="2"
+                    android:background="@drawable/press_selector"
+                    android:orientation="horizontal">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/ic_science"/>
+
+
+        </LinearLayout> />
+
+                <LinearLayout
+
+                    android:id="@+id/layout10"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_column="0"
+                    android:layout_margin="5dp"
+                    android:layout_row="3"
+                    android:background="@drawable/press_selector"
+                    android:orientation="horizontal" >
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/ic_school_2"/>
+                </LinearLayout> />
+
+                <LinearLayout
+
+                    android:id="@+id/layout11"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_column="1"
+                    android:layout_margin="5dp"
+                    android:layout_row="3"
+                    android:background="@drawable/press_selector"
+                    android:orientation="horizontal" >
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/ic_school_3"/>
+                </LinearLayout> />
+
+                <LinearLayout
+
+                    android:id="@+id/layout12"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_column="2"
+                    android:layout_margin="5dp"
+                    android:layout_row="3"
+                    android:background="@drawable/press_selector"
+                    android:orientation="horizontal" >
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/ic_think"/>
+                </LinearLayout> />
+
+                <LinearLayout
+
+                    android:id="@+id/layout13"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_column="0"
+                    android:layout_margin="5dp"
+                    android:layout_row="4"
+                    android:background="@drawable/press_selector"
+                    android:orientation="horizontal" >
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/ic_ted"/>
+                </LinearLayout> />
+
+            </GridLayout>
+
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>

@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:id="@+id/layout_tap_quiz">
+
+    <LinearLayout
+
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:animateLayoutChanges="true"
+        >
+
+
+        <TextView
+            android:id="@+id/text_field_for_learning"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:layout_margin="10dp"
+            android:layout_weight="1"
+            android:text=""
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="30sp"
+            />
+
+
+    </LinearLayout>
+
+    <android.support.design.widget.BottomNavigationView
+        android:id="@+id/navigation_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@color/myColorGrey500"
+        app:itemIconTint="@color/myColor1"
+        app:itemTextColor="@color/myColor1"
+        app:menu="@menu/bottom_navigation_items">
+
+    </android.support.design.widget.BottomNavigationView>
+
+    <LinearLayout
+        android:id="@+id/btn_go_to_train2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/navigation_bottom"
+        android:layout_alignParentEnd="true"
+        android:background="@drawable/press_selector"
+        android:layout_marginBottom="7dp"
+        android:layout_marginEnd="7dp">
+
+
+
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@drawable/ic_next_plus"
+
+            />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/btn_go_to_translator"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/navigation_bottom"
+        android:layout_alignParentEnd="true"
+        android:background="@drawable/press_selector"
+        android:layout_marginBottom="7dp"
+        android:layout_marginEnd="80dp">
+
+
+
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@drawable/ic_translate"
+
+            />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/btn_go_to_settings"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/navigation_bottom"
+        android:layout_alignParentEnd="true"
+        android:background="@drawable/press_selector"
+        android:layout_marginBottom="7dp"
+        android:layout_marginEnd="160dp">
+
+
+
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@drawable/ic_settings"
+
+            />
+
+    </LinearLayout>
+
+</RelativeLayout>
