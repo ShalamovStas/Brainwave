@@ -150,6 +150,7 @@ public class MainActivity extends AppCompatActivity {
                     intent.putExtra("name_lesson", mainText.getText().toString());
                     intent.putExtra("theme", theme);
 
+
                     startActivity(intent);
 
                 }
