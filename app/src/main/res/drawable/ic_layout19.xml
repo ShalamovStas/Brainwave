@@ -1,8 +1,10 @@
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
-    android:width="500dp"
-    android:height="500dp"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:width="100dp"
+    android:height="100dp"
     android:viewportWidth="500"
-    android:viewportHeight="500">
+    android:viewportHeight="500"
+    tools:ignore="MissingDefaultResource">
   <group>
     <clip-path android:pathData="M0,0h500v500h-500z M 0,0"/>
     <path
