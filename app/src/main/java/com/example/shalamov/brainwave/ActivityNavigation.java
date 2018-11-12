@@ -1247,9 +1247,9 @@ public class ActivityNavigation  extends AppCompatActivity
         nameLessonChange = (EditText) mLayoutBulder.findViewById(R.id.lesson_name_builder);
         mainTextLessonChange = (EditText) mLayoutBulder.findViewById(R.id.text_lesson_builder);
 
-        labelForLesson = "label_1";
+        labelForLesson = "label_0";
         mLabelLesson = (ImageView) mLayoutBulder.findViewById(R.id.image_for_lesson_builder);
-        mJsonUtils.updateLabel("label_1", mLabelLesson);
+        mJsonUtils.updateLabel("label_0", mLabelLesson);
 
         nameLessonChange.setText(nameLesson);
         mainTextLessonChange.setText(allTextForLesson);
