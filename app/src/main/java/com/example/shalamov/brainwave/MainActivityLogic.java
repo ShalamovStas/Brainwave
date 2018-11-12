@@ -8,7 +8,7 @@ public class MainActivityLogic {
 
     public String getNumberOfSentences(String text){
        String[] arrayText = text.split("[.\\?\\!]");
-        String number = arrayText.length + " sentences";
+        String number = arrayText.length + " ";
         return number;
     }
 }
