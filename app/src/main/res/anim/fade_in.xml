@@ -2,16 +2,16 @@
 <set xmlns:android="http://schemas.android.com/apk/res/android"
     android:interpolator="@android:anim/accelerate_interpolator" >
 
-    <!--<alpha-->
-        <!--android:fromAlpha="0"-->
-        <!--android:toAlpha="1"-->
-        <!--android:duration="1000">-->
+    <alpha
+        android:fromAlpha="0"
+        android:toAlpha="1"
+        android:duration="800">
 
-    <!--</alpha>-->
+    </alpha>
 
-    <translate
-        android:fromXDelta="100%p"
-        android:toXDelta="0%p"
-        android:duration="500"/>
+    <!--<translate-->
+        <!--android:fromXDelta="50%p"-->
+        <!--android:toXDelta="0%p"-->
+        <!--android:duration="2000"/>-->
 
 </set>

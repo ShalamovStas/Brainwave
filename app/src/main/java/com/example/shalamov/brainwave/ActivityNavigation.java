@@ -2,7 +2,6 @@ package com.example.shalamov.brainwave;
 
 import android.animation.ObjectAnimator;
 import android.content.ActivityNotFoundException;
-import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -23,7 +22,6 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.util.TypedValue;
 import android.view.Display;
-import android.view.KeyEvent;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -46,8 +44,7 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.shalamov.brainwave.jsonUtils.JsonUtils;
-import com.example.shalamov.brainwave.jsonUtils.Lesson;
+import com.example.shalamov.brainwave.utils.Lesson;
 
 import java.util.ArrayList;
 import java.util.Locale;
@@ -62,7 +59,7 @@ public class ActivityNavigation  extends AppCompatActivity
     TextView textNoteForSentence, mNumberSentence, mTextViewForConcat;
     View layoutForSentence;
     RelativeLayout layoutForClick;
-    JsonUtils mJsonUtils;
+//  JsonUtilsOld mJsonUtilsOld;
     String jsonArrayText, nameLesson, labelLesson;
     QuizLogic mQuizLogic;
     ActionBar ab;
@@ -71,10 +68,10 @@ public class ActivityNavigation  extends AppCompatActivity
     EditText nameLessonChange;
     EditText mainTextLessonChange;
     String allTextForLesson;
-    String oldNameLesson;
+//  String oldNameLesson;
     ImageView mNotepadImage, mTrainingImage, mSettingsImage, mEditorImage;
     ScrollView mScroll;
-    View focused;
+
     int updateTextMarkColor = 500;
 
 
@@ -135,6 +132,10 @@ public class ActivityNavigation  extends AppCompatActivity
 
     AudioManager manager;
 
+    int lessonNumber;
+    Lesson lesson;
+    boolean wasChanged = false;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -151,13 +152,13 @@ public class ActivityNavigation  extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
 
-        jsonArrayText = getIntent().getExtras().getString("jsonArray");
-        nameLesson = getIntent().getExtras().getString("name_lesson");
+        lessonNumber = Integer.parseInt(getIntent().getStringExtra("number"));
+        lesson = (Lesson) Global.getLessonsList().get(lessonNumber);
 
 
 
-        oldNameLesson = nameLesson;
-        mJsonUtils = new JsonUtils(this);
+//        oldNameLesson = nameLesson;
+
         createQuiz();
 
         ab.setTitle("Quiz");
@@ -175,14 +176,14 @@ public class ActivityNavigation  extends AppCompatActivity
         manager = (AudioManager) this.getSystemService(Context.AUDIO_SERVICE);
         manager.registerMediaButtonEventReceiver(new ComponentName(getPackageName(), RemoteControlReceiver.class.getName()));
 
-        Global.sNavigation = ActivityNavigation.this;
+        Global.setActivityNavigation(this);
 
     }
 
 
     private void getSettingsForLesson() {
 
-        theme = mJsonUtils.readSettings();
+        theme = "day";
 
         //глобальные настройки
         if (theme.equalsIgnoreCase("night")) {
@@ -424,7 +425,7 @@ public class ActivityNavigation  extends AppCompatActivity
                         window.setStatusBarColor(getResources().getColor(R.color.myColorGrey900));
                     }
 
-                    mJsonUtils.saveSettings("night");
+//                    mJsonUtilsOld.saveSettings("night");
 
                 } else {
                     dayTheme = true;
@@ -438,7 +439,7 @@ public class ActivityNavigation  extends AppCompatActivity
 //                    ab.setBackgroundDrawable(new ColorDrawable(getResources()
 //                            .getColor(R.color.myColorNight900)));
 
-                    mJsonUtils.saveSettings("day");
+//                    mJsonUtilsOld.saveSettings("day");
 
                 }
             }
@@ -1130,20 +1131,21 @@ public class ActivityNavigation  extends AppCompatActivity
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
 
+                            // сохраняем положение экрана для того чтобы не перематывать заново
                             saveStateNotePadLayout();
-
+                            // текст не может быть пустой
                             if (editText.getText().length() == 0) {
                                 Toast.makeText(ActivityNavigation.this, "Text can`t be empty!", Toast.LENGTH_SHORT).show();
                             } else {
-                                focused = layoutForSentence;
+                                //запоминаем какой текст подсвечивать
                                 updateTextMarkColor = indexSentence;
-
-                                mJsonUtils.updateSentence(jsonArrayText, nameLesson, mQuizLogic.changeSentence(editText.getText().toString(), indexSentence));
-
+                                //изменяем предложение в уроке
+                                // флаг присутствовали изменения
+                                wasChanged = true;
+                                Global.getLessonsUtils().changeSentence(lesson, indexSentence, editText.getText().toString());
                                 updateContent();
 
                                 ab.setSubtitle("#" + (indexSentence + 1) + " changed!");
-
 
                             }
                         }
@@ -1164,8 +1166,9 @@ public class ActivityNavigation  extends AppCompatActivity
                                 public void onClick(DialogInterface dialogInterface, int i) {
                                     saveStateNotePadLayout();
                                     updateTextMarkColor = indexSentence;
-                                    mJsonUtils.updateSentence(jsonArrayText, nameLesson, mQuizLogic.deleteSentence(indexSentence));
-                                    updateContent();
+                                    wasChanged = true;
+                                    Global.getLessonsUtils().deleteSentence(lesson, indexSentence);
+                                updateContent();
 
                                 }
 
@@ -1249,10 +1252,10 @@ public class ActivityNavigation  extends AppCompatActivity
 
         labelForLesson = "label_0";
         mLabelLesson = (ImageView) mLayoutBulder.findViewById(R.id.image_for_lesson_builder);
-        mJsonUtils.updateLabel("label_0", mLabelLesson);
+        Global.getImageUtils().updateLabel(lesson.getLabel(), mLabelLesson);
 
-        nameLessonChange.setText(nameLesson);
-        mainTextLessonChange.setText(allTextForLesson);
+        nameLessonChange.setText(lesson.getName());
+        mainTextLessonChange.setText(lesson.getText());
 
         layoutChangeLabel.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -1275,8 +1278,9 @@ public class ActivityNavigation  extends AppCompatActivity
                     builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
-                            mJsonUtils.deleteLesson(oldNameLesson);
-                            mJsonUtils.insertTextIntoJson(nameLessonChange.getText().toString(), mainTextLessonChange.getText().toString(), labelForLesson);
+                            wasChanged = true;
+                            Global.getLessonsUtils().changeLesson(lessonNumber, nameLessonChange.getText().toString(), mainTextLessonChange.getText().toString(), "description1", "description2", "description3", "description1",
+                            labelForLesson, "progress 1");
                             updateContent();
                         }
 
@@ -1312,19 +1316,15 @@ public class ActivityNavigation  extends AppCompatActivity
 
     private void updateContent() {
 
-        String mainText = mJsonUtils.readFile();
-
-        allTextForLesson = mJsonUtils.getAllTextForLesson(mainText, nameLesson);
-
-
+        allTextForLesson = lesson.getText();
         mQuizLogic.setNull(allTextForLesson);
-
         showNotePad();
 
     }
 
     private void createQuiz() {
-        allTextForLesson = mJsonUtils.getAllTextForLesson(jsonArrayText, nameLesson);
+
+        allTextForLesson = lesson.getText();
         mQuizLogic = new QuizLogic(allTextForLesson);
         mLogicTraining2 = new LogicTraining2();
     }
@@ -1351,6 +1351,10 @@ public class ActivityNavigation  extends AppCompatActivity
                 }
 
             } else {
+                if(wasChanged) {
+                            Global.getJsonUtils().saveFromModelToFile();
+                    Toast.makeText(this, "Saved", Toast.LENGTH_SHORT).show();
+                }
                 super.onBackPressed();
             }
         }
@@ -1374,6 +1378,10 @@ public class ActivityNavigation  extends AppCompatActivity
             if (!notePadShow) {
                 showNotePad();
             } else {
+                if(wasChanged) {
+                            Global.getJsonUtils().saveFromModelToFile();
+                    Toast.makeText(this, "Saved", Toast.LENGTH_SHORT).show();
+                        }
                 finish();
             }
             return true;
@@ -1473,13 +1481,23 @@ public class ActivityNavigation  extends AppCompatActivity
             super.onActivityResult(requestCode, resultCode, data);
 
             if (resultCode == 2) {
+
+                mLabelLesson = (ImageView) mLayoutBulder.findViewById(R.id.image_for_lesson_builder);
                 labelForLesson = data.getStringExtra("Label");
-                mJsonUtils.updateLabel(labelForLesson, mLabelLesson);
+                lesson.setLabel(labelForLesson);
+                Global.getImageUtils().updateLabel(lesson.getLabel(), mLabelLesson);
+//                mJsonUtilsOld.updateLabel(labelForLesson, mLabelLesson);
 
             }
         }
 
-        @Override
+    @Override
+    protected void onStop() {
+
+        super.onStop();
+    }
+
+    @Override
         protected void onDestroy () {
 
             if (t1 != null) {

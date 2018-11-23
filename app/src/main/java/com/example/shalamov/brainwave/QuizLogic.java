@@ -42,7 +42,7 @@ public class QuizLogic {
         for (int i = 0; i < arrayText.length; i++) {
             boolean flag = true;
             while (flag) {
-                if (arrayText[i].length() != 0) {                           // если в конце текста стоит пробелы, это условие не позволит появится ошибке на строчке temp[i].substring(0, 1
+                if (arrayText[i].length() != 0) { // если в конце текста стоит пробелы, это условие не позволит появится ошибке на строчке temp[i].substring(0, 1
                     // пробелы будут удалятся и строчка будет в таком виде temp[i] = "";
                     String substring = arrayText[i].substring(0, 1);
                     if (substring.equalsIgnoreCase(" ")) {

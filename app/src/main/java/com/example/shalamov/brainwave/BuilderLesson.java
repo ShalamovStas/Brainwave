@@ -1,23 +1,17 @@
 package com.example.shalamov.brainwave;
 
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.shalamov.brainwave.jsonUtils.JsonUtils;
+import com.example.shalamov.brainwave.jsonUtils.JsonUtilsOld;
 
 import java.util.ArrayList;
 
@@ -27,7 +21,7 @@ public class BuilderLesson extends AppCompatActivity {
     ImageView mLabelLesson;
     String labelForLesson;
     String valuesFromActivity;
-    JsonUtils jsonUtils;
+    JsonUtilsOld jsonUtilsOld;
     EditText lesson_name;
     EditText lesson_text;
     ArrayList mListLessons;
@@ -41,13 +35,14 @@ public class BuilderLesson extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        jsonUtils = new JsonUtils(this);
+        jsonUtilsOld = new JsonUtilsOld(this);
         lesson_name = (EditText) findViewById(R.id.lesson_name);
         lesson_text = (EditText) findViewById(R.id.text_lesson);
         labelForLesson = "label_0";
         mButtonChooseLabel = (LinearLayout) findViewById(R.id.btn_choose_label);
         mLabelLesson = (ImageView) findViewById(R.id.image_for_lesson);
-        jsonUtils.updateLabel("label_0", mLabelLesson);
+        Global.getImageUtils().updateLabel("label_0", mLabelLesson);
+
 
         mButtonChooseLabel.setOnClickListener(new View.OnClickListener() {
 
@@ -81,8 +76,11 @@ public class BuilderLesson extends AppCompatActivity {
 
             if(lesson_name.getText().toString().length() != 0 && lesson_text.getText().toString().length() != 0){
 
-                Boolean bool1 = lesson_name.getText().toString() != "";
-                jsonUtils.insertTextIntoJson(lesson_name.getText().toString(), lesson_text.getText().toString(), labelForLesson);
+                boolean bool1 = lesson_name.getText().toString() != "";
+
+                Global.getLessonsUtils().createNewLesson(lesson_name.getText().toString(), lesson_text.getText().toString(), "description1", "description2", "description3", "description1",
+                        labelForLesson, "progress 1");
+
                 Intent i = new Intent();
                 setResult(2, i);
                 this.finish();
@@ -104,8 +102,7 @@ public class BuilderLesson extends AppCompatActivity {
 
         if (resultCode == 2) {
             labelForLesson = data.getStringExtra("Label");
-            System.out.println(labelForLesson);
-            jsonUtils.updateLabel(labelForLesson, mLabelLesson);
+            Global.getImageUtils().updateLabel(labelForLesson, mLabelLesson);
 
         }
     }

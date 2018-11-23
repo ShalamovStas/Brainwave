@@ -33,7 +33,7 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.shalamov.brainwave.jsonUtils.JsonUtils;
+import com.example.shalamov.brainwave.jsonUtils.JsonUtilsOld;
 
 import java.util.Locale;
 
@@ -46,7 +46,7 @@ public class QuizActivity extends AppCompatActivity {
     TextView textNoteForSentence, mNumberSentence, mEditorText, mSettingsText, mTrainingText, mNotepadText;
     View layoutForSentence;
     RelativeLayout layoutForClick;
-    JsonUtils mJsonUtils;
+    JsonUtilsOld mJsonUtilsOld;
     String jsonArrayText, nameLesson;
     QuizLogic mQuizLogic;
     ActionBar ab;
@@ -100,7 +100,7 @@ public class QuizActivity extends AppCompatActivity {
         jsonArrayText = getIntent().getExtras().getString("jsonArray");
         nameLesson = getIntent().getExtras().getString("name_lesson");
         oldNameLesson = nameLesson;
-        mJsonUtils = new JsonUtils(this);
+        mJsonUtilsOld = new JsonUtilsOld(this);
         createQuiz();
         createAnimLogic();
         ab = getSupportActionBar();
@@ -589,7 +589,7 @@ public class QuizActivity extends AppCompatActivity {
                             } else {
                                 focused = layoutForSentence;
                                 updateTextMarkColor = indexSentence;
-                                mJsonUtils.updateSentence(jsonArrayText, nameLesson, mQuizLogic.changeSentence(editText.getText().toString(), indexSentence));
+                                mJsonUtilsOld.updateSentence(jsonArrayText, nameLesson, mQuizLogic.changeSentence(editText.getText().toString(), indexSentence));
 
                                 updateContent();
                                 ab.setSubtitle("#" + (indexSentence + 1) + " changed!");
@@ -614,7 +614,7 @@ public class QuizActivity extends AppCompatActivity {
                                 public void onClick(DialogInterface dialogInterface, int i) {
                                     saveStateNotePadLayout();
                                     updateTextMarkColor = indexSentence;
-                                    mJsonUtils.updateSentence(jsonArrayText, nameLesson, mQuizLogic.deleteSentence(indexSentence));
+                                    mJsonUtilsOld.updateSentence(jsonArrayText, nameLesson, mQuizLogic.deleteSentence(indexSentence));
                                     updateContent();
 
                                 }
@@ -697,7 +697,7 @@ public class QuizActivity extends AppCompatActivity {
         mainTextLessonChange = (EditText) mLayoutBulder.findViewById(R.id.text_lesson_builder);
         labelForLesson = "label_1";
         mLabelLesson = (ImageView) mLayoutBulder.findViewById(R.id.image_for_lesson_builder);
-        mJsonUtils.updateLabel("label_1", mLabelLesson);
+        mJsonUtilsOld.updateLabel("label_1", mLabelLesson);
 
         nameLessonChange.setText(nameLesson);
         mainTextLessonChange.setText(allTextForLesson);
@@ -722,8 +722,8 @@ public class QuizActivity extends AppCompatActivity {
                     builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
-                            mJsonUtils.deleteLesson(oldNameLesson);
-                            mJsonUtils.insertTextIntoJson(nameLessonChange.getText().toString(), mainTextLessonChange.getText().toString(), labelForLesson);
+                            mJsonUtilsOld.deleteLesson(oldNameLesson);
+                            mJsonUtilsOld.insertTextIntoJson(nameLessonChange.getText().toString(), mainTextLessonChange.getText().toString(), labelForLesson);
                             updateContent();
                         }
 
@@ -750,8 +750,8 @@ public class QuizActivity extends AppCompatActivity {
     }
 
     private void updateContent() {
-        String mainText = mJsonUtils.readFile();
-        allTextForLesson = mJsonUtils.getAllTextForLesson(mainText, nameLesson);
+        String mainText = mJsonUtilsOld.readFile();
+        allTextForLesson = mJsonUtilsOld.getAllTextForLesson(mainText, nameLesson);
         mQuizLogic.setNull(allTextForLesson);
         showNotePad();
     }
@@ -852,7 +852,7 @@ public class QuizActivity extends AppCompatActivity {
         mainTextLessonChange = (EditText) mLayoutBulder.findViewById(R.id.text_lesson_builder);
         labelForLesson = "label_1";
         mLabelLesson = (ImageView) mLayoutBulder.findViewById(R.id.image_for_lesson_builder);
-        mJsonUtils.updateLabel("label_1", mLabelLesson);
+        mJsonUtilsOld.updateLabel("label_1", mLabelLesson);
 
         nameLessonChange.setText(nameLesson);
         mainTextLessonChange.setText(allTextForLesson);
@@ -877,8 +877,8 @@ public class QuizActivity extends AppCompatActivity {
                     builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
-                            mJsonUtils.deleteLesson(oldNameLesson);
-                            mJsonUtils.insertTextIntoJson(nameLessonChange.getText().toString(), mainTextLessonChange.getText().toString(), labelForLesson);
+                            mJsonUtilsOld.deleteLesson(oldNameLesson);
+                            mJsonUtilsOld.insertTextIntoJson(nameLessonChange.getText().toString(), mainTextLessonChange.getText().toString(), labelForLesson);
                             updateContent();
                         }
 
@@ -904,7 +904,7 @@ public class QuizActivity extends AppCompatActivity {
 
 
     private void createQuiz() {
-        allTextForLesson = mJsonUtils.getAllTextForLesson(jsonArrayText, nameLesson);
+        allTextForLesson = mJsonUtilsOld.getAllTextForLesson(jsonArrayText, nameLesson);
         mQuizLogic = new QuizLogic(allTextForLesson);
 
 
@@ -917,7 +917,7 @@ public class QuizActivity extends AppCompatActivity {
         if (resultCode == 2) {
             labelForLesson = data.getStringExtra("Label");
 
-            mJsonUtils.updateLabel(labelForLesson, mLabelLesson);
+            mJsonUtilsOld.updateLabel(labelForLesson, mLabelLesson);
 
         }
     }

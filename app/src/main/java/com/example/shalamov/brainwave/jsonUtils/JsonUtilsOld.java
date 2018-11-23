@@ -7,6 +7,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.shalamov.brainwave.R;
+import com.example.shalamov.brainwave.utils.Lesson;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -25,7 +26,7 @@ import java.util.ArrayList;
  * Created by shala on 16.06.2018.
  */
 
-public class JsonUtils {
+public class JsonUtilsOld {
     private Context mContext;
     private ArrayList lessonsList;
 
@@ -65,12 +66,12 @@ public class JsonUtils {
 
     };
 
-    public JsonUtils(Context c, ArrayList lessonsList) {
+    public JsonUtilsOld(Context c, ArrayList lessonsList) {
         this.mContext = c;
         this.lessonsList = lessonsList;
     }
 
-    public JsonUtils(Context c) {
+    public JsonUtilsOld(Context c) {
         this.mContext = c;
     }
 
@@ -125,6 +126,7 @@ public class JsonUtils {
             for (int i = 0; i < numberOfKeysArray; i++) {
                 jsonObject = jsonArray.getJSONObject(i);
                 Lesson lesson = new Lesson(
+                        i,
                         jsonObject.get("lesson_name").toString(),
                         jsonObject.get("Text").toString(),
                         jsonObject.get("description1").toString(),

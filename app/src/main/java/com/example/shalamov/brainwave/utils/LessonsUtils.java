@@ -1,0 +1,112 @@
+package com.example.shalamov.brainwave.utils;
+
+import com.example.shalamov.brainwave.Global;
+
+import java.util.ArrayList;
+
+public class LessonsUtils {
+
+    // класс для работы с объектами Lesson и списком уроков
+    // изменение объектов, добавление новых, итд
+
+    public void createLesson(int number, String name, String text, String description1, String description2, String description3, String description4, String label, String progress){
+       Lesson lesson = new Lesson(number, name, text,description1, description2, description3, description4, label, progress);
+
+
+        //создаем масив из предложений
+        String[] arrayText = text.split("[.\\?\\!]");
+        lesson.setArrayText(arrayText);
+
+
+        ArrayList lessons = Global.getLessonsList();
+        lessons.add(lesson);
+    }
+
+    public void changeLesson(int number, String name, String text, String description1, String description2, String description3, String description4, String label, String progress){
+        Lesson lesson = (Lesson) Global.getLessonsList().get(number);
+        lesson.setName(name);
+        lesson.setText(text);
+        lesson.setDescription1(description1);
+        lesson.setDescription2(description2);
+        lesson.setDescription3(description3);
+        lesson.setDescription4(description4);
+        lesson.setLabel(label);
+        lesson.setProgress(progress);
+
+    }
+
+    public void createNewLesson( String name, String text, String description1, String description2, String description3, String description4, String label, String progress){
+        Lesson lesson = new Lesson(Global.getLessonsList().size() + 1, name, text,description1, description2, description3, description4, label, progress);
+
+
+        //создаем масив из предложений
+        String[] arrayText = text.split("[.\\?\\!]");
+        lesson.setArrayText(arrayText);
+
+
+        ArrayList lessons = Global.getLessonsList();
+        lessons.add(lesson);
+    }
+
+    // метод изменения предложения
+    public void changeSentence(Lesson lesson, int index, String newSentence){
+        // из модели урка берем текст и разделяем его по предложениям
+        String[] arrayText = lesson.getText().split("[.\\?\\!]");
+        //изменяем предложение по извесному индексу
+        arrayText[index] = newSentence;
+
+        StringBuilder newText = new StringBuilder();
+        //в цикле проходим все элементы массива для создания одного текста
+        for (int i = 0; i < arrayText.length; i++) {
+            //условие для того, чтобы в конце текста не появлялась точка, что приводит к появлению нового элемента массива
+            // при разделении текста на предложения.
+            newText.append(arrayText[i]);
+            if(!((arrayText.length-1)==i)) {
+                newText.append(". ");
+            }
+        }
+
+        lesson.setText(newText.toString());
+    }
+
+    public void deleteSentence(Lesson lesson, int index){
+        // из модели урка берем текст и разделяем его по предложениям
+        String[] arrayText = lesson.getText().split("[.\\?\\!]");
+        //изменяем предложение по извесному индексу
+        arrayText[index] = "";
+
+
+        ArrayList<String> arrayTextNew = new ArrayList<>();
+// copy old array to new without old sentence
+        for (int i = 0; i < arrayText.length; i++) {
+            if(!(i == index)) {
+
+                arrayTextNew.add(arrayText[i]);
+            }
+        }
+
+
+        StringBuilder newText = new StringBuilder();
+        //в цикле проходим все элементы массива для создания одного текста
+        for (int i = 0; i < arrayTextNew.size(); i++) {
+
+
+                //условие для того, чтобы в конце текста не появлялась точка, что приводит к появлению нового элемента массива
+                // при разделении текста на предложения.
+                newText.append(arrayTextNew.get(i));
+                if (!((arrayTextNew.size() - 1) == i)) {
+                    newText.append(". ");
+                }
+        }
+
+        lesson.setText(newText.toString());
+    }
+
+    public void deleteLesson(int index){
+        Global.getLessonsList().remove(index);
+        Global.getJsonUtils().saveFromModelToFile();
+    }
+
+
+
+}

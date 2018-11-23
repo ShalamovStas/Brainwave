@@ -26,9 +26,9 @@ public class RemoteControlReceiver extends BroadcastReceiver {
             if (Intent.ACTION_MEDIA_BUTTON.equals(intent.getAction())) {
                 // Реагируем на нажатие
 
-                if (Global.sNavigation.history[1].equalsIgnoreCase("Training")) {
-                    Global.sNavigation.t1.setSpeechRate(1f);
-                    Global.sNavigation.t1.speak(Global.sNavigation.textFieldForLearning.getText().toString(), TextToSpeech.QUEUE_FLUSH, null);
+                if (Global.getActivityNavigation().history[1].equalsIgnoreCase("Training")) {
+                    Global.getActivityNavigation().t1.setSpeechRate(1f);
+                    Global.getActivityNavigation().t1.speak(Global.getActivityNavigation().textFieldForLearning.getText().toString(), TextToSpeech.QUEUE_FLUSH, null);
                 }
 
 
