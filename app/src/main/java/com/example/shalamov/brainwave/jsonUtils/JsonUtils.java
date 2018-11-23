@@ -78,8 +78,11 @@ public class JsonUtils {
     public String getTextFromJsonFile() {
         AssetManager assetManager = mContext.getAssets();
         StringBuilder sb = null;
-        try (InputStreamReader istream = new InputStreamReader(assetManager.open("lessons.json"));
-             BufferedReader br = new BufferedReader(istream)) {
+        try (
+                InputStreamReader istream = new InputStreamReader(assetManager.open("lessons.json"));
+             BufferedReader br = new BufferedReader(istream)
+        )
+        {
             sb = new StringBuilder();
             String line = br.readLine();
 

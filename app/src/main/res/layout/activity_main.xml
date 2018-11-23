@@ -92,8 +92,8 @@
         android:layout_alignParentRight="true"
         android:layout_margin="16dp"
         android:clickable="true"
-        android:src="@drawable/ic_business"
-        app:backgroundTint="@color/myColorCorrectTextGreen800" />
+        android:src="@drawable/ic_add"
+        app:backgroundTint="@color/colorPrimary" />
 
 
 </RelativeLayout>
