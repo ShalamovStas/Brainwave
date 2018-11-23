@@ -48,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
         return mJsonUtils;
     }
 
-    private TextView mTextViewFavorite;
+    private LinearLayout mTextViewFavorite;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -150,6 +150,7 @@ public class MainActivity extends AppCompatActivity {
                     intent.putExtra("name_lesson", mainText.getText().toString());
                     intent.putExtra("theme", theme);
 
+
                     startActivity(intent);
 
                 }
@@ -226,7 +227,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        mTextViewFavorite = (TextView) findViewById(R.id.favorite_button);
+        mTextViewFavorite = (LinearLayout) findViewById(R.id.favorite_button);
         mTextViewFavorite.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

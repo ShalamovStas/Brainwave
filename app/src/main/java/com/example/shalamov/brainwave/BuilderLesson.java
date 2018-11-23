@@ -44,10 +44,10 @@ public class BuilderLesson extends AppCompatActivity {
         jsonUtils = new JsonUtils(this);
         lesson_name = (EditText) findViewById(R.id.lesson_name);
         lesson_text = (EditText) findViewById(R.id.text_lesson);
-        labelForLesson = "label_1";
+        labelForLesson = "label_0";
         mButtonChooseLabel = (LinearLayout) findViewById(R.id.btn_choose_label);
         mLabelLesson = (ImageView) findViewById(R.id.image_for_lesson);
-        jsonUtils.updateLabel("label_1", mLabelLesson);
+        jsonUtils.updateLabel("label_0", mLabelLesson);
 
         mButtonChooseLabel.setOnClickListener(new View.OnClickListener() {
 

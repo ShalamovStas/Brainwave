@@ -47,6 +47,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.shalamov.brainwave.jsonUtils.JsonUtils;
+import com.example.shalamov.brainwave.jsonUtils.Lesson;
 
 import java.util.ArrayList;
 import java.util.Locale;
@@ -62,7 +63,7 @@ public class ActivityNavigation  extends AppCompatActivity
     View layoutForSentence;
     RelativeLayout layoutForClick;
     JsonUtils mJsonUtils;
-    String jsonArrayText, nameLesson;
+    String jsonArrayText, nameLesson, labelLesson;
     QuizLogic mQuizLogic;
     ActionBar ab;
     String labelForLesson;
@@ -152,6 +153,7 @@ public class ActivityNavigation  extends AppCompatActivity
 
         jsonArrayText = getIntent().getExtras().getString("jsonArray");
         nameLesson = getIntent().getExtras().getString("name_lesson");
+
 
 
         oldNameLesson = nameLesson;
@@ -1244,9 +1246,10 @@ public class ActivityNavigation  extends AppCompatActivity
         LinearLayout saveLesson = (LinearLayout) mLayoutBulder.findViewById(R.id.save_lesson_builder);
         nameLessonChange = (EditText) mLayoutBulder.findViewById(R.id.lesson_name_builder);
         mainTextLessonChange = (EditText) mLayoutBulder.findViewById(R.id.text_lesson_builder);
-        labelForLesson = "label_1";
+
+        labelForLesson = "label_0";
         mLabelLesson = (ImageView) mLayoutBulder.findViewById(R.id.image_for_lesson_builder);
-        mJsonUtils.updateLabel("label_1", mLabelLesson);
+        mJsonUtils.updateLabel("label_0", mLabelLesson);
 
         nameLessonChange.setText(nameLesson);
         mainTextLessonChange.setText(allTextForLesson);
@@ -1298,6 +1301,8 @@ public class ActivityNavigation  extends AppCompatActivity
 
 
     }
+
+
 
     @Override
     protected void onResume() {
