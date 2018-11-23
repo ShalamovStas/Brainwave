@@ -43,8 +43,17 @@ public class MainActivity extends AppCompatActivity {
     ActionBar ab;
     private String theme = "day";
 
-
-    private LinearLayout mTextViewFavorite;
+//кнопки на верхней панели
+    private LinearLayout mAll;
+    private LinearLayout mImportant;
+    private LinearLayout mCurrent;
+    private LinearLayout mTemp;
+    // filter - фильтр для уроков
+    // 0 - все уроки
+    // 1 - важные уроки
+    // 2 - текущие
+    // 3 - временные
+    private String filter = "all";
 
     private FilesUtils filesUtils;
     private JsonUtils jsonUtils;
@@ -105,30 +114,16 @@ public class MainActivity extends AppCompatActivity {
 //    }
 
     private void addElementsToLayouts() {
-        int counterAnimation = 0;
 
-//        View lessonBuilderLayout = getLayoutInflater().inflate(R.layout.lesson_builder_label, null);
-//        ImageView labelLessonBuilderLayout = (ImageView) lessonBuilderLayout.findViewById(R.id.imageViewLessonBuilder);
-//        labelLessonBuilderLayout.setImageResource(R.drawable.ic_think);
-//        mMainLayout.addView(lessonBuilderLayout);
-//        lessonBuilderLayout.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Intent intent = new Intent(MainActivity.this, BuilderLesson.class);
-//                startActivityForResult(intent, 2);
-//            }
-//        });
-
-//        Toast.makeText(this, "Size of Array " +  mListLessons.size(), Toast.LENGTH_SHORT).show();
         for (int i = arrayListLessons.size() - 1; i >= 0; i--) {
+            Lesson lesson = (Lesson) arrayListLessons.get(i);
 
 
             final int numberOfElement = i;
             View view1 = getLayoutInflater().inflate(R.layout.lessons_label, null);
-            final TextView mainText = (TextView) view1.findViewById(R.id.main_text);
-            final TextView mTextDescription = (TextView) view1.findViewById(R.id.text_description);
-            final LinearLayout  mLinear = (LinearLayout) view1.findViewById(R.id.layout_for_lesson_label);
-            final Lesson lesson = (Lesson) arrayListLessons.get(i);
+            TextView mainText = (TextView) view1.findViewById(R.id.main_text);
+            TextView mTextDescription = (TextView) view1.findViewById(R.id.text_description);
+            LinearLayout  mLinear = (LinearLayout) view1.findViewById(R.id.layout_for_lesson_label);
             mainText.setText(lesson.getName());
             mTextDescription.setText(mMainActivityLogic.getNumberOfSentences(lesson.getText()));
             ImageView imageView1 = (ImageView) view1.findViewById(R.id.imageView);
@@ -174,20 +169,82 @@ public class MainActivity extends AppCompatActivity {
                     return true;
                 }
             });
-
-
             animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fade_in);
 //            animation.setStartOffset(10 + counterAnimation * 50);
             mMainLayout.addView(view1);
             view1.startAnimation(animation);
 //            counterAnimation++;
-
         }
-
-
 
     }
 
+    private void addElementsToLayouts(String filter) {
+
+        for (int i = arrayListLessons.size() - 1; i >= 0; i--) {
+            Lesson lesson = (Lesson) arrayListLessons.get(i);
+            String filterFromLesson = lesson.getDescription1();
+
+            if (filter.equalsIgnoreCase(filterFromLesson)) {
+
+                final int numberOfElement = i;
+                View view1 = getLayoutInflater().inflate(R.layout.lessons_label, null);
+                TextView mainText = (TextView) view1.findViewById(R.id.main_text);
+                TextView mTextDescription = (TextView) view1.findViewById(R.id.text_description);
+                LinearLayout mLinear = (LinearLayout) view1.findViewById(R.id.layout_for_lesson_label);
+                mainText.setText(lesson.getName());
+                mTextDescription.setText(mMainActivityLogic.getNumberOfSentences(lesson.getText()));
+                ImageView imageView1 = (ImageView) view1.findViewById(R.id.imageView);
+                Global.getImageUtils().updateLabel(((Lesson) arrayListLessons.get(i)).getLabel(), imageView1);
+                count = i + 1;
+                if (theme.equalsIgnoreCase("night")) {
+                    mLinear.setBackground(ContextCompat.getDrawable(MainActivity.this, R.drawable.press_selector_night));
+                } else {
+                    mLinear.setBackground(ContextCompat.getDrawable(MainActivity.this, R.drawable.press_selector));
+                }
+                view1.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent intent = new Intent(MainActivity.this, ActivityNavigation.class);
+                        intent.putExtra("number", Integer.toString(numberOfElement));
+
+                        startActivity(intent);
+
+                    }
+                });
+                view1.setOnLongClickListener(new View.OnLongClickListener() {
+                    @Override
+                    public boolean onLongClick(View view) {
+                        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+                        builder.setCancelable(false);
+                        builder.setTitle("Delete Lesson?");
+                        builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+//                            Toast.makeText(MainActivity.this, "Delete " + mainText.getText().toString(), Toast.LENGTH_SHORT).show();
+                                Global.getLessonsUtils().deleteLesson(numberOfElement);
+                                updateContent();
+
+                            }
+
+                        }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+
+                            }
+                        });
+                        builder.create().show();
+                        return true;
+                    }
+                });
+                animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fade_in);
+//            animation.setStartOffset(10 + counterAnimation * 50);
+                mMainLayout.addView(view1);
+                view1.startAnimation(animation);
+//            counterAnimation++;
+            }
+        }
+
+    }
 
 
     @Override
@@ -246,13 +303,46 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        mTextViewFavorite = (LinearLayout) findViewById(R.id.favorite_button);
-        mTextViewFavorite.setOnClickListener(new View.OnClickListener() {
+        mAll = (LinearLayout) findViewById(R.id.all_button);
+        mImportant = (LinearLayout) findViewById(R.id.important_button);
+        mCurrent = (LinearLayout) findViewById(R.id.current_button);
+        mTemp = (LinearLayout) findViewById(R.id.temp_button);
+
+        mAll.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(MainActivity.this, "Favorite", Toast.LENGTH_SHORT).show();
+                filter = "all";
+                mMainLayout.removeAllViews();
+                addElementsToLayouts();
             }
         });
+
+        mImportant.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                filter = "important";
+                mMainLayout.removeAllViews();
+                addElementsToLayouts("important");
+            }
+        });
+        mCurrent.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                filter = "current";
+                mMainLayout.removeAllViews();
+                addElementsToLayouts("current");
+            }
+        });
+        mTemp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                filter = "temp";
+                mMainLayout.removeAllViews();
+                addElementsToLayouts("temp");
+            }
+        });
+
+
     }
 
 

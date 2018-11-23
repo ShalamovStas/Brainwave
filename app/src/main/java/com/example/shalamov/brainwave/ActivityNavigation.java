@@ -40,6 +40,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.SeekBar;
+import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -135,6 +136,8 @@ public class ActivityNavigation  extends AppCompatActivity
     int lessonNumber;
     Lesson lesson;
     boolean wasChanged = false;
+
+    private Spinner spinner;
 
 
     @Override
@@ -1244,7 +1247,7 @@ public class ActivityNavigation  extends AppCompatActivity
 
         mLayoutBulder = getLayoutInflater().inflate(R.layout.builder_layout, null);
 
-
+        spinner = (Spinner) mLayoutBulder.findViewById(R.id.spinner);
         LinearLayout layoutChangeLabel = (LinearLayout) mLayoutBulder.findViewById(R.id.btn_choose_label_builder);
         LinearLayout saveLesson = (LinearLayout) mLayoutBulder.findViewById(R.id.save_lesson_builder);
         nameLessonChange = (EditText) mLayoutBulder.findViewById(R.id.lesson_name_builder);
@@ -1256,6 +1259,8 @@ public class ActivityNavigation  extends AppCompatActivity
 
         nameLessonChange.setText(lesson.getName());
         mainTextLessonChange.setText(lesson.getText());
+
+        setSpinner(lesson.getDescription1());
 
         layoutChangeLabel.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -1279,7 +1284,7 @@ public class ActivityNavigation  extends AppCompatActivity
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
                             wasChanged = true;
-                            Global.getLessonsUtils().changeLesson(lessonNumber, nameLessonChange.getText().toString(), mainTextLessonChange.getText().toString(), "description1", "description2", "description3", "description1",
+                            Global.getLessonsUtils().changeLesson(lessonNumber, nameLessonChange.getText().toString(), mainTextLessonChange.getText().toString(), ActivityNavigation.this.getSpinnerSelect(), "description2", "description3", "description1",
                             labelForLesson, "progress 1");
                             updateContent();
                         }
@@ -1508,4 +1513,39 @@ public class ActivityNavigation  extends AppCompatActivity
             manager.unregisterMediaButtonEventReceiver(new ComponentName(getPackageName(), RemoteControlReceiver.class.getName()));
             super.onDestroy();
         }
+
+    private String getSpinnerSelect() {
+        String selectedSpinner = spinner.getSelectedItem().toString();
+        String category = "";
+        switch (selectedSpinner) {
+            case "Temp":
+                category = "temp";
+                break;
+            case "Current":
+                category = "current";
+                break;
+            case "Important":
+                category = "important";
+                break;
+            default:
+                category = "temp";
+                break;
+        }
+        return category;
+    }
+
+    private void setSpinner(String category) {
+        switch (category) {
+            case "temp":
+                spinner.setSelection(0);
+                break;
+            case "current":
+                spinner.setSelection(1);
+                break;
+            case "important":
+                spinner.setSelection(2);
+                break;
+        }
+
+    }
 }

@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.example.shalamov.brainwave.jsonUtils.JsonUtilsOld;
@@ -26,6 +27,8 @@ public class BuilderLesson extends AppCompatActivity {
     EditText lesson_text;
     ArrayList mListLessons;
 
+    private Spinner spinner;
+
 
 
     @Override
@@ -41,6 +44,7 @@ public class BuilderLesson extends AppCompatActivity {
         labelForLesson = "label_0";
         mButtonChooseLabel = (LinearLayout) findViewById(R.id.btn_choose_label);
         mLabelLesson = (ImageView) findViewById(R.id.image_for_lesson);
+        spinner = (Spinner) findViewById(R.id.spinner);
         Global.getImageUtils().updateLabel("label_0", mLabelLesson);
 
 
@@ -78,7 +82,7 @@ public class BuilderLesson extends AppCompatActivity {
 
                 boolean bool1 = lesson_name.getText().toString() != "";
 
-                Global.getLessonsUtils().createNewLesson(lesson_name.getText().toString(), lesson_text.getText().toString(), "description1", "description2", "description3", "description1",
+                Global.getLessonsUtils().createNewLesson(lesson_name.getText().toString(), lesson_text.getText().toString(), this.getSpinnerSelect(), "description2", "description3", "description1",
                         labelForLesson, "progress 1");
 
                 Intent i = new Intent();
@@ -105,6 +109,26 @@ public class BuilderLesson extends AppCompatActivity {
             Global.getImageUtils().updateLabel(labelForLesson, mLabelLesson);
 
         }
+    }
+
+    private String getSpinnerSelect() {
+        String selectedSpinner = spinner.getSelectedItem().toString();
+        String category = "";
+        switch (selectedSpinner) {
+            case "Temp":
+                category = "temp";
+                break;
+            case "Current":
+                category = "current";
+                break;
+            case "Important":
+                category = "important";
+                break;
+            default:
+                category = "temp";
+                break;
+        }
+        return category;
     }
 
 
