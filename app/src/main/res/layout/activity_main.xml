@@ -24,69 +24,76 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-
+                android:layout_height="match_parent"
+                android:layout_margin="5dp">
 
 
                 <LinearLayout
-                    android:id="@+id/all_button"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
-                    android:background="@drawable/style1_pressed">
-
-                    <TextView
-
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="All lessons"
-                        android:textColor="@color/colorPrimaryDark" />
-
-                    <!--<ImageView-->
-                        <!--android:layout_width="20dp"-->
-                        <!--android:layout_height="20dp"-->
-                        <!--android:layout_marginStart="10dp"-->
-                        <!--android:background="@drawable/ic_star" />-->
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/important_button"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
-                    android:background="@drawable/style1_pressed">
-
-                    <TextView
-
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Impontant"
-                        android:textColor="@color/colorPrimaryDark" />
+                    android:layout_gravity="center"
+                    android:id="@+id/all_button">
 
                     <ImageView
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
-                        android:layout_marginStart="10dp"
-                        android:background="@drawable/ic_star" />
 
+                        android:layout_width="@dimen/size_label_in_nav_panel"
+                        android:layout_height="@dimen/size_label_in_nav_panel"
+                        android:layout_marginEnd="@dimen/layout_margin_navigation_panel"
+                        android:layout_marginStart="@dimen/layout_margin_navigation_panel"
+                        android:background="@drawable/ic_list_lessons"/>
                 </LinearLayout>
+
+                <!--<LinearLayout-->
+                    <!---->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_margin="10dp"-->
+                    <!--android:background="@drawable/style1_pressed">-->
+
+                    <!--<TextView-->
+
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:text="All lessons"-->
+                        <!--android:textColor="@color/colorPrimaryDark" />-->
+
+                    <!--&lt;!&ndash;<ImageView&ndash;&gt;-->
+                        <!--&lt;!&ndash;android:layout_width="20dp"&ndash;&gt;-->
+                        <!--&lt;!&ndash;android:layout_height="20dp"&ndash;&gt;-->
+                        <!--&lt;!&ndash;android:layout_marginStart="10dp"&ndash;&gt;-->
+                        <!--&lt;!&ndash;android:background="@drawable/ic_star" />&ndash;&gt;-->
+
+                <!--</LinearLayout>-->
 
 
                 <LinearLayout
-                    android:id="@+id/current_button"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
-                    android:background="@drawable/style1_pressed">
+                    android:layout_gravity="center"
+                    android:id="@+id/important_button">
 
-                    <TextView
+                    <ImageView
 
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Current"
-                        android:textColor="@color/colorPrimaryDark" />
+                        android:layout_width="@dimen/size_label_in_nav_panel"
+                        android:layout_height="@dimen/size_label_in_nav_panel"
+                        android:layout_marginEnd="@dimen/layout_margin_navigation_panel"
+                        android:layout_marginStart="@dimen/layout_margin_navigation_panel"
+                        android:background="@drawable/ic_important"/>
+                </LinearLayout>
+
+                <!--<LinearLayout-->
+                    <!--android:id="@+id/important_button"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_margin="10dp"-->
+                    <!--android:background="@drawable/style1_pressed">-->
+
+                    <!--<TextView-->
+
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:text="Impontant"-->
+                        <!--android:textColor="@color/colorPrimaryDark" />-->
 
                     <!--<ImageView-->
                         <!--android:layout_width="20dp"-->
@@ -94,29 +101,166 @@
                         <!--android:layout_marginStart="10dp"-->
                         <!--android:background="@drawable/ic_star" />-->
 
+                <!--</LinearLayout>-->
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:id="@+id/current_button">
+
+                    <ImageView
+
+                        android:layout_width="@dimen/size_label_in_nav_panel"
+                        android:layout_height="@dimen/size_label_in_nav_panel"
+                        android:layout_marginEnd="@dimen/layout_margin_navigation_panel"
+                        android:layout_marginStart="@dimen/layout_margin_navigation_panel"
+                        android:background="@drawable/ic_current_lesson"/>
+                </LinearLayout>
+
+                <!--<LinearLayout-->
+                    <!--android:id="@+id/current_button"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_margin="10dp"-->
+                    <!--android:background="@drawable/style1_pressed">-->
+
+                    <!--<TextView-->
+
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:text="Current"-->
+                        <!--android:textColor="@color/colorPrimaryDark" />-->
+                <!--</LinearLayout>-->
+
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:id="@+id/temp_button">
+
+                    <ImageView
+
+                        android:layout_width="@dimen/size_label_in_nav_panel"
+                        android:layout_height="@dimen/size_label_in_nav_panel"
+                        android:layout_marginEnd="@dimen/layout_margin_navigation_panel"
+                        android:layout_marginStart="@dimen/layout_margin_navigation_panel"
+                        android:background="@drawable/ic_temp_lesson"/>
+                </LinearLayout>
+
+                <!--<LinearLayout-->
+                    <!--android:id="@+id/temp_button"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_margin="10dp"-->
+                    <!--android:background="@drawable/style1_pressed">-->
+
+                    <!--<TextView-->
+
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:text="Temp"-->
+                        <!--android:textColor="@color/colorPrimaryDark" />-->
+
+                    <!--&lt;!&ndash;<ImageView&ndash;&gt;-->
+                    <!--&lt;!&ndash;android:layout_width="20dp"&ndash;&gt;-->
+                    <!--&lt;!&ndash;android:layout_height="20dp"&ndash;&gt;-->
+                    <!--&lt;!&ndash;android:layout_marginStart="10dp"&ndash;&gt;-->
+                    <!--&lt;!&ndash;android:background="@drawable/ic_star" />&ndash;&gt;-->
+
+                <!--</LinearLayout>-->
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:id="@+id/lesson_button">
+
+                    <ImageView
+                        android:layout_width="@dimen/size_label_in_nav_panel"
+                        android:layout_height="@dimen/size_label_in_nav_panel"
+                        android:layout_marginEnd="@dimen/layout_margin_navigation_panel"
+                        android:layout_marginStart="@dimen/layout_margin_navigation_panel"
+                        android:background="@drawable/ic_layout0"/>
                 </LinearLayout>
 
                 <LinearLayout
-                    android:id="@+id/temp_button"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
-                    android:background="@drawable/style1_pressed">
+                    android:layout_gravity="center"
+                    android:id="@+id/jw_button">
 
-                    <TextView
+                    <ImageView
 
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Temp"
-                        android:textColor="@color/colorPrimaryDark" />
-
-                    <!--<ImageView-->
-                        <!--android:layout_width="20dp"-->
-                        <!--android:layout_height="20dp"-->
-                        <!--android:layout_marginStart="10dp"-->
-                        <!--android:background="@drawable/ic_star" />-->
-
+                        android:layout_width="@dimen/size_label_in_nav_panel"
+                        android:layout_height="@dimen/size_label_in_nav_panel"
+                        android:layout_marginEnd="@dimen/layout_margin_navigation_panel"
+                        android:layout_marginStart="@dimen/layout_margin_navigation_panel"
+                        android:background="@drawable/ic_layout18"/>
                 </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:id="@+id/solutions_sb_button">
+
+                    <ImageView
+
+                        android:layout_width="@dimen/size_label_in_nav_panel"
+                        android:layout_height="@dimen/size_label_in_nav_panel"
+                        android:layout_marginEnd="@dimen/layout_margin_navigation_panel"
+                        android:layout_marginStart="@dimen/layout_margin_navigation_panel"
+                        android:background="@drawable/ic_layout21"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:id="@+id/solutions_wb_button">
+
+                    <ImageView
+
+                        android:layout_width="@dimen/size_label_in_nav_panel"
+                        android:layout_height="@dimen/size_label_in_nav_panel"
+                        android:layout_marginEnd="@dimen/layout_margin_navigation_panel"
+                        android:layout_marginStart="@dimen/layout_margin_navigation_panel"
+                        android:background="@drawable/ic_layout22"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:id="@+id/bbc_button">
+
+                    <ImageView
+
+                        android:layout_width="@dimen/size_label_in_nav_panel"
+                        android:layout_height="@dimen/size_label_in_nav_panel"
+                        android:layout_marginEnd="@dimen/layout_margin_navigation_panel"
+                        android:layout_marginStart="@dimen/layout_margin_navigation_panel"
+                        android:background="@drawable/ic_layout23"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:id="@+id/headphone_button">
+
+                    <ImageView
+
+                        android:layout_width="@dimen/size_label_in_nav_panel"
+                        android:layout_height="@dimen/size_label_in_nav_panel"
+                        android:layout_marginEnd="@dimen/layout_margin_navigation_panel"
+                        android:layout_marginStart="@dimen/layout_margin_navigation_panel"
+                        android:background="@drawable/ic_layout27"/>
+                </LinearLayout>
+
+
             </LinearLayout>
         </HorizontalScrollView>
 

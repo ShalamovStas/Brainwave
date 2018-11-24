@@ -48,6 +48,12 @@ public class MainActivity extends AppCompatActivity {
     private LinearLayout mImportant;
     private LinearLayout mCurrent;
     private LinearLayout mTemp;
+    private LinearLayout mLessonBtn;
+    private LinearLayout mJwBtn;
+    private LinearLayout mSolutionsSBBtn;
+    private LinearLayout mSolutionsWBBtn;
+    private LinearLayout mBbcBtn;
+    private LinearLayout mHeadPhone;
     // filter - фильтр для уроков
     // 0 - все уроки
     // 1 - важные уроки
@@ -246,6 +252,74 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    private void addElementsToLayoutsWithLabelFilter(String filter) {
+
+        for (int i = arrayListLessons.size() - 1; i >= 0; i--) {
+            Lesson lesson = (Lesson) arrayListLessons.get(i);
+            String filterFromLesson = lesson.getLabel();
+
+            if (filter.equalsIgnoreCase(filterFromLesson)) {
+
+                final int numberOfElement = i;
+                View view1 = getLayoutInflater().inflate(R.layout.lessons_label, null);
+                TextView mainText = (TextView) view1.findViewById(R.id.main_text);
+                TextView mTextDescription = (TextView) view1.findViewById(R.id.text_description);
+                LinearLayout mLinear = (LinearLayout) view1.findViewById(R.id.layout_for_lesson_label);
+                mainText.setText(lesson.getName());
+                mTextDescription.setText(mMainActivityLogic.getNumberOfSentences(lesson.getText()));
+                ImageView imageView1 = (ImageView) view1.findViewById(R.id.imageView);
+                Global.getImageUtils().updateLabel(((Lesson) arrayListLessons.get(i)).getLabel(), imageView1);
+                count = i + 1;
+                if (theme.equalsIgnoreCase("night")) {
+                    mLinear.setBackground(ContextCompat.getDrawable(MainActivity.this, R.drawable.press_selector_night));
+                } else {
+                    mLinear.setBackground(ContextCompat.getDrawable(MainActivity.this, R.drawable.press_selector));
+                }
+                view1.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent intent = new Intent(MainActivity.this, ActivityNavigation.class);
+                        intent.putExtra("number", Integer.toString(numberOfElement));
+
+                        startActivity(intent);
+
+                    }
+                });
+                view1.setOnLongClickListener(new View.OnLongClickListener() {
+                    @Override
+                    public boolean onLongClick(View view) {
+                        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+                        builder.setCancelable(false);
+                        builder.setTitle("Delete Lesson?");
+                        builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+//                            Toast.makeText(MainActivity.this, "Delete " + mainText.getText().toString(), Toast.LENGTH_SHORT).show();
+                                Global.getLessonsUtils().deleteLesson(numberOfElement);
+                                updateContent();
+
+                            }
+
+                        }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+
+                            }
+                        });
+                        builder.create().show();
+                        return true;
+                    }
+                });
+                animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fade_in);
+//            animation.setStartOffset(10 + counterAnimation * 50);
+                mMainLayout.addView(view1);
+                view1.startAnimation(animation);
+//            counterAnimation++;
+            }
+        }
+
+    }
+
 
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
@@ -308,6 +382,16 @@ public class MainActivity extends AppCompatActivity {
         mCurrent = (LinearLayout) findViewById(R.id.current_button);
         mTemp = (LinearLayout) findViewById(R.id.temp_button);
 
+        mLessonBtn = (LinearLayout) findViewById(R.id.lesson_button);
+        mJwBtn = (LinearLayout) findViewById(R.id.jw_button);
+        mSolutionsSBBtn = (LinearLayout) findViewById(R.id.solutions_sb_button);
+        mSolutionsWBBtn = (LinearLayout) findViewById(R.id.solutions_wb_button);
+        mBbcBtn = (LinearLayout) findViewById(R.id.bbc_button);
+        mHeadPhone = (LinearLayout) findViewById(R.id.headphone_button);
+
+
+
+
         mAll.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -339,6 +423,66 @@ public class MainActivity extends AppCompatActivity {
                 filter = "temp";
                 mMainLayout.removeAllViews();
                 addElementsToLayouts("temp");
+            }
+        });
+
+        mLessonBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                filter = "label_0";
+                mMainLayout.removeAllViews();
+                addElementsToLayoutsWithLabelFilter("label_0");
+
+            }
+        });
+
+        mJwBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                filter = "label_18";
+                mMainLayout.removeAllViews();
+                addElementsToLayoutsWithLabelFilter("label_18");
+
+            }
+        });
+
+        mSolutionsSBBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                filter = "label_21";
+                mMainLayout.removeAllViews();
+                addElementsToLayoutsWithLabelFilter("label_21");
+
+            }
+        });
+
+        mSolutionsWBBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                filter = "label_22";
+                mMainLayout.removeAllViews();
+                addElementsToLayoutsWithLabelFilter("label_22");
+
+            }
+        });
+
+        mBbcBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                filter = "label_23";
+                mMainLayout.removeAllViews();
+                addElementsToLayoutsWithLabelFilter("label_23");
+
+            }
+        });
+
+        mHeadPhone.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                filter = "label_27";
+                mMainLayout.removeAllViews();
+                addElementsToLayoutsWithLabelFilter("label_27");
+
             }
         });
 
