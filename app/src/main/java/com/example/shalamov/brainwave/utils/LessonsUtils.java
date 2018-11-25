@@ -9,8 +9,8 @@ public class LessonsUtils {
     // класс для работы с объектами Lesson и списком уроков
     // изменение объектов, добавление новых, итд
 
-    public void createLesson(int number, String name, String text, String description1, String description2, String description3, String description4, String label, String progress){
-       Lesson lesson = new Lesson(number, name, text,description1, description2, description3, description4, label, progress);
+    public void createLesson(int number, String name, String text, String textFavorite, String description1, String description2, String description3, String description4, String label, String progress){
+       Lesson lesson = new Lesson(number, name, text, textFavorite,description1, description2, description3, description4, label, progress);
 
 
         //создаем масив из предложений
@@ -26,6 +26,7 @@ public class LessonsUtils {
         Lesson lesson = (Lesson) Global.getLessonsList().get(number);
         lesson.setName(name);
         lesson.setText(text);
+        lesson.setTextFavorite("");
         lesson.setDescription1(description1);
         lesson.setDescription2(description2);
         lesson.setDescription3(description3);
@@ -35,8 +36,8 @@ public class LessonsUtils {
 
     }
 
-    public void createNewLesson( String name, String text, String description1, String description2, String description3, String description4, String label, String progress){
-        Lesson lesson = new Lesson(Global.getLessonsList().size() + 1, name, text,description1, description2, description3, description4, label, progress);
+    public void createNewLesson( String name, String text, String textFavorite, String description1, String description2, String description3, String description4, String label, String progress){
+        Lesson lesson = new Lesson(Global.getLessonsList().size() + 1, name, text, textFavorite ,description1, description2, description3, description4, label, progress);
 
 
         //создаем масив из предложений
@@ -51,9 +52,30 @@ public class LessonsUtils {
     // метод изменения предложения
     public void changeSentence(Lesson lesson, int index, String newSentence){
         // из модели урка берем текст и разделяем его по предложениям
+
         String[] arrayText = lesson.getText().split("[.\\?\\!]");
+        String oldSentence = arrayText[index];
         //изменяем предложение по извесному индексу
         arrayText[index] = newSentence;
+
+        if(lesson.getTextFavorite() != null){
+            String[] arrayTextFavorite = lesson.getTextFavorite().split("[.\\?\\!]");
+            for (int i = 0; i < arrayTextFavorite.length; i++) {
+                if(arrayTextFavorite[i].equalsIgnoreCase(oldSentence)){
+                    arrayTextFavorite[i] = newSentence;
+                }
+            }
+            StringBuilder newTextFavorite = new StringBuilder();
+            for (int i = 0; i < arrayText.length; i++) {
+                //условие для того, чтобы в конце текста не появлялась точка, что приводит к появлению нового элемента массива
+                // при разделении текста на предложения.
+                newTextFavorite.append(arrayText[i]);
+                if(!((arrayText.length-1)==i)) {
+                    newTextFavorite.append(". ");
+                }
+            }
+            lesson.setTextFavorite(newTextFavorite.toString());
+        }
 
         StringBuilder newText = new StringBuilder();
         //в цикле проходим все элементы массива для создания одного текста
@@ -67,6 +89,8 @@ public class LessonsUtils {
         }
 
         lesson.setText(newText.toString());
+
+
     }
 
     public void deleteSentence(Lesson lesson, int index){

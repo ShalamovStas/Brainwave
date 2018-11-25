@@ -71,10 +71,11 @@ public class Lesson {
         private String description3;
         private String description4;
 
-        public Lesson(int number, String name, String text, String description1, String description2, String description3, String description4, String label, String progress) {
+        public Lesson(int number, String name, String text, String textFavorite, String description1, String description2, String description3, String description4, String label, String progress) {
             this.number = number;
             this.name = name;
             this.text = text;
+            this.textFavorite = textFavorite;
             this.description1 = description1;
             this.description2 = description2;
             this.description3 = description3;

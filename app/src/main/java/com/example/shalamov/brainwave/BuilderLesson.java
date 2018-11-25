@@ -82,7 +82,7 @@ public class BuilderLesson extends AppCompatActivity {
 
                 boolean bool1 = lesson_name.getText().toString() != "";
 
-                Global.getLessonsUtils().createNewLesson(lesson_name.getText().toString(), lesson_text.getText().toString(), this.getSpinnerSelect(), "description2", "description3", "description1",
+                Global.getLessonsUtils().createNewLesson(lesson_name.getText().toString(), lesson_text.getText().toString(), "", this.getSpinnerSelect(), "description2", "description3", "description1",
                         labelForLesson, "progress 1");
 
                 Intent i = new Intent();

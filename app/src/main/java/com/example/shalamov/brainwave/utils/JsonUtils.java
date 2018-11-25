@@ -31,6 +31,7 @@ public class JsonUtils {
                         i,                                          //номер урока
                         jsonObject.get("lesson_name").toString(),
                         jsonObject.get("Text").toString(),
+                        "",
                         jsonObject.get("description1").toString(),
                         jsonObject.get("description2").toString(),
                         jsonObject.get("description3").toString(),
