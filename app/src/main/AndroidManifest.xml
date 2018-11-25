@@ -27,7 +27,6 @@
         <activity android:name=".MainActivity" />
         <activity android:name=".BuilderLesson" />
         <activity android:name=".ChooseLabel" />
-        <activity android:name=".QuizActivity" />
         <activity
             android:name=".ActivityNavigation"
             android:label="@string/title_activity_navigation"

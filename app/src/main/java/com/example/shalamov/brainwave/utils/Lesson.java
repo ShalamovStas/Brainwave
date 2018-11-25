@@ -5,11 +5,18 @@ public class Lesson {
         private int number;
     private String name;
     private String text;
+    private String textFavorite;
     private String[] arrayText;
     private String label;
     private String progress;
 
+    public String getTextFavorite() {
+        return textFavorite;
+    }
 
+    public void setTextFavorite(String textFavorite) {
+        this.textFavorite = textFavorite;
+    }
 
     public String[] getArrayText() {
         return arrayText;

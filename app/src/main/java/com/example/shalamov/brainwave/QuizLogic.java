@@ -1,6 +1,6 @@
 package com.example.shalamov.brainwave;
 
-import android.widget.Toast;
+import com.example.shalamov.brainwave.utils.Lesson;
 
 /**
  * Created by shala on 19.06.2018.
@@ -8,7 +8,9 @@ import android.widget.Toast;
 
 public class QuizLogic {
     private String mainText;
-    private String[] arrayText; // предолжения разделены (предл1), (предл2), ...
+    private String textFavorite;
+    private String[] mainTextArray; // предолжения разделены (предл1), (предл2), ...
+    private String[] textFavoriteArray;
     private String[] temp; //сдесь разделяется текущее предложение. после
     // изменения предложения архив пересоздается
 
@@ -16,8 +18,9 @@ public class QuizLogic {
     private int currentSentence; //Текущее предложение
     private int currentWord; //Текущее Слово
 
-    public QuizLogic(String mainText) {
+    public QuizLogic(String mainText, String textFavorite) {
         this.mainText = mainText;
+        this.textFavorite = textFavorite;
         currentSentence = 0;
         currentWord = 0;
         createArray();
@@ -37,16 +40,18 @@ public class QuizLogic {
     }
 
     private void createArray() {
-        arrayText = mainText.split("[.\\?\\!]");
+        mainTextArray = mainText.split("[.\\?\\!]");
 
-        for (int i = 0; i < arrayText.length; i++) {
+
+
+        for (int i = 0; i < mainTextArray.length; i++) {
             boolean flag = true;
             while (flag) {
-                if (arrayText[i].length() != 0) { // если в конце текста стоит пробелы, это условие не позволит появится ошибке на строчке temp[i].substring(0, 1
+                if (mainTextArray[i].length() != 0) { // если в конце текста стоит пробелы, это условие не позволит появится ошибке на строчке temp[i].substring(0, 1
                     // пробелы будут удалятся и строчка будет в таком виде temp[i] = "";
-                    String substring = arrayText[i].substring(0, 1);
+                    String substring = mainTextArray[i].substring(0, 1);
                     if (substring.equalsIgnoreCase(" ")) {
-                        arrayText[i] = arrayText[i].substring(1, arrayText[i].length());
+                        mainTextArray[i] = mainTextArray[i].substring(1, mainTextArray[i].length());
                         flag = true;
                     } else {
                         flag = false;
@@ -91,7 +96,7 @@ public class QuizLogic {
 
     public String nextSentence() {
 
-        if (currentSentence == arrayText.length - 1) {
+        if (currentSentence == mainTextArray.length - 1) {
             currentSentence = 0;
             createArrayCurrentSentence(currentSentence);
             return allWord();
@@ -108,7 +113,7 @@ public class QuizLogic {
         currentSentence--;
 
         if (currentSentence == -1) {
-            currentSentence = arrayText.length - 1;
+            currentSentence = mainTextArray.length - 1;
             createArrayCurrentSentence(currentSentence);
             return allWord();
         } else {
@@ -122,13 +127,13 @@ public class QuizLogic {
         currentTextInLayout = "";
         currentWord = 0;
 
-        String senttenceForSplit = arrayText[currentSentence]; //получим предложение для разделения
+        String senttenceForSplit = mainTextArray[currentSentence]; //получим предложение для разделения
         temp = senttenceForSplit.split("[ ]");           // арай со словами готов
 
     }
 
     public int getNumberOfSentences() {
-        return arrayText.length;
+        return mainTextArray.length;
     }
 
 
@@ -137,7 +142,7 @@ public class QuizLogic {
     }
 
     public int getCurrentSentenceIndex() {
-        if (currentSentence == arrayText.length) {
+        if (currentSentence == mainTextArray.length) {
             currentSentence = 0;
         }
         return currentSentence;
@@ -145,12 +150,12 @@ public class QuizLogic {
 
     public String getCurrentSentenceString() {
 
-        return arrayText[currentSentence++];
+        return mainTextArray[currentSentence++];
     }
 
     public String getSentenceString(int index) {
 
-        return arrayText[index];
+        return mainTextArray[index];
     }
 
     public String allWord() {
@@ -184,7 +189,7 @@ public class QuizLogic {
     public void nextSentencePlus() {
 
         int jump;
-        int maxIndex = arrayText.length - 1;
+        int maxIndex = mainTextArray.length - 1;
         jump = maxIndex - currentSentence;
         jump = jump / 2;
         currentSentence = currentSentence + jump;
@@ -195,13 +200,13 @@ public class QuizLogic {
     public String changeSentence(String newSentence, int numberInArray) {
 
 
-        arrayText[numberInArray] = newSentence;
+        mainTextArray[numberInArray] = newSentence;
         String allSentences = "";
-        for (int i = 0; i < arrayText.length; i++) {
-            if(i != arrayText.length-1) {
-                allSentences = allSentences + arrayText[i] + ". ";
+        for (int i = 0; i < mainTextArray.length; i++) {
+            if(i != mainTextArray.length-1) {
+                allSentences = allSentences + mainTextArray[i] + ". ";
             }else{
-                allSentences = allSentences + arrayText[i];
+                allSentences = allSentences + mainTextArray[i];
             }
         }
 
@@ -212,12 +217,37 @@ public class QuizLogic {
     public String deleteSentence(int indexSentence) {
 
         String allSentences = "";
-        for (int i = 0; i < arrayText.length; i++) {
+        for (int i = 0; i < mainTextArray.length; i++) {
             if (i == indexSentence) {
                 continue;
             }
-            allSentences = allSentences + arrayText[i] + ". ";
+            allSentences = allSentences + mainTextArray[i] + ". ";
         }
         return allSentences;
+    }
+
+    public boolean checkFavoriteSentence(Lesson lesson, String text){
+
+        boolean flag = false;
+
+
+
+           textFavoriteArray =  lesson.getTextFavorite().split("[.\\?\\!]");
+
+            for (int i = 0; i < textFavoriteArray.length; i++) {
+                if(textFavoriteArray[i].equalsIgnoreCase(text)){
+                    flag = true;
+                }
+            }
+
+        return flag;
+    }
+
+    public boolean checkIfFavoriteTextEmpty(Lesson lesson){
+
+        if((lesson.getTextFavorite() == null)){
+           return true;
+        }
+        return false;
     }
 }

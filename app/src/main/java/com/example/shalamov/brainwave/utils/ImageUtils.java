@@ -40,6 +40,11 @@ public class ImageUtils {
 
     };
 
+    private Integer[] mStars = {
+            R.drawable.ic_star,
+            R.drawable.ic_star_inact,
+    };
+
     public void updateLabel(String labelForLesson, ImageView mLabelLesson) {
 
         switch (labelForLesson) {
@@ -135,6 +140,12 @@ public class ImageUtils {
                 break;
             case "label_30":
                 mLabelLesson.setImageResource(mThumbIds[30]);
+                break;
+            case "star_active":
+                mLabelLesson.setImageResource(mStars[0]);
+                break;
+            case "star_inactive":
+                mLabelLesson.setImageResource(mStars[1]);
                 break;
             case "nothing":
                 mLabelLesson.setImageResource(mThumbIds[1]);

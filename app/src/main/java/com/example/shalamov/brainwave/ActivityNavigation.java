@@ -47,6 +47,8 @@ import android.widget.Toast;
 
 import com.example.shalamov.brainwave.utils.Lesson;
 
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
 import java.util.Locale;
 
@@ -55,13 +57,14 @@ public class ActivityNavigation  extends AppCompatActivity
 
     //Quiz Это базовый Layout для добавления контента
     View mLayoutLearnText, mLayoutBulder, layoutNote, mLayoutMainTraining2;
-    LinearLayout layoutQuizForAddContent, mNotePadButton, mTreaningButton, mSettingsButton, mEditorButton, mNavigationLayout;
+    LinearLayout layoutQuizForAddContent;
+//    mNotePadButton, mTreaningButton, mSettingsButton, mEditorButton, mNavigationLayout;
     LinearLayout layoutNotepadForAddContent;
     TextView textNoteForSentence, mNumberSentence, mTextViewForConcat;
     View layoutForSentence;
     RelativeLayout layoutForClick;
 //  JsonUtilsOld mJsonUtilsOld;
-    String jsonArrayText, nameLesson, labelLesson;
+    String nameLesson;
     QuizLogic mQuizLogic;
     ActionBar ab;
     String labelForLesson;
@@ -70,7 +73,7 @@ public class ActivityNavigation  extends AppCompatActivity
     EditText mainTextLessonChange;
     String allTextForLesson;
 //  String oldNameLesson;
-    ImageView mNotepadImage, mTrainingImage, mSettingsImage, mEditorImage;
+//    ImageView mNotepadImage, mTrainingImage, mSettingsImage, mEditorImage;
     ScrollView mScroll;
 
     int updateTextMarkColor = 500;
@@ -78,7 +81,7 @@ public class ActivityNavigation  extends AppCompatActivity
 
     //global for all layouts
     boolean notePadShow;
-    boolean previousLayoutIsTraining;
+//    boolean previousLayoutIsTraining;
     String[] history = {"null", "null"};
     TextToSpeech t1;
     boolean dayTheme; // дневная тема если true, режим день
@@ -117,7 +120,7 @@ public class ActivityNavigation  extends AppCompatActivity
 
     //training2
     LinearLayout mLayoutPiecesLine1, mLayoutPiecesLine2, mLayoutPiecesLine3, mLayoutPiecesLine4, mLayoutPiecesLine5, mLayoutPiecesLine6, mLayoutPiecesLine7, mLayoutPiecesLine8, mLayoutPiecesLine9, mLayoutPiecesLine10, mLayoutPiecesLine11, mLayoutPiecesLine12;
-    TextView mTextQuestionLabel;
+//    TextView mTextQuestionLabel;
     ImageView mBtnEye, mBtnDialogue, mBtnBackspace;
     LogicTraining2 mLogicTraining2;
 
@@ -146,12 +149,12 @@ public class ActivityNavigation  extends AppCompatActivity
         setContentView(R.layout.activity_navigation);
 
         //настройки окна
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         ab = getSupportActionBar();
         ab.setDisplayHomeAsUpEnabled(true);
         ab.setDisplayShowHomeEnabled(true);
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        NavigationView navigationView =  findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
 
@@ -175,7 +178,6 @@ public class ActivityNavigation  extends AppCompatActivity
 //        AudioManager am = (AudioManager) this.getSystemService(Context.AUDIO_SERVICE);
 //        am.registerMediaButtonEventReceiver(am);
 
-        RemoteControlReceiver receiver = new RemoteControlReceiver();
         manager = (AudioManager) this.getSystemService(Context.AUDIO_SERVICE);
         manager.registerMediaButtonEventReceiver(new ComponentName(getPackageName(), RemoteControlReceiver.class.getName()));
 
@@ -241,7 +243,7 @@ public class ActivityNavigation  extends AppCompatActivity
 //        mEditorText = (TextView) findViewById(R.id.editor_text);
 
 
-        layoutQuizForAddContent = (LinearLayout) findViewById(R.id.layout_for_add_content);
+        layoutQuizForAddContent = findViewById(R.id.layout_for_add_content);
 //        mNotePadButton = (LinearLayout) findViewById(R.id.notepad_button);
 //        mTreaningButton = (LinearLayout) findViewById(R.id.training_button);
 //        mSettingsButton = (LinearLayout) findViewById(R.id.settings_button);
@@ -300,60 +302,60 @@ public class ActivityNavigation  extends AppCompatActivity
         }
     }
 
-    private void showAnimation() {
-        mLayoutAnimation = getLayoutInflater().inflate(R.layout.layout_animation_quiz, null);
-        RelativeLayout relativeLayout = (RelativeLayout) mLayoutAnimation.findViewById(R.id.basic_layout);
-        final ImageView image = (ImageView) mLayoutAnimation.findViewById(R.id.imageView2);
-
-        for (int i = 0; i < mAnimLogic.getArraySize(); i++) {
-            RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
-//            params.setMarginStart(i * 10);
-
-            params.setMargins(i * 10, i * 10, i * 10, i * 10);
-
-            final Button button = new Button(this);
-            button.setText(mAnimLogic.getTextUsingIndex(i));
-            button.setLayoutParams(params);
-
-            button.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    ObjectAnimator animation = ObjectAnimator.ofFloat(button, "translationX", 200f);
-                    animation.setDuration(2000);
-                    animation.start();
-                }
-            });
-
-            relativeLayout.addView(button);
-
-        }
-
-        image.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                if (animDirection == 0) {
-                    animDirection = 1;
-                    ObjectAnimator animation1 = ObjectAnimator.ofFloat(image, "translationX", 300f);
-                    ObjectAnimator animation2 = ObjectAnimator.ofFloat(image, "translationY", 300f);
-                    animation1.setDuration(2000);
-                    animation2.setDuration(2000);
-                    animation1.start();
-                    animation2.start();
-                } else {
-                    animDirection = 0;
-                    ObjectAnimator animation = ObjectAnimator.ofFloat(image, "translationX", 0);
-                    animation.setDuration(2000);
-                    animation.start();
-                }
-            }
-        });
-
-
-        layoutQuizForAddContent.removeAllViews();
-        layoutQuizForAddContent.addView(mLayoutAnimation);
-
-    }
+//    private void showAnimation() {
+//        mLayoutAnimation = getLayoutInflater().inflate(R.layout.layout_animation_quiz, null);
+//        RelativeLayout relativeLayout = (RelativeLayout) mLayoutAnimation.findViewById(R.id.basic_layout);
+//        final ImageView image = (ImageView) mLayoutAnimation.findViewById(R.id.imageView2);
+//
+//        for (int i = 0; i < mAnimLogic.getArraySize(); i++) {
+//            RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+////            params.setMarginStart(i * 10);
+//
+//            params.setMargins(i * 10, i * 10, i * 10, i * 10);
+//
+//            final Button button = new Button(this);
+//            button.setText(mAnimLogic.getTextUsingIndex(i));
+//            button.setLayoutParams(params);
+//
+//            button.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View view) {
+//                    ObjectAnimator animation = ObjectAnimator.ofFloat(button, "translationX", 200f);
+//                    animation.setDuration(2000);
+//                    animation.start();
+//                }
+//            });
+//
+//            relativeLayout.addView(button);
+//
+//        }
+//
+//        image.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//
+//                if (animDirection == 0) {
+//                    animDirection = 1;
+//                    ObjectAnimator animation1 = ObjectAnimator.ofFloat(image, "translationX", 300f);
+//                    ObjectAnimator animation2 = ObjectAnimator.ofFloat(image, "translationY", 300f);
+//                    animation1.setDuration(2000);
+//                    animation2.setDuration(2000);
+//                    animation1.start();
+//                    animation2.start();
+//                } else {
+//                    animDirection = 0;
+//                    ObjectAnimator animation = ObjectAnimator.ofFloat(image, "translationX", 0);
+//                    animation.setDuration(2000);
+//                    animation.start();
+//                }
+//            }
+//        });
+//
+//
+//        layoutQuizForAddContent.removeAllViews();
+//        layoutQuizForAddContent.addView(mLayoutAnimation);
+//
+//    }
 
 
     private void showSettings() {
@@ -371,13 +373,13 @@ public class ActivityNavigation  extends AppCompatActivity
         layoutSettings = getLayoutInflater().inflate(R.layout.layout_settings, null);
 
 
-        mTextExample = (TextView) layoutSettings.findViewById(R.id.text_example);
+        mTextExample =  layoutSettings.findViewById(R.id.text_example);
 
-        mSwitchBolt = (Switch) layoutSettings.findViewById(R.id.bolt_switch);
-        mSwitchDayNight = (Switch) layoutSettings.findViewById(R.id.night_switch);
-        mSeekBar = (SeekBar) layoutSettings.findViewById(R.id.seek_bar);
-        mButtonDefaultValues = (Button) layoutSettings.findViewById(R.id.default_button);
-        mVoice = (Switch) layoutSettings.findViewById(R.id.voice);
+        mSwitchBolt = layoutSettings.findViewById(R.id.bolt_switch);
+        mSwitchDayNight = layoutSettings.findViewById(R.id.night_switch);
+        mSeekBar =  layoutSettings.findViewById(R.id.seek_bar);
+        mButtonDefaultValues =  layoutSettings.findViewById(R.id.default_button);
+        mVoice =  layoutSettings.findViewById(R.id.voice);
 
         mSwitchBolt.setChecked(boolBoltText);
         mSwitchDayNight.setChecked(!dayTheme);
@@ -523,12 +525,12 @@ public class ActivityNavigation  extends AppCompatActivity
 //        }
 
         mLayoutLearnText = getLayoutInflater().inflate(R.layout.train_layout, null); //тренировочный лайоут с текстовым полем и кнопками внизу
-        layoutForClick = (RelativeLayout) mLayoutLearnText.findViewById(R.id.layout_tap_quiz); //первый лейоут где располагается главный текст и по нему отслеживаются нажатия
-        LinearLayout mLayoutGoToTraining2 = (LinearLayout) mLayoutLearnText.findViewById(R.id.btn_go_to_train2);
-        LinearLayout mLayoutGoToTranslator = (LinearLayout) mLayoutLearnText.findViewById(R.id.btn_go_to_translator);
-        LinearLayout mLayoutGoToSettings = (LinearLayout) mLayoutLearnText.findViewById(R.id.btn_go_to_settings);
-        BottomNavigationView bottomNavigationItemView = (BottomNavigationView) mLayoutLearnText.findViewById(R.id.navigation_bottom);
-        textFieldForLearning = (TextView) mLayoutLearnText.findViewById(R.id.text_field_for_learning);
+        layoutForClick =  mLayoutLearnText.findViewById(R.id.layout_tap_quiz); //первый лейоут где располагается главный текст и по нему отслеживаются нажатия
+        LinearLayout mLayoutGoToTraining2 =  mLayoutLearnText.findViewById(R.id.btn_go_to_train2);
+        LinearLayout mLayoutGoToTranslator =  mLayoutLearnText.findViewById(R.id.btn_go_to_translator);
+        LinearLayout mLayoutGoToSettings =  mLayoutLearnText.findViewById(R.id.btn_go_to_settings);
+        BottomNavigationView bottomNavigationItemView =  mLayoutLearnText.findViewById(R.id.navigation_bottom);
+        textFieldForLearning =  mLayoutLearnText.findViewById(R.id.text_field_for_learning);
 
         if (!dayTheme) {
             textFieldForLearning.setTextColor(ContextCompat.getColor(ActivityNavigation.this, R.color.myColorDark));
@@ -1093,13 +1095,16 @@ public class ActivityNavigation  extends AppCompatActivity
         mQuizLogic.setCurrSentenceNull();
         for (int i = 0; i < mQuizLogic.getNumberOfSentences(); i++) {
             final int indexSentence = i;
+            final String textSentence = mQuizLogic.getCurrentSentenceString();
             layoutForSentence = getLayoutInflater().inflate(R.layout.layout_sentence, null);
             LinearLayout layoutRextAndNumber = (LinearLayout) layoutForSentence.findViewById(R.id.layout_sentence_and_number);
+            final ImageView btnStar = (ImageView)  layoutForSentence.findViewById(R.id.btn_star);
             textNoteForSentence = (TextView) layoutForSentence.findViewById(R.id.text_for_sentence);
             mNumberSentence = (TextView) layoutForSentence.findViewById(R.id.number_sentence);
             mNumberSentence.setText("#" + (i + 1));
-            textNoteForSentence.setText(mQuizLogic.getCurrentSentenceString());
+            textNoteForSentence.setText(textSentence);
             layoutNotepadForAddContent.addView(layoutForSentence);
+
 
             if (!dayTheme) {
                 layoutRextAndNumber.setBackgroundColor(ContextCompat.getColor(ActivityNavigation.this, R.color.myColorGrey600));
@@ -1118,6 +1123,16 @@ public class ActivityNavigation  extends AppCompatActivity
                     textNoteForSentence.setTextColor(ContextCompat.getColor(ActivityNavigation.this, R.color.colorPrimaryDark));
                 }
             }
+
+            if(!mQuizLogic.checkIfFavoriteTextEmpty(lesson)) {
+                if (mQuizLogic.checkFavoriteSentence(lesson, textSentence)) {
+                    Global.getImageUtils().updateLabel("star_active", btnStar);
+                }else{
+                    Global.getImageUtils().updateLabel("star_inactive", btnStar);
+                }
+            }
+
+
 
 
             layoutForSentence.setOnLongClickListener(new View.OnLongClickListener() {
@@ -1196,6 +1211,33 @@ public class ActivityNavigation  extends AppCompatActivity
                 public void onClick(View view) {
                     currentSentenceIndex = indexSentence;
                     showQuiz();
+                }
+            });
+
+            btnStar.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    boolean flag;
+
+                    if (!mQuizLogic.checkIfFavoriteTextEmpty(lesson)) {
+                        flag = mQuizLogic.checkFavoriteSentence(lesson, textSentence);
+
+                    if (flag) {
+                        Global.getImageUtils().updateLabel("star_inactive", btnStar);
+                        Global.getLessonsUtils().deleteFavoriteSentence(lesson, textSentence);
+                        wasChanged = true;
+                    } else {
+                        Global.getImageUtils().updateLabel("star_active", btnStar);
+                        Global.getLessonsUtils().addFavoriteSentence(lesson, textSentence);
+                        wasChanged = true;
+                    }
+                }else{
+                        Global.getImageUtils().updateLabel("star_active", btnStar);
+                        Global.getLessonsUtils().addFavoriteSentence(lesson, textSentence);
+                        wasChanged = true;
+                    }
+
+
                 }
             });
 
@@ -1330,7 +1372,7 @@ public class ActivityNavigation  extends AppCompatActivity
     private void createQuiz() {
 
         allTextForLesson = lesson.getText();
-        mQuizLogic = new QuizLogic(allTextForLesson);
+        mQuizLogic = new QuizLogic(allTextForLesson, lesson.getTextFavorite());
         mLogicTraining2 = new LogicTraining2();
     }
 
@@ -1384,7 +1426,7 @@ public class ActivityNavigation  extends AppCompatActivity
                 showNotePad();
             } else {
                 if(wasChanged) {
-                            Global.getJsonUtils().saveFromModelToFile();
+                    Global.getJsonUtils().saveFromModelToFile();
                     Toast.makeText(this, "Saved", Toast.LENGTH_SHORT).show();
                         }
                 finish();

@@ -107,6 +107,47 @@ public class LessonsUtils {
         Global.getJsonUtils().saveFromModelToFile();
     }
 
+    public void addFavoriteSentence(Lesson lesson, String text){
+        String newText;
+        if(lesson.getTextFavorite() == null){
+            newText = text;
+            lesson.setTextFavorite(newText);
+        }else{
+            newText = lesson.getTextFavorite() + "." + text;
+            lesson.setTextFavorite(newText);
+        }
 
+        }
+
+    public void deleteFavoriteSentence(Lesson lesson, String text){
+
+
+        String[] arrayTextFavorite = lesson.getTextFavorite().split("[.\\?\\!]");
+        ArrayList<String> arrayTextNewFavorite = new ArrayList<>();
+
+
+            for (int j = 0; j < arrayTextFavorite.length; j++) {
+                if(!arrayTextFavorite[j].equalsIgnoreCase(text)){
+                    arrayTextNewFavorite.add(arrayTextFavorite[j]);
+                }
+            }
+
+
+        StringBuilder newText = new StringBuilder();
+        //в цикле проходим все элементы массива для создания одного текста
+        for (int i = 0; i < arrayTextNewFavorite.size(); i++) {
+
+
+            //условие для того, чтобы в конце текста не появлялась точка, что приводит к появлению нового элемента массива
+            // при разделении текста на предложения.
+            newText.append(arrayTextNewFavorite.get(i));
+            if (!((arrayTextNewFavorite.size() - 1) == i)) {
+                newText.append(". ");
+            }
+        }
+
+        lesson.setTextFavorite(newText.toString());
+
+    }
 
 }

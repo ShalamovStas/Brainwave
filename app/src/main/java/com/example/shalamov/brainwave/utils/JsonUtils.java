@@ -69,10 +69,14 @@ public class JsonUtils {
 
             for (int i = 0; i < lessonArrayList.size(); i++) {
                 Lesson lesson = (Lesson) lessonArrayList.get(i);
+                if(lesson.getTextFavorite() == null){
+                    lesson.setTextFavorite("");
+                }
                 jsonObject = new JSONObject();
                         jsonObject.put("number", lesson.getNumber());
                         jsonObject.put("lesson_name", lesson.getName());
                         jsonObject.put("Text", lesson.getText());
+                        jsonObject.put("TextFavorite", lesson.getTextFavorite());
                         jsonObject.put("description1", lesson.getDescription1());
                         jsonObject.put("description2", lesson.getDescription2());
                         jsonObject.put("description3", lesson.getDescription3());
