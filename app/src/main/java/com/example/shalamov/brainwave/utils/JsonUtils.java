@@ -77,7 +77,7 @@ public class JsonUtils {
                         jsonObject.put("number", lesson.getNumber());
                         jsonObject.put("lesson_name", lesson.getName());
                         jsonObject.put("Text", lesson.getText());
-                        jsonObject.put("TextFavorite", lesson.getTextFavorite());
+                        jsonObject.put("TextFavorite", "");
                         jsonObject.put("description1", lesson.getDescription1());
                         jsonObject.put("description2", lesson.getDescription2());
                         jsonObject.put("description3", lesson.getDescription3());

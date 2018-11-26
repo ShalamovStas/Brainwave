@@ -42,6 +42,7 @@ public class LessonsUtils {
 
         //создаем масив из предложений
         String[] arrayText = text.split("[.\\?\\!]");
+
         lesson.setArrayText(arrayText);
 
 
@@ -166,7 +167,7 @@ public class LessonsUtils {
             // при разделении текста на предложения.
             newText.append(arrayTextNewFavorite.get(i));
             if (!((arrayTextNewFavorite.size() - 1) == i)) {
-                newText.append(". ");
+                newText.append(".");
             }
         }
 

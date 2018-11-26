@@ -1,5 +1,7 @@
 package com.example.shalamov.brainwave;
 
+import android.util.Log;
+
 import com.example.shalamov.brainwave.utils.Lesson;
 
 /**
@@ -239,7 +241,13 @@ public class QuizLogic {
                     flag = true;
                 }
             }
+            String textTag = "";
 
+        for (int i = 0; i < textFavoriteArray.length; i++) {
+            textTag = textTag + "[" + textFavoriteArray[i] + "]";
+        }
+
+        Log.d("brain", textTag);
         return flag;
     }
 
