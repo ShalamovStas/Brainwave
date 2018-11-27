@@ -175,10 +175,9 @@ public class MainActivity extends AppCompatActivity {
                     return true;
                 }
             });
-            animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fade_in);
+
 //            animation.setStartOffset(10 + counterAnimation * 50);
             mMainLayout.addView(view1);
-            view1.startAnimation(animation);
 //            counterAnimation++;
         }
 

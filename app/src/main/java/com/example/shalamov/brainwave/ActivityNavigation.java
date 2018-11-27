@@ -1148,6 +1148,7 @@ public class ActivityNavigation  extends AppCompatActivity
                     textNoteForSentence.setText(textSentence);
                     layoutNotepadForAddContent.addView(layoutForSentence);
 
+                    layoutForSentence.getAnimation();
 
 
                     if (!dayTheme) {
@@ -1285,12 +1286,12 @@ public class ActivityNavigation  extends AppCompatActivity
 
                 }
 
+
             }
 
 
             layoutQuizForAddContent.removeAllViews();
             layoutQuizForAddContent.addView(layoutNote);
-            layoutNotepadForAddContent.startAnimation(animation);
 
             mScroll.post(new Runnable() {
                 @Override
@@ -1462,7 +1463,6 @@ public class ActivityNavigation  extends AppCompatActivity
 
         layoutQuizForAddContent.addView(layoutNote);
 
-        layoutNotepadForAddContent.startAnimation(animation);
 
 
         mScroll.post(new Runnable() {
