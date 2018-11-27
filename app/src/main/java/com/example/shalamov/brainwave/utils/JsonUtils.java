@@ -31,7 +31,7 @@ public class JsonUtils {
                         i,                                          //номер урока
                         jsonObject.get("lesson_name").toString(),
                         jsonObject.get("Text").toString(),
-                        "",
+                        jsonObject.get("TextFavorite").toString(),
                         jsonObject.get("description1").toString(),
                         jsonObject.get("description2").toString(),
                         jsonObject.get("description3").toString(),
@@ -77,7 +77,7 @@ public class JsonUtils {
                         jsonObject.put("number", lesson.getNumber());
                         jsonObject.put("lesson_name", lesson.getName());
                         jsonObject.put("Text", lesson.getText());
-                        jsonObject.put("TextFavorite", "");
+                        jsonObject.put("TextFavorite", lesson.getTextFavorite());
                         jsonObject.put("description1", lesson.getDescription1());
                         jsonObject.put("description2", lesson.getDescription2());
                         jsonObject.put("description3", lesson.getDescription3());

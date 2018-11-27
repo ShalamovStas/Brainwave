@@ -236,18 +236,13 @@ public class QuizLogic {
 
            textFavoriteArray =  lesson.getTextFavorite().split("[.\\?\\!]");
 
+
             for (int i = 0; i < textFavoriteArray.length; i++) {
                 if(textFavoriteArray[i].equalsIgnoreCase(text)){
                     flag = true;
                 }
             }
-            String textTag = "";
 
-        for (int i = 0; i < textFavoriteArray.length; i++) {
-            textTag = textTag + "[" + textFavoriteArray[i] + "]";
-        }
-
-        Log.d("brain", textTag);
         return flag;
     }
 

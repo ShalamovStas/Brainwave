@@ -2,7 +2,54 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:id="@+id/btn_favorite">
+
+            <ImageView
+
+                android:layout_width="@dimen/size_label_in_nav_panel"
+                android:layout_height="@dimen/size_label_in_nav_panel"
+                android:layout_marginEnd="@dimen/layout_margin_navigation_panel"
+                android:layout_marginStart="@dimen/layout_margin_navigation_panel"
+                android:background="@drawable/ic_favorite"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:id="@+id/btn_all_text">
+
+            <ImageView
+
+                android:layout_width="@dimen/size_label_in_nav_panel"
+                android:layout_height="@dimen/size_label_in_nav_panel"
+                android:layout_marginEnd="@dimen/layout_margin_navigation_panel"
+                android:layout_marginStart="@dimen/layout_margin_navigation_panel"
+                android:background="@drawable/ic_all_text"/>
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="5dp"
+        android:background="@color/myColorGrey100"
+        android:elevation="2dp"
+        android:translationZ="2dp">
+
+    </LinearLayout>
 
     <ScrollView
         android:layout_width="match_parent"

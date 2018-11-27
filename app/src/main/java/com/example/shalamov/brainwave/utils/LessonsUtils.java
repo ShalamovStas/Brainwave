@@ -59,20 +59,40 @@ public class LessonsUtils {
         //изменяем предложение по извесному индексу
         arrayText[index] = newSentence;
 
-        if(lesson.getTextFavorite() != null){
+        if(!(lesson.getTextFavorite().equalsIgnoreCase(""))){
             String[] arrayTextFavorite = lesson.getTextFavorite().split("[.\\?\\!]");
+
+            boolean flag = true;
+            while (flag) {
+                if (oldSentence.length() != 0) { // если в конце текста стоит пробелы, это условие не позволит появится ошибке на строчке temp[i].substring(0, 1
+                    // пробелы будут удалятся и строчка будет в таком виде temp[i] = "";
+                    String substring = oldSentence.substring(0, 1);
+                    if (substring.equalsIgnoreCase(" ")) {
+                        oldSentence = oldSentence.substring(1, oldSentence.length());
+                        flag = true;
+                    } else {
+                        flag = false;
+                    }
+                } else {
+                    flag = false;
+                }
+            }
+
             for (int i = 0; i < arrayTextFavorite.length; i++) {
+
+
+
                 if(arrayTextFavorite[i].equalsIgnoreCase(oldSentence)){
                     arrayTextFavorite[i] = newSentence;
                 }
             }
             StringBuilder newTextFavorite = new StringBuilder();
-            for (int i = 0; i < arrayText.length; i++) {
+            for (int i = 0; i < arrayTextFavorite.length; i++) {
                 //условие для того, чтобы в конце текста не появлялась точка, что приводит к появлению нового элемента массива
                 // при разделении текста на предложения.
-                newTextFavorite.append(arrayText[i]);
-                if(!((arrayText.length-1)==i)) {
-                    newTextFavorite.append(". ");
+                newTextFavorite.append(arrayTextFavorite[i]);
+                if(!((arrayTextFavorite.length-1)==i)) {
+                    newTextFavorite.append(".");
                 }
             }
             lesson.setTextFavorite(newTextFavorite.toString());
@@ -85,7 +105,7 @@ public class LessonsUtils {
             // при разделении текста на предложения.
             newText.append(arrayText[i]);
             if(!((arrayText.length-1)==i)) {
-                newText.append(". ");
+                newText.append(".");
             }
         }
 
@@ -98,8 +118,16 @@ public class LessonsUtils {
         // из модели урка берем текст и разделяем его по предложениям
         String[] arrayText = lesson.getText().split("[.\\?\\!]");
         //изменяем предложение по извесному индексу
-        arrayText[index] = "";
 
+        //проверяем не пустой ли текст со звездочкой
+        //
+        if(checkIfFavoriteSentenceExist(lesson)){
+            // при условии того, что существуют предложения со звездочкой,
+            //используем метод удаления элемента в виде String из общей строки String,
+            // который возвращает строку
+            // метод удаляет пробелы перед строкой массива если они существуют
+            lesson.setTextFavorite(deleteElementInString(lesson.getTextFavorite(), arrayText[index]));
+        }
 
         ArrayList<String> arrayTextNew = new ArrayList<>();
 // copy old array to new without old sentence
@@ -110,21 +138,9 @@ public class LessonsUtils {
             }
         }
 
-
-        StringBuilder newText = new StringBuilder();
-        //в цикле проходим все элементы массива для создания одного текста
-        for (int i = 0; i < arrayTextNew.size(); i++) {
+        lesson.setText(arrayToString(arrayTextNew));
 
 
-                //условие для того, чтобы в конце текста не появлялась точка, что приводит к появлению нового элемента массива
-                // при разделении текста на предложения.
-                newText.append(arrayTextNew.get(i));
-                if (!((arrayTextNew.size() - 1) == i)) {
-                    newText.append(". ");
-                }
-        }
-
-        lesson.setText(newText.toString());
     }
 
     public void deleteLesson(int index){
@@ -134,7 +150,7 @@ public class LessonsUtils {
 
     public void addFavoriteSentence(Lesson lesson, String text){
         String newText;
-        if(lesson.getTextFavorite() == null){
+        if(lesson.getTextFavorite().equalsIgnoreCase("")){
             newText = text;
             lesson.setTextFavorite(newText);
         }else{
@@ -158,21 +174,118 @@ public class LessonsUtils {
             }
 
 
+        lesson.setTextFavorite(arrayToString(arrayTextNewFavorite));
+
+    }
+
+    private String deleteElementInString (String allText, String elementForDelete){
+
+        //разделение текста начального [Aaa 1. Bbb 2. Ccc 3] на предложения по признаку точки
+        // результат разделения: [Aaa 1] [ Bbb 2] [ Ccc 3].
+        String[] allTextArray = allText.split("[.\\?\\!]");
+//
+        //цикл для удаления пробелов перед началом предложения
+        // проходим по всем элементам массива, созданого их общего текста allText
+        // для второго элемента, который равен [ Bbb 2], flag = true;
+        // while ->
+        //if (true) {
+        //выделяем первый элемент substring
+        // если первій элемент == " " а он и равен пробелу " "
+        // присваиваем элементу массива знаяение без первого элемента
+        // flag = true; цикл повторяется до тех пор, пока не будут удалены все пробелы
+        // (условие substring.equalsIgnoreCase(" ") это регулирует)
+
+        boolean needToDeleteEmptyElement = false; // если в массиве присутствуют пустые элементы, например
+        // [][Aaa 1][Bbb 2][Ccc 3] - первый элемент не содержит символов.
+        ArrayList<String> allTextArrayWithoutEmptyElements;
+        boolean flag;
+        for (int i = 0; i < allTextArray.length; i++) {
+            flag = true;
+            while (flag) {
+                if (allTextArray[i].length() != 0) {
+
+                    String substring = allTextArray[i].substring(0, 1);
+                    if (substring.equalsIgnoreCase(" ")) {
+                        allTextArray[i] = allTextArray[i].substring(1, allTextArray[i].length());
+                        flag = true;
+                    } else {
+                        flag = false;
+                    }
+                } else {
+                    needToDeleteEmptyElement = true;
+                    flag = false;
+                }
+            }
+
+        }
+
+        // на даном этапе имеем массив, созданый из текста allText
+        // с без пробелов в начале предложения
+
+
+
+        StringBuilder newText = new StringBuilder();
+        boolean needPoint;
+        for (int j = 0; j < allTextArray.length; j++) {
+            needPoint = false;
+            if(!allTextArray[j].equalsIgnoreCase(elementForDelete)){
+                newText.append(allTextArray[j]);
+                needPoint = true;
+            }
+
+            //условте && needPoint позволяет не добовлять точку после последнего предложения
+            if ((allTextArray.length - 1) != j && needPoint) {
+                newText.append(".");
+            }
+
+        }
+
+       return newText.toString();
+    }
+
+
+    private String arrayToString (ArrayList<String> array){
+
         StringBuilder newText = new StringBuilder();
         //в цикле проходим все элементы массива для создания одного текста
-        for (int i = 0; i < arrayTextNewFavorite.size(); i++) {
+        for (int i = 0; i < array.size(); i++) {
 
 
             //условие для того, чтобы в конце текста не появлялась точка, что приводит к появлению нового элемента массива
             // при разделении текста на предложения.
-            newText.append(arrayTextNewFavorite.get(i));
-            if (!((arrayTextNewFavorite.size() - 1) == i)) {
+            newText.append(array.get(i));
+            if (!((array.size() - 1) == i)) {
                 newText.append(".");
             }
         }
+        return newText.toString();
+    }
 
-        lesson.setTextFavorite(newText.toString());
 
+    private String arrayToString (String[] array){
+
+        StringBuilder newText = new StringBuilder();
+        //в цикле проходим все элементы массива для создания одного текста
+        for (int i = 0; i < array.length; i++) {
+
+
+            //условие для того, чтобы в конце текста не появлялась точка, что приводит к появлению нового элемента массива
+            // при разделении текста на предложения.
+            newText.append(array[i]);
+            if (!((array.length - 1) == i)) {
+                newText.append(".");
+            }
+        }
+        return newText.toString();
+    }
+
+    private boolean checkIfFavoriteSentenceExist(Lesson lesson){
+
+        if(lesson.getTextFavorite().equalsIgnoreCase("")){
+            return false;
+        }else{
+            return true;
+        }
     }
 
 }

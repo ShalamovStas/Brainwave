@@ -20,6 +20,7 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.Display;
 import android.view.View;
@@ -32,6 +33,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
@@ -141,6 +144,7 @@ public class ActivityNavigation  extends AppCompatActivity
     boolean wasChanged = false;
 
     private Spinner spinner;
+    Animation animation;
 
 
     @Override
@@ -169,6 +173,7 @@ public class ActivityNavigation  extends AppCompatActivity
 
         ab.setTitle("Quiz");
         ab.setSubtitle("#" + mQuizLogic.getCurrentSentenceInt() + " from " + mQuizLogic.getNumberOfSentences());
+        animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fade_in);
         initializeBasicLayout();
         getSettingsForLesson();
 
@@ -1093,6 +1098,214 @@ public class ActivityNavigation  extends AppCompatActivity
         mScroll.setFillViewport(true);
         layoutNotepadForAddContent = (LinearLayout) layoutNote.findViewById(R.id.note_layout_for_add);
         mQuizLogic.setCurrSentenceNull();
+
+        LinearLayout mBtnFavoriteText = (LinearLayout) layoutNote.findViewById(R.id.btn_favorite);
+        LinearLayout mBtnAllText = (LinearLayout) layoutNote.findViewById(R.id.btn_all_text);
+
+        mBtnFavoriteText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                removeContentFromNotepad();
+
+                mQuizLogic.setCurrSentenceNull();
+                showFavoriteTextInNotePad();
+            }
+        });
+
+        mBtnAllText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                removeContentFromNotepad();
+                mQuizLogic.setCurrSentenceNull();
+                showAllTextInNotePad();
+            }
+        });
+
+        showAllTextInNotePad();
+
+        Log.d("brain", "lesson.getTextFavorite(): [" + lesson.getTextFavorite() + "]");
+    }
+
+    private void removeContentFromNotepad() {
+        layoutNotepadForAddContent.removeAllViews();
+    }
+
+    private void showFavoriteTextInNotePad() {
+        if(!mQuizLogic.checkIfFavoriteTextEmpty(lesson)) {
+
+            for (int i = 0; i < mQuizLogic.getNumberOfSentences(); i++) {
+
+                final int indexSentence = i;
+                final String textSentence = mQuizLogic.getCurrentSentenceString();
+                if (mQuizLogic.checkFavoriteSentence(lesson, textSentence)) {
+
+                    layoutForSentence = getLayoutInflater().inflate(R.layout.layout_sentence, null);
+                    LinearLayout layoutRextAndNumber = (LinearLayout) layoutForSentence.findViewById(R.id.layout_sentence_and_number);
+                    final ImageView btnStar = (ImageView) layoutForSentence.findViewById(R.id.btn_star);
+                    textNoteForSentence = (TextView) layoutForSentence.findViewById(R.id.text_for_sentence);
+                    mNumberSentence = (TextView) layoutForSentence.findViewById(R.id.number_sentence);
+                    mNumberSentence.setText("#" + (i + 1));
+                    textNoteForSentence.setText(textSentence);
+                    layoutNotepadForAddContent.addView(layoutForSentence);
+
+
+
+                    if (!dayTheme) {
+                        layoutRextAndNumber.setBackgroundColor(ContextCompat.getColor(ActivityNavigation.this, R.color.myColorGrey600));
+                        layoutNote.setBackgroundColor(ContextCompat.getColor(ActivityNavigation.this, R.color.myColorGrey800));
+                    }
+
+                    if (updateTextMarkColor == i) {
+//                textNoteForSentence.setTextColor((Color.parseColor("#0097a7")));
+                        textNoteForSentence.setTextColor(ContextCompat.getColor(ActivityNavigation.this, R.color.myColor2));
+                        textNoteForSentence.setTypeface(Typeface.DEFAULT_BOLD);
+                    } else {
+//                textNoteForSentence.setTextColor((Color.parseColor("#303f9f")));
+                        if (!dayTheme) {
+                            textNoteForSentence.setTextColor(ContextCompat.getColor(ActivityNavigation.this, R.color.myColorDark));
+                        } else {
+                            textNoteForSentence.setTextColor(ContextCompat.getColor(ActivityNavigation.this, R.color.colorPrimaryDark));
+                        }
+                    }
+
+
+                        if (mQuizLogic.checkFavoriteSentence(lesson, textSentence)) {
+                            Global.getImageUtils().updateLabel("star_active", btnStar);
+                        } else {
+                            Global.getImageUtils().updateLabel("star_inactive", btnStar);
+                        }
+
+
+
+                    layoutForSentence.setOnLongClickListener(new View.OnLongClickListener() {
+                        @Override
+                        public boolean onLongClick(View view) {
+                            AlertDialog.Builder builder = new AlertDialog.Builder(ActivityNavigation.this);
+                            builder.setCancelable(false);
+                            builder.setTitle("Correcting");
+                            final EditText editText = new EditText(ActivityNavigation.this);
+                            editText.setTextSize(TypedValue.COMPLEX_UNIT_SP, 25);
+                            editText.setText(mQuizLogic.getSentenceString(indexSentence));
+                            builder.setView(editText);
+                            builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+
+                                    // сохраняем положение экрана для того чтобы не перематывать заново
+                                    saveStateNotePadLayout();
+                                    // текст не может быть пустой
+                                    if (editText.getText().length() == 0) {
+                                        Toast.makeText(ActivityNavigation.this, "Text can`t be empty!", Toast.LENGTH_SHORT).show();
+                                    } else {
+                                        //запоминаем какой текст подсвечивать
+                                        updateTextMarkColor = indexSentence;
+                                        //изменяем предложение в уроке
+                                        // флаг присутствовали изменения
+                                        wasChanged = true;
+                                        Global.getLessonsUtils().changeSentence(lesson, indexSentence, editText.getText().toString());
+                                        updateContent();
+
+                                        ab.setSubtitle("#" + (indexSentence + 1) + " changed!");
+
+                                    }
+                                }
+
+                            }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+
+                                }
+                            }).setNeutralButton("Delete sentence", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    AlertDialog.Builder builder1 = new AlertDialog.Builder(ActivityNavigation.this);
+                                    builder1.setCancelable(false);
+                                    builder1.setTitle("Delete sentence?");
+                                    builder1.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialogInterface, int i) {
+                                            saveStateNotePadLayout();
+                                            updateTextMarkColor = indexSentence;
+                                            wasChanged = true;
+                                            Global.getLessonsUtils().deleteSentence(lesson, indexSentence);
+                                            updateContent();
+
+                                        }
+
+                                    }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialogInterface, int i) {
+
+                                        }
+                                    });
+                                    builder1.create().show();
+
+                                }
+                            });
+                            builder.create().show();
+
+                            return true;
+                        }
+                    });
+
+                    layoutForSentence.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            currentSentenceIndex = indexSentence;
+                            showQuiz();
+                        }
+                    });
+
+                    btnStar.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            boolean flag;
+
+                            if (!mQuizLogic.checkIfFavoriteTextEmpty(lesson)) {
+                                flag = mQuizLogic.checkFavoriteSentence(lesson, textSentence);
+
+                                if (flag) {
+                                    Global.getImageUtils().updateLabel("star_inactive", btnStar);
+                                    Global.getLessonsUtils().deleteFavoriteSentence(lesson, textSentence);
+                                    wasChanged = true;
+                                } else {
+                                    Global.getImageUtils().updateLabel("star_active", btnStar);
+                                    Global.getLessonsUtils().addFavoriteSentence(lesson, textSentence);
+                                    wasChanged = true;
+                                }
+                            } else {
+                                Global.getImageUtils().updateLabel("star_active", btnStar);
+                                Global.getLessonsUtils().addFavoriteSentence(lesson, textSentence);
+                                wasChanged = true;
+                            }
+
+
+                        }
+                    });
+
+                }
+
+            }
+
+
+            layoutQuizForAddContent.removeAllViews();
+            layoutQuizForAddContent.addView(layoutNote);
+            layoutNotepadForAddContent.startAnimation(animation);
+
+            mScroll.post(new Runnable() {
+                @Override
+                public void run() {
+
+                    mScroll.smoothScrollBy(0, scrollYPosition);
+                }
+            });
+
+
+        }
+    }
+
+
+    private void showAllTextInNotePad() {
         for (int i = 0; i < mQuizLogic.getNumberOfSentences(); i++) {
             final int indexSentence = i;
             final String textSentence = mQuizLogic.getCurrentSentenceString();
@@ -1103,7 +1316,8 @@ public class ActivityNavigation  extends AppCompatActivity
             mNumberSentence = (TextView) layoutForSentence.findViewById(R.id.number_sentence);
             mNumberSentence.setText("#" + (i + 1));
             textNoteForSentence.setText(textSentence);
-            layoutNotepadForAddContent.addView(layoutForSentence);
+
+
 
 
             if (!dayTheme) {
@@ -1186,7 +1400,7 @@ public class ActivityNavigation  extends AppCompatActivity
                                     updateTextMarkColor = indexSentence;
                                     wasChanged = true;
                                     Global.getLessonsUtils().deleteSentence(lesson, indexSentence);
-                                updateContent();
+                                    updateContent();
 
                                 }
 
@@ -1222,16 +1436,16 @@ public class ActivityNavigation  extends AppCompatActivity
                     if (!mQuizLogic.checkIfFavoriteTextEmpty(lesson)) {
                         flag = mQuizLogic.checkFavoriteSentence(lesson, textSentence);
 
-                    if (flag) {
-                        Global.getImageUtils().updateLabel("star_inactive", btnStar);
-                        Global.getLessonsUtils().deleteFavoriteSentence(lesson, textSentence);
-                        wasChanged = true;
-                    } else {
-                        Global.getImageUtils().updateLabel("star_active", btnStar);
-                        Global.getLessonsUtils().addFavoriteSentence(lesson, textSentence);
-                        wasChanged = true;
-                    }
-                }else{
+                        if (flag) {
+                            Global.getImageUtils().updateLabel("star_inactive", btnStar);
+                            Global.getLessonsUtils().deleteFavoriteSentence(lesson, textSentence);
+                            wasChanged = true;
+                        } else {
+                            Global.getImageUtils().updateLabel("star_active", btnStar);
+                            Global.getLessonsUtils().addFavoriteSentence(lesson, textSentence);
+                            wasChanged = true;
+                        }
+                    }else{
                         Global.getImageUtils().updateLabel("star_active", btnStar);
                         Global.getLessonsUtils().addFavoriteSentence(lesson, textSentence);
                         wasChanged = true;
@@ -1240,12 +1454,15 @@ public class ActivityNavigation  extends AppCompatActivity
 
                 }
             });
-
+            layoutNotepadForAddContent.addView(layoutForSentence);
         }
 
 
         layoutQuizForAddContent.removeAllViews();
+
         layoutQuizForAddContent.addView(layoutNote);
+
+        layoutNotepadForAddContent.startAnimation(animation);
 
 
         mScroll.post(new Runnable() {
@@ -1255,8 +1472,6 @@ public class ActivityNavigation  extends AppCompatActivity
                 mScroll.smoothScrollBy(0, scrollYPosition);
             }
         });
-
-
     }
 
     private void writeHistory(String currentPosition) {
