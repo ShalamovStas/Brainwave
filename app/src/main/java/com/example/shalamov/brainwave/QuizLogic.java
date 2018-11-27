@@ -4,6 +4,8 @@ import android.util.Log;
 
 import com.example.shalamov.brainwave.utils.Lesson;
 
+import java.util.ArrayList;
+
 /**
  * Created by shala on 19.06.2018.
  */
@@ -42,9 +44,7 @@ public class QuizLogic {
     }
 
     private void createArray() {
-        mainTextArray = mainText.split("[.\\?\\!]");
-
-
+        mainTextArray = mainText.split("[.\\?\\!\\\n]");
 
         for (int i = 0; i < mainTextArray.length; i++) {
             boolean flag = true;
@@ -63,7 +63,23 @@ public class QuizLogic {
                 }
             }
         }
+        // delete empty elements
+        ArrayList<String> strings = new ArrayList<>();
 
+
+        for (int i = 0; i < mainTextArray.length; i++) {
+
+            if(mainTextArray[i].length() != 0){
+                strings.add(mainTextArray[i]);
+            }
+        }
+
+        String[] newArraySplit = new String [strings.size()];
+
+        for (int i = 0; i < strings.size(); i++) {
+            newArraySplit[i] = strings.get(i);
+        }
+        mainTextArray = newArraySplit;
     }
 
     public String nextWord() {

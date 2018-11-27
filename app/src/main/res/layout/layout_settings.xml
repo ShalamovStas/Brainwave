@@ -99,18 +99,27 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Size"
+                        android:text="Text sizes"
                         android:textSize="25sp"
                         android:textStyle="bold"
                         android:textColor="@color/myColorDark"/>
 
 
+
+
                 </LinearLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="Text for quiz:"
+                    android:textSize="20sp"
+                    android:textColor="@color/myColorGrey800"/>
 
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="80dp"
+                    android:layout_height="60dp"
                     android:layout_marginBottom="10dp"
                     android:layout_marginTop="10dp"
                     android:orientation="horizontal">
@@ -123,7 +132,7 @@
                         android:gravity="center"
                         android:text="Text size: 25"
                         android:textColor="@color/colorPrimaryDark"
-                        android:textSize="50sp"
+                        android:textSize="25sp"
                        />
 
                 </LinearLayout>
@@ -140,15 +149,55 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:max="50"
-                        android:progress="25"
+                        android:progress="25"/>
+                </LinearLayout>
 
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="Text for notepad:"
+                    android:textSize="20sp"
+                    android:textColor="@color/myColorGrey800"/>
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginTop="10dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/text_example_notepad"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:text="Text size: 20"
+                        android:textColor="@color/colorPrimaryDark"
+                        android:textSize="20sp"
                         />
-
 
                 </LinearLayout>
 
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="20dp"
+                    android:layout_marginTop="10dp"
+                    android:orientation="horizontal">
 
+                    <SeekBar
+                        android:id="@+id/seek_bar_for_notepad"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:max="50"
+                        android:progress="20"/>
+                </LinearLayout>
             </LinearLayout>
+
+
+
 
 
             <LinearLayout

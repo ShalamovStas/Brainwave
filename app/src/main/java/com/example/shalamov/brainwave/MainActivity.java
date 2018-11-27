@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
     private JsonUtilsOld mJsonUtilsOld;
     private Animation animation;
     private FloatingActionButton mActionButton;
-    private MainActivityLogic mMainActivityLogic;
+
     ActionBar ab;
     private String theme = "day";
 
@@ -131,7 +131,7 @@ public class MainActivity extends AppCompatActivity {
             TextView mTextDescription = (TextView) view1.findViewById(R.id.text_description);
             LinearLayout  mLinear = (LinearLayout) view1.findViewById(R.id.layout_for_lesson_label);
             mainText.setText(lesson.getName());
-            mTextDescription.setText(mMainActivityLogic.getNumberOfSentences(lesson.getText()));
+            mTextDescription.setText("?");
             ImageView imageView1 = (ImageView) view1.findViewById(R.id.imageView);
             Global.getImageUtils().updateLabel(((Lesson) arrayListLessons.get(i)).getLabel(), imageView1);
             count = i + 1;
@@ -197,7 +197,7 @@ public class MainActivity extends AppCompatActivity {
                 TextView mTextDescription = (TextView) view1.findViewById(R.id.text_description);
                 LinearLayout mLinear = (LinearLayout) view1.findViewById(R.id.layout_for_lesson_label);
                 mainText.setText(lesson.getName());
-                mTextDescription.setText(mMainActivityLogic.getNumberOfSentences(lesson.getText()));
+                mTextDescription.setText("?");
                 ImageView imageView1 = (ImageView) view1.findViewById(R.id.imageView);
                 Global.getImageUtils().updateLabel(((Lesson) arrayListLessons.get(i)).getLabel(), imageView1);
                 count = i + 1;
@@ -265,7 +265,7 @@ public class MainActivity extends AppCompatActivity {
                 TextView mTextDescription = (TextView) view1.findViewById(R.id.text_description);
                 LinearLayout mLinear = (LinearLayout) view1.findViewById(R.id.layout_for_lesson_label);
                 mainText.setText(lesson.getName());
-                mTextDescription.setText(mMainActivityLogic.getNumberOfSentences(lesson.getText()));
+                mTextDescription.setText("?");
                 ImageView imageView1 = (ImageView) view1.findViewById(R.id.imageView);
                 Global.getImageUtils().updateLabel(((Lesson) arrayListLessons.get(i)).getLabel(), imageView1);
                 count = i + 1;
@@ -339,7 +339,6 @@ public class MainActivity extends AppCompatActivity {
 
     private void initializing() {
         // поиск элементов во вьюхе
-        mMainActivityLogic = new MainActivityLogic();
         mMainLayout = (LinearLayout) findViewById(R.id.layoutMainActivity);
         mLessonChooseLayout = (LinearLayout) findViewById(R.id.lesson_chose_layout);
         mActionButton = (FloatingActionButton) findViewById(R.id.floatingActionButton);

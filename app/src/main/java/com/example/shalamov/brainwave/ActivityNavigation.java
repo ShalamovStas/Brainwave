@@ -97,7 +97,7 @@ public class ActivityNavigation  extends AppCompatActivity
     // settings layout variables
 
     View layoutSettings;
-    int settingsSizeText;
+    int settingsSizeTextQuiz, settingsSizeTextNote;
     boolean boolBoltText;
     boolean boolItalicText;
     TextView mTextExample;
@@ -216,7 +216,8 @@ public class ActivityNavigation  extends AppCompatActivity
 
 
         //size text in training
-        settingsSizeText = 25;
+        settingsSizeTextQuiz = 25;
+        settingsSizeTextNote = 20;
         boolBoltText = true;
         boolItalicText = false;
 
@@ -379,19 +380,26 @@ public class ActivityNavigation  extends AppCompatActivity
 
 
         mTextExample =  layoutSettings.findViewById(R.id.text_example);
+        final TextView mTextExampleForNotepad = layoutSettings.findViewById(R.id.text_example_notepad);
 
         mSwitchBolt = layoutSettings.findViewById(R.id.bolt_switch);
         mSwitchDayNight = layoutSettings.findViewById(R.id.night_switch);
         mSeekBar =  layoutSettings.findViewById(R.id.seek_bar);
+        SeekBar mSeekBarForNotepad =  layoutSettings.findViewById(R.id.seek_bar_for_notepad);
         mButtonDefaultValues =  layoutSettings.findViewById(R.id.default_button);
         mVoice =  layoutSettings.findViewById(R.id.voice);
 
         mSwitchBolt.setChecked(boolBoltText);
         mSwitchDayNight.setChecked(!dayTheme);
         mVoice.setChecked(voice);
-        mTextExample.setTextSize(TypedValue.COMPLEX_UNIT_SP, settingsSizeText);
-        mTextExample.setText("Text size: " + settingsSizeText);
-        mSeekBar.setProgress(settingsSizeText);
+
+        mTextExample.setTextSize(TypedValue.COMPLEX_UNIT_SP, settingsSizeTextQuiz);
+        mTextExample.setText("Text size: " + settingsSizeTextQuiz);
+        mSeekBar.setProgress(settingsSizeTextQuiz);
+
+        mTextExampleForNotepad.setTextSize(TypedValue.COMPLEX_UNIT_SP, settingsSizeTextNote);
+        mTextExampleForNotepad.setText("Text size: " + settingsSizeTextNote);
+        mSeekBarForNotepad.setProgress(settingsSizeTextNote);
 
         if (boolBoltText) {
             mTextExample.setTypeface(mTextExample.getTypeface(), Typeface.BOLD);
@@ -458,9 +466,9 @@ public class ActivityNavigation  extends AppCompatActivity
         mSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
-                settingsSizeText = i;
-                mTextExample.setTextSize(TypedValue.COMPLEX_UNIT_SP, settingsSizeText);
-                mTextExample.setText("Text size: " + settingsSizeText);
+                settingsSizeTextQuiz = i;
+                mTextExample.setTextSize(TypedValue.COMPLEX_UNIT_SP, settingsSizeTextQuiz);
+                mTextExample.setText("Text size: " + settingsSizeTextQuiz);
             }
 
             @Override
@@ -474,17 +482,43 @@ public class ActivityNavigation  extends AppCompatActivity
             }
         });
 
+        mSeekBarForNotepad.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
+                settingsSizeTextNote = i;
+                mTextExampleForNotepad.setTextSize(TypedValue.COMPLEX_UNIT_SP, settingsSizeTextNote);
+                mTextExampleForNotepad.setText("Text size: " + settingsSizeTextNote);
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
+
+
+
         mButtonDefaultValues.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                settingsSizeText = 30;
+                settingsSizeTextQuiz = 30;
+                settingsSizeTextNote = 20;
                 boolBoltText = true;
                 boolItalicText = false;
 
                 mSwitchBolt.setChecked(boolBoltText);
-                mTextExample.setTextSize(TypedValue.COMPLEX_UNIT_SP, settingsSizeText);
-                mTextExample.setText("Text size: " + settingsSizeText);
-                mSeekBar.setProgress(settingsSizeText);
+                mTextExample.setTextSize(TypedValue.COMPLEX_UNIT_SP, settingsSizeTextQuiz);
+                mTextExample.setText("Text size: " + settingsSizeTextQuiz);
+                mSeekBar.setProgress(settingsSizeTextQuiz);
+
+                mTextExampleForNotepad.setTextSize(TypedValue.COMPLEX_UNIT_SP, settingsSizeTextNote);
+                mTextExampleForNotepad.setText("Text size: " + settingsSizeTextNote);
+                mSeekBar.setProgress(settingsSizeTextNote);
 
             }
         });
@@ -546,7 +580,7 @@ public class ActivityNavigation  extends AppCompatActivity
         textFieldForLearning.setText(mQuizLogic.allWord());
 
         //set settings
-        textFieldForLearning.setTextSize(TypedValue.COMPLEX_UNIT_SP, settingsSizeText);
+        textFieldForLearning.setTextSize(TypedValue.COMPLEX_UNIT_SP, settingsSizeTextQuiz);
         if (boolBoltText) {
             textFieldForLearning.setTypeface(textFieldForLearning.getTypeface(), Typeface.BOLD);
         } else {
@@ -1102,6 +1136,9 @@ public class ActivityNavigation  extends AppCompatActivity
         final LinearLayout mBtnFavoriteText = (LinearLayout) layoutNote.findViewById(R.id.btn_favorite);
         final LinearLayout mBtnAllText = (LinearLayout) layoutNote.findViewById(R.id.btn_all_text);
 
+        final LinearLayout mBtnSettings = (LinearLayout)  layoutNote.findViewById(R.id.btn_settings);
+        final LinearLayout mBtnTranslator = (LinearLayout)  layoutNote.findViewById(R.id.btn_translator);
+
         mBtnFavoriteText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -1123,6 +1160,34 @@ public class ActivityNavigation  extends AppCompatActivity
 
                 Animation animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.anim1);
                 mBtnAllText.startAnimation(animation);
+            }
+        });
+
+        mBtnSettings.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showSettings();
+                Animation animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.anim1);
+                mBtnSettings.startAnimation(animation);
+            }
+        });
+
+        mBtnTranslator.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Animation animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.anim1);
+                mBtnTranslator.startAnimation(animation);
+                try {
+
+                    String sent = lesson.getText();
+
+                    Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://translate.google.com/#en/ru/" + sent));
+                    startActivity(browserIntent);
+                } catch (ActivityNotFoundException e) {
+                    // TODO Auto-generated catch block
+                    Toast.makeText(getApplication(), "Sorry, No Google Translation Installed",
+                            Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
@@ -1150,6 +1215,8 @@ public class ActivityNavigation  extends AppCompatActivity
                     textNoteForSentence = (TextView) layoutForSentence.findViewById(R.id.text_for_sentence);
                     mNumberSentence = (TextView) layoutForSentence.findViewById(R.id.number_sentence);
                     mNumberSentence.setText("#" + (i + 1));
+
+                    textNoteForSentence.setTextSize(TypedValue.COMPLEX_UNIT_SP, settingsSizeTextNote);
                     textNoteForSentence.setText(textSentence);
                     layoutNotepadForAddContent.addView(layoutForSentence);
 
@@ -1307,6 +1374,8 @@ public class ActivityNavigation  extends AppCompatActivity
             });
 
 
+        }else{
+            Toast.makeText(this, "There are no any favorite sentences", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -1321,6 +1390,8 @@ public class ActivityNavigation  extends AppCompatActivity
             textNoteForSentence = (TextView) layoutForSentence.findViewById(R.id.text_for_sentence);
             mNumberSentence = (TextView) layoutForSentence.findViewById(R.id.number_sentence);
             mNumberSentence.setText("#" + (i + 1));
+
+            textNoteForSentence.setTextSize(TypedValue.COMPLEX_UNIT_SP, settingsSizeTextNote);
             textNoteForSentence.setText(textSentence);
 
 
