@@ -1099,8 +1099,8 @@ public class ActivityNavigation  extends AppCompatActivity
         layoutNotepadForAddContent = (LinearLayout) layoutNote.findViewById(R.id.note_layout_for_add);
         mQuizLogic.setCurrSentenceNull();
 
-        LinearLayout mBtnFavoriteText = (LinearLayout) layoutNote.findViewById(R.id.btn_favorite);
-        LinearLayout mBtnAllText = (LinearLayout) layoutNote.findViewById(R.id.btn_all_text);
+        final LinearLayout mBtnFavoriteText = (LinearLayout) layoutNote.findViewById(R.id.btn_favorite);
+        final LinearLayout mBtnAllText = (LinearLayout) layoutNote.findViewById(R.id.btn_all_text);
 
         mBtnFavoriteText.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -1109,6 +1109,8 @@ public class ActivityNavigation  extends AppCompatActivity
 
                 mQuizLogic.setCurrSentenceNull();
                 showFavoriteTextInNotePad();
+                Animation animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.anim1);
+                mBtnFavoriteText.startAnimation(animation);
             }
         });
 
@@ -1118,6 +1120,9 @@ public class ActivityNavigation  extends AppCompatActivity
                 removeContentFromNotepad();
                 mQuizLogic.setCurrSentenceNull();
                 showAllTextInNotePad();
+
+                Animation animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.anim1);
+                mBtnAllText.startAnimation(animation);
             }
         });
 

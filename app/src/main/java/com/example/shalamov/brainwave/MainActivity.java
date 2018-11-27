@@ -397,6 +397,9 @@ public class MainActivity extends AppCompatActivity {
                 filter = "all";
                 mMainLayout.removeAllViews();
                 addElementsToLayouts();
+
+                Animation animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.anim1);
+                mAll.startAnimation(animation);
             }
         });
 
@@ -406,6 +409,9 @@ public class MainActivity extends AppCompatActivity {
                 filter = "important";
                 mMainLayout.removeAllViews();
                 addElementsToLayouts("important");
+
+                Animation animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.anim1);
+                mImportant.startAnimation(animation);
             }
         });
         mCurrent.setOnClickListener(new View.OnClickListener() {
@@ -414,6 +420,9 @@ public class MainActivity extends AppCompatActivity {
                 filter = "current";
                 mMainLayout.removeAllViews();
                 addElementsToLayouts("current");
+
+                Animation animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.anim1);
+                mCurrent.startAnimation(animation);
             }
         });
         mTemp.setOnClickListener(new View.OnClickListener() {
@@ -422,6 +431,9 @@ public class MainActivity extends AppCompatActivity {
                 filter = "temp";
                 mMainLayout.removeAllViews();
                 addElementsToLayouts("temp");
+
+                Animation animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.anim1);
+                mTemp.startAnimation(animation);
             }
         });
 
@@ -431,6 +443,9 @@ public class MainActivity extends AppCompatActivity {
                 filter = "label_0";
                 mMainLayout.removeAllViews();
                 addElementsToLayoutsWithLabelFilter("label_0");
+
+                Animation animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.anim1);
+                mLessonBtn.startAnimation(animation);
 
             }
         });
@@ -442,6 +457,9 @@ public class MainActivity extends AppCompatActivity {
                 mMainLayout.removeAllViews();
                 addElementsToLayoutsWithLabelFilter("label_18");
 
+                Animation animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.anim1);
+                mJwBtn.startAnimation(animation);
+
             }
         });
 
@@ -451,6 +469,9 @@ public class MainActivity extends AppCompatActivity {
                 filter = "label_21";
                 mMainLayout.removeAllViews();
                 addElementsToLayoutsWithLabelFilter("label_21");
+
+                Animation animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.anim1);
+                mSolutionsSBBtn.startAnimation(animation);
 
             }
         });
@@ -462,6 +483,9 @@ public class MainActivity extends AppCompatActivity {
                 mMainLayout.removeAllViews();
                 addElementsToLayoutsWithLabelFilter("label_22");
 
+                Animation animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.anim1);
+                mSolutionsWBBtn.startAnimation(animation);
+
             }
         });
 
@@ -472,6 +496,9 @@ public class MainActivity extends AppCompatActivity {
                 mMainLayout.removeAllViews();
                 addElementsToLayoutsWithLabelFilter("label_23");
 
+                Animation animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.anim1);
+                mBbcBtn.startAnimation(animation);
+
             }
         });
 
@@ -481,6 +508,9 @@ public class MainActivity extends AppCompatActivity {
                 filter = "label_27";
                 mMainLayout.removeAllViews();
                 addElementsToLayoutsWithLabelFilter("label_27");
+
+                Animation animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.anim1);
+                mHeadPhone.startAnimation(animation);
 
             }
         });
