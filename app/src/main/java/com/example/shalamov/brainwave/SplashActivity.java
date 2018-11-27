@@ -19,8 +19,6 @@ public class SplashActivity extends AppCompatActivity{
         startActivity(intent);
         finish();
 
-        //comment after git installation
-        //comment after git installation
     }
 
 }
