@@ -11,6 +11,7 @@ import java.util.ArrayList;
  */
 
 public class QuizLogic {
+    private Lesson lesson;
     private String mainText;
     private String textFavorite;
     private String[] mainTextArray; // предолжения разделены (предл1), (предл2), ...
@@ -22,9 +23,11 @@ public class QuizLogic {
     private int currentSentence; //Текущее предложение
     private int currentWord; //Текущее Слово
 
-    public QuizLogic(String mainText, String textFavorite) {
-        this.mainText = mainText;
-        this.textFavorite = textFavorite;
+    public QuizLogic(Lesson lesson) {
+
+        this.lesson = lesson;
+        this.mainText = lesson.getText();
+        this.textFavorite = lesson.getTextFavorite();
         currentSentence = 0;
         currentWord = 0;
         createArray();
@@ -46,7 +49,9 @@ public class QuizLogic {
     private void createArray() {
         mainTextArray = mainText.split("[.\\?\\!\\\n]");
 
+        int count;
         for (int i = 0; i < mainTextArray.length; i++) {
+            count = 0;
             boolean flag = true;
             while (flag) {
                 if (mainTextArray[i].length() != 0) { // если в конце текста стоит пробелы, это условие не позволит появится ошибке на строчке temp[i].substring(0, 1
@@ -61,7 +66,13 @@ public class QuizLogic {
                 } else {
                     flag = false;
                 }
+                count++;
+                if(count == 5){
+                    flag = false;
+                }
             }
+
+
         }
         // delete empty elements
         ArrayList<String> strings = new ArrayList<>();
@@ -75,11 +86,14 @@ public class QuizLogic {
         }
 
         String[] newArraySplit = new String[strings.size()];
+        StringBuilder sb = new StringBuilder();
 
         for (int i = 0; i < strings.size(); i++) {
             newArraySplit[i] = strings.get(i);
+            sb.append(strings.get(i));
         }
         mainTextArray = newArraySplit;
+        lesson.setText(sb.toString());
     }
 
     public String nextWord() {
