@@ -1,6 +1,7 @@
 package com.example.shalamov.brainwave.utils;
 
 import android.nfc.Tag;
+import android.util.Log;
 
 import com.example.shalamov.brainwave.Global;
 
@@ -22,6 +23,7 @@ public class LessonsUtils {
 
         ArrayList lessons = Global.getLessonsList();
         lessons.add(lesson);
+        Log.d("brain", "LessonUtils - createLesson lessons.size() " + lessons.size());
     }
 
     public void changeLesson(int number, String name, String text, String description1, String description2, String description3, String description4, String label, String progress){
@@ -186,7 +188,7 @@ public class LessonsUtils {
 
     }
 
-    private String deleteElementInString (String allText, String elementForDelete){
+    public String deleteElementInString (String allText, String elementForDelete){
 
         //разделение текста начального [Aaa 1. Bbb 2. Ccc 3] на предложения по признаку точки
         // результат разделения: [Aaa 1] [ Bbb 2] [ Ccc 3].

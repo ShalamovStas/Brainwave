@@ -53,6 +53,7 @@ import com.example.shalamov.brainwave.utils.Lesson;
 import org.w3c.dom.Text;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Locale;
 
 public class ActivityNavigation  extends AppCompatActivity
@@ -1154,6 +1155,9 @@ public class ActivityNavigation  extends AppCompatActivity
 
     private void showNotePad() {
 
+        long time = Calendar.getInstance().getTimeInMillis();
+
+
         writeHistory("notePad");
 
         notePadShow = true;
@@ -1161,7 +1165,7 @@ public class ActivityNavigation  extends AppCompatActivity
 
         currentSentenceIndex = mQuizLogic.getCurrentSentenceIndex();
 
-        ab.setSubtitle("You can change, add and remove sentences");
+        ab.setSubtitle(lesson.getName());
 //        mNotepadText.setTextColor(Color.parseColor("#FFFFFF"));
 //        mTrainingText.setTextColor(Color.parseColor("#000000"));
 //        mSettingsText.setTextColor(Color.parseColor("#000000"));
@@ -1189,6 +1193,9 @@ public class ActivityNavigation  extends AppCompatActivity
 
         final LinearLayout mBtnSettings = (LinearLayout)  layoutNote.findViewById(R.id.btn_settings);
         final LinearLayout mBtnTranslator = (LinearLayout)  layoutNote.findViewById(R.id.btn_translator);
+        final LinearLayout mBtnOpenApp = (LinearLayout)  layoutNote.findViewById(R.id.btn_open_app);
+
+        Log.d("brain", "инициализация " + (Calendar.getInstance().getTimeInMillis() - time));
 
         mBtnFavoriteText.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -1234,9 +1241,19 @@ public class ActivityNavigation  extends AppCompatActivity
             }
         });
 
+        mBtnOpenApp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = getPackageManager().getLaunchIntentForPackage("air.ru.uchimslova.words");
+                startActivity(intent);
+            }
+        });
+        Log.d("brain", "Точка перед методом  showAllTextInNotePad()" + (Calendar.getInstance().getTimeInMillis() - time));
         showAllTextInNotePad();
 
         Log.d("brain", "lesson.getTextFavorite(): [" + lesson.getTextFavorite() + "]");
+
+        Log.d("brain", "Время срабатывания метода " + (Calendar.getInstance().getTimeInMillis() - time));
     }
 
     private void removeContentFromNotepad() {
@@ -1426,13 +1443,19 @@ public class ActivityNavigation  extends AppCompatActivity
 
 
         }else{
-            Toast.makeText(this, "There are no any favorite sentences", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "There are not any favorite sentences", Toast.LENGTH_SHORT).show();
         }
+
+
     }
 
 
     private void showAllTextInNotePad() {
+
         for (int i = 0; i < mQuizLogic.getNumberOfSentences(); i++) {
+
+
+
             final int indexSentence = i;
             final String textSentence = mQuizLogic.getCurrentSentenceString();
             layoutForSentence = getLayoutInflater().inflate(R.layout.layout_sentence, null);
@@ -1445,6 +1468,7 @@ public class ActivityNavigation  extends AppCompatActivity
 
             textNoteForSentence.setTextSize(TypedValue.COMPLEX_UNIT_SP, settingsSizeTextNote);
             textNoteForSentence.setText(textSentence);
+
 
 
 
@@ -1467,6 +1491,8 @@ public class ActivityNavigation  extends AppCompatActivity
                 }
             }
 
+
+
             if(!mQuizLogic.checkIfFavoriteTextEmpty(lesson)) {
                 if (mQuizLogic.checkFavoriteSentence(lesson, textSentence)) {
                     Global.getImageUtils().updateLabel("star_active", btnStar);
@@ -1474,6 +1500,8 @@ public class ActivityNavigation  extends AppCompatActivity
                     Global.getImageUtils().updateLabel("star_inactive", btnStar);
                 }
             }
+
+
 
 
 
@@ -1592,14 +1620,8 @@ public class ActivityNavigation  extends AppCompatActivity
                 }
             });
         }
-
-
         layoutQuizForAddContent.removeAllViews();
-
         layoutQuizForAddContent.addView(layoutNote);
-
-
-
         mScroll.post(new Runnable() {
             @Override
             public void run() {
@@ -1607,8 +1629,6 @@ public class ActivityNavigation  extends AppCompatActivity
                 mScroll.smoothScrollBy(0, scrollYPosition);
             }
         });
-
-
     }
 
     private void writeHistory(String currentPosition) {
@@ -1647,7 +1667,7 @@ public class ActivityNavigation  extends AppCompatActivity
         nameLessonChange = (EditText) mLayoutBulder.findViewById(R.id.lesson_name_builder);
         mainTextLessonChange = (EditText) mLayoutBulder.findViewById(R.id.text_lesson_builder);
 
-        labelForLesson = "label_0";
+        labelForLesson = lesson.getLabel();
         mLabelLesson = (ImageView) mLayoutBulder.findViewById(R.id.image_for_lesson_builder);
         Global.getImageUtils().updateLabel(lesson.getLabel(), mLabelLesson);
 
@@ -1655,6 +1675,20 @@ public class ActivityNavigation  extends AppCompatActivity
         mainTextLessonChange.setText(lesson.getText());
 
         setSpinner(lesson.getDescription1());
+
+        final EditText ediTextForDeleting = (EditText) mLayoutBulder.findViewById(R.id.text_for_delete);
+        Button buttonDelete = (Button) mLayoutBulder.findViewById(R.id.btn_delete);
+
+        buttonDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(ediTextForDeleting.getText().length() != 0 && mainTextLessonChange.getText().length()!= 0){
+                    String newText = Global.getLessonsUtils().deleteElementInString(mainTextLessonChange.getText().toString(), ediTextForDeleting.getText().toString());
+                    mainTextLessonChange.setText(newText);
+                    ediTextForDeleting.setText("");
+                }
+            }
+        });
 
         layoutChangeLabel.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -1679,7 +1713,7 @@ public class ActivityNavigation  extends AppCompatActivity
                         public void onClick(DialogInterface dialogInterface, int i) {
                             wasChanged = true;
                             Global.getLessonsUtils().changeLesson(lessonNumber, nameLessonChange.getText().toString(), mainTextLessonChange.getText().toString(), ActivityNavigation.this.getSpinnerSelect(), "description2", "description3", "description1",
-                            labelForLesson, "progress 1");
+                                    lesson.getLabel(), "progress 1");
                             updateContent();
                         }
 

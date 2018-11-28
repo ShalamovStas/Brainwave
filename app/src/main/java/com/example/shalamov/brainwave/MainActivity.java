@@ -8,6 +8,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -63,7 +64,6 @@ public class MainActivity extends AppCompatActivity {
 
     private FilesUtils filesUtils;
     private JsonUtils jsonUtils;
-    private String textFromFile; // текст файла
     private ArrayList arrayListLessons;
     private LessonsUtils lessonsUtils;
     private ImageUtils imageUtils;
@@ -82,6 +82,8 @@ public class MainActivity extends AppCompatActivity {
 
         initializing();
 //        setSettingsToThisActivity();
+
+        Log.d("brain", "Main Activity onCreate ");
         addElementsToLayouts();
 
     }
@@ -120,6 +122,8 @@ public class MainActivity extends AppCompatActivity {
 //    }
 
     private void addElementsToLayouts() {
+
+        Log.d("brain", "addElementsToLayouts() " + arrayListLessons.size());
 
         for (int i = arrayListLessons.size() - 1; i >= 0; i--) {
             Lesson lesson = (Lesson) arrayListLessons.get(i);
@@ -353,14 +357,17 @@ public class MainActivity extends AppCompatActivity {
         filesUtils = new FilesUtils();
         filesUtils.checkFile();
         arrayListLessons = new ArrayList();
-        textFromFile = filesUtils.readFile();
+        Global.setLessonsList(arrayListLessons);
+        String textFromFile = filesUtils.readFile();
+
+        Log.d("brain", "MainActivity-initializing: textFromFile:" + textFromFile);
         jsonUtils = new JsonUtils(textFromFile);
 
         lessonsUtils = new LessonsUtils();
         imageUtils = new ImageUtils();
         Global.setFilesUtils(filesUtils);
         Global.setJsonUtils(jsonUtils);
-        Global.setLessonsList(arrayListLessons);
+
         Global.setLessonsUtils(lessonsUtils);
         Global.setImageUtils(imageUtils);
         jsonUtils.readJsonToLesson();
@@ -571,7 +578,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        updateContent();
+
 //        setSettingsToThisActivity();
     }
 }

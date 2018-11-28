@@ -1,5 +1,7 @@
 package com.example.shalamov.brainwave.utils;
 
+import android.util.Log;
+
 import com.example.shalamov.brainwave.Global;
 
 import org.json.JSONArray;
@@ -11,11 +13,47 @@ import java.util.ArrayList;
 public class JsonUtils {
     private JSONArray jsonArray;
     public JsonUtils(String resource) {
+
+
+        if(resource.equalsIgnoreCase("FileNotFound")){
+            createFirstJsonArray();
+            Log.d("brain", "JsonUtils-constructor-resource.equalsIgnoreCase(FileNotFound)");
+        }else {
+            Log.d("brain", "JsonUtils-constructor-resource.equalsIgnoreCase(FileNotFound)-else resource = " + resource);
+            try {
+//                createFirstJsonArray();
+                jsonArray = new JSONArray(resource);
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private void createFirstJsonArray() {
         try {
-            jsonArray = new JSONArray(resource);
+        jsonArray = new JSONArray();
+
+            for (int i = 0; i < 2; i++) {
+
+                JSONObject jsonObject = new JSONObject();
+                jsonObject.put("number", i);
+                jsonObject.put("lesson_name", "Introduce " + i);
+                jsonObject.put("Text", "This application is very useful " + i);
+                jsonObject.put("TextFavorite", "");
+                jsonObject.put("description1", "description1");
+                jsonObject.put("description2", "description2");
+                jsonObject.put("description3", "description3");
+                jsonObject.put("description4", "description4");
+                jsonObject.put("label", "label_1");
+                jsonObject.put("progress", "1");
+
+                jsonArray.put(jsonObject);
+            }
         } catch (JSONException e) {
             e.printStackTrace();
         }
+
     }
 
     // метод читает Json и использует LessonsUtils чтобы создать лист уроков

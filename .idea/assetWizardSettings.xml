@@ -15,9 +15,9 @@
                           <map>
                             <entry key="assetSourceType" value="FILE" />
                             <entry key="height" value="100" />
-                            <entry key="outputName" value="ic_google_translator" />
+                            <entry key="outputName" value="ic_layout24" />
                             <entry key="overrideSize" value="true" />
-                            <entry key="sourceFile" value="D:\imagesForBrain\google_translator.svg" />
+                            <entry key="sourceFile" value="D:\imagesForBrain\layout24.svg" />
                             <entry key="width" value="100" />
                           </map>
                         </option>

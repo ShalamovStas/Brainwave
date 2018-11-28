@@ -1,86 +1,129 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <LinearLayout
+    <HorizontalScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="5dp">
+        android:background="@color/myColorGrey100"
+        android:scrollbars="none">
+
+
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:id="@+id/btn_favorite">
+            android:layout_margin="5dp">
 
-            <ImageView
+            <LinearLayout
+                android:id="@+id/btn_favorite"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center">
 
-                android:layout_width="@dimen/size_label_in_nav_panel"
-                android:layout_height="@dimen/size_label_in_nav_panel"
-                android:layout_marginEnd="@dimen/layout_margin_navigation_panel"
-                android:layout_marginStart="@dimen/layout_margin_navigation_panel"
-                android:background="@drawable/ic_favorite"/>
+                <ImageView
+
+                    android:layout_width="@dimen/size_label_in_nav_panel"
+                    android:layout_height="@dimen/size_label_in_nav_panel"
+                    android:layout_marginStart="@dimen/layout_margin_navigation_panel"
+                    android:layout_marginEnd="@dimen/layout_margin_navigation_panel"
+                    android:background="@drawable/ic_favorite" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/btn_all_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center">
+
+                <ImageView
+
+                    android:layout_width="@dimen/size_label_in_nav_panel"
+                    android:layout_height="@dimen/size_label_in_nav_panel"
+                    android:layout_marginStart="@dimen/layout_margin_navigation_panel"
+                    android:layout_marginEnd="@dimen/layout_margin_navigation_panel"
+                    android:background="@drawable/ic_all_text" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="2dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:background="@color/myColorGrey500">
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/btn_settings"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center">
+
+                <ImageView
+
+                    android:layout_width="@dimen/size_label_in_nav_panel"
+                    android:layout_height="@dimen/size_label_in_nav_panel"
+                    android:layout_marginStart="@dimen/layout_margin_navigation_panel"
+                    android:layout_marginEnd="@dimen/layout_margin_navigation_panel"
+                    android:background="@drawable/ic_settings_image" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="2dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:background="@color/myColorGrey500">
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/btn_translator"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center">
+
+                <ImageView
+
+                    android:layout_width="@dimen/size_label_in_nav_panel"
+                    android:layout_height="@dimen/size_label_in_nav_panel"
+                    android:layout_marginStart="@dimen/layout_margin_navigation_panel"
+                    android:layout_marginEnd="@dimen/layout_margin_navigation_panel"
+                    android:background="@drawable/ic_translator" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/btn_open_app"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center">
+
+                <ImageView
+
+                    android:layout_width="@dimen/size_label_in_nav_panel"
+                    android:layout_height="@dimen/size_label_in_nav_panel"
+                    android:layout_marginStart="@dimen/layout_margin_navigation_panel"
+                    android:layout_marginEnd="@dimen/layout_margin_navigation_panel"
+                    android:background="@drawable/ic_layout24" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="2dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:background="@color/myColorGrey500">
+
+            </LinearLayout>
+
         </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:id="@+id/btn_all_text">
-
-            <ImageView
-
-                android:layout_width="@dimen/size_label_in_nav_panel"
-                android:layout_height="@dimen/size_label_in_nav_panel"
-                android:layout_marginEnd="@dimen/layout_margin_navigation_panel"
-                android:layout_marginStart="@dimen/layout_margin_navigation_panel"
-                android:background="@drawable/ic_all_text"/>
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="2dp"
-            android:layout_height="match_parent"
-            android:layout_gravity="center"
-            android:layout_marginRight="10dp"
-            android:layout_marginLeft="10dp"
-            android:background="@color/myColorGrey500">
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:id="@+id/btn_settings">
-
-            <ImageView
-
-                android:layout_width="@dimen/size_label_in_nav_panel"
-                android:layout_height="@dimen/size_label_in_nav_panel"
-                android:layout_marginEnd="@dimen/layout_margin_navigation_panel"
-                android:layout_marginStart="@dimen/layout_margin_navigation_panel"
-                android:background="@drawable/ic_settings_image"/>
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:id="@+id/btn_translator">
-
-            <ImageView
-
-                android:layout_width="@dimen/size_label_in_nav_panel"
-                android:layout_height="@dimen/size_label_in_nav_panel"
-                android:layout_marginEnd="@dimen/layout_margin_navigation_panel"
-                android:layout_marginStart="@dimen/layout_margin_navigation_panel"
-                android:background="@drawable/ic_translator"/>
-        </LinearLayout>
-
-    </LinearLayout>
+    </HorizontalScrollView>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -92,16 +135,16 @@
     </LinearLayout>
 
     <ScrollView
+        android:id="@+id/scroll"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:id="@+id/scroll">
+        android:orientation="vertical">
 
         <LinearLayout
+            android:id="@+id/note_layout_for_add"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:id="@+id/note_layout_for_add">
+            android:orientation="vertical">
 
 
         </LinearLayout>

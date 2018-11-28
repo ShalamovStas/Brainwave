@@ -13,29 +13,7 @@ import java.io.InputStreamReader;
 
 public class FilesUtils {
 
-    String text = "[\n" +
-            "\n" +
-            "  {\n" +
-            "    \"lesson_name\":\"Lesson1\",\n" +
-            "    \"Text\":\"The photo shows a street at night.\",\n" +
-            "    \"progress\":\"1\",\n" +
-            "    \"label\":\"label_1\",\n" +
-            "    \"description2\":\"description2\",\n" +
-            "    \"description3\":\"description3\",\n" +
-            "    \"description4\":\"description4\",\n" +
-            "    \"description1\":\"description1\"},\n" +
-            "\n" +
-            "  {\n" +
-            "    \"lesson_name\":\"Lesson2\",\n" +
-            "    \"progress\":\"1\",\n" +
-            "    \"Text\":\"The first sentence.\",\n" +
-            "    \"label\":\"label_1\",\n" +
-            "    \"description2\":\"description2\",\n" +
-            "    \"description3\":\"description3\",\n" +
-            "    \"description1\":\"description1\",\n" +
-            "    \"description4\":\"description4\"}\n" +
-            "\n" +
-            "]";
+    String text = "[{\"number\":42,\"lesson_name\":\"Temp\",\"Text\":\"add1.add 2. add 3\",\"TextFavorite\":\"add 2\",\"description1\":\"important\",\"description2\":\"description2\",\"description3\":\"description3\",\"description4\":\"description1\",\"label\":\"label_0\",\"progress\":\"progress 1\"}]";
 
 
     // метод возвращает текст файла в формате String
@@ -60,7 +38,7 @@ public class FilesUtils {
 
         } catch (java.io.IOException e) {
 
-            return "FileNotFound";
+            return text;
 
         }
 

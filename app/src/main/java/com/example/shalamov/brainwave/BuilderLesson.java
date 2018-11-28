@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -22,10 +23,12 @@ public class BuilderLesson extends AppCompatActivity {
     ImageView mLabelLesson;
     String labelForLesson;
     String valuesFromActivity;
-    JsonUtilsOld jsonUtilsOld;
+
     EditText lesson_name;
     EditText lesson_text;
     ArrayList mListLessons;
+    EditText ediTextForDeleting;
+    Button buttonDelete;
 
     private Spinner spinner;
 
@@ -38,7 +41,6 @@ public class BuilderLesson extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        jsonUtilsOld = new JsonUtilsOld(this);
         lesson_name = (EditText) findViewById(R.id.lesson_name);
         lesson_text = (EditText) findViewById(R.id.text_lesson);
         labelForLesson = "label_0";
@@ -47,6 +49,8 @@ public class BuilderLesson extends AppCompatActivity {
         spinner = (Spinner) findViewById(R.id.spinner);
         Global.getImageUtils().updateLabel("label_0", mLabelLesson);
 
+        ediTextForDeleting = (EditText) findViewById(R.id.text_for_delete);
+        buttonDelete = (Button) findViewById(R.id.btn_delete);
 
         mButtonChooseLabel.setOnClickListener(new View.OnClickListener() {
 
@@ -58,6 +62,21 @@ public class BuilderLesson extends AppCompatActivity {
             }
         });
 
+        buttonDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(ediTextForDeleting.getText().length() != 0 && lesson_text.getText().length()!= 0){
+                    improveText();
+                }
+            }
+        });
+
+    }
+
+    private void improveText() {
+        String newText = Global.getLessonsUtils().deleteElementInString(lesson_text.getText().toString(), ediTextForDeleting.getText().toString());
+        lesson_text.setText(newText);
+        ediTextForDeleting.setText("");
     }
 
     @Override
@@ -70,6 +89,7 @@ public class BuilderLesson extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+
 
         int id = item.getItemId();
 
