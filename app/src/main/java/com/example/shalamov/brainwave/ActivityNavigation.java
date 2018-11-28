@@ -1724,7 +1724,7 @@ public class ActivityNavigation  extends AppCompatActivity
     private void createQuiz() {
 
         allTextForLesson = lesson.getText();
-        mQuizLogic = new QuizLogic(lesson);
+        mQuizLogic = new QuizLogic(allTextForLesson, lesson.getTextFavorite());
         mLogicTraining2 = new LogicTraining2();
     }
 

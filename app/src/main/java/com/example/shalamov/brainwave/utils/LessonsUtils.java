@@ -41,7 +41,7 @@ public class LessonsUtils {
 
 
         //создаем масив из предложений
-        String[] arrayText = text.split("[.\\?\\!\\\n]");
+        String[] arrayText = text.split("[.\\?\\!]");
 
         lesson.setArrayText(arrayText);
 
@@ -54,16 +54,15 @@ public class LessonsUtils {
     public void changeSentence(Lesson lesson, int index, String newSentence){
         // из модели урка берем текст и разделяем его по предложениям
 
-        String[] arrayText = lesson.getText().split("[.\\?\\!\\\n]");
+        String[] arrayText = lesson.getText().split("[.\\?\\!]");
         String oldSentence = arrayText[index];
         //изменяем предложение по извесному индексу
         arrayText[index] = newSentence;
 
         if(!(lesson.getTextFavorite().equalsIgnoreCase(""))){
-            String[] arrayTextFavorite = lesson.getTextFavorite().split("[.\\?\\!\\\n]");
+            String[] arrayTextFavorite = lesson.getTextFavorite().split("[.\\?\\!]");
 
             boolean flag = true;
-            int count = 0;
             while (flag) {
                 if (oldSentence.length() != 0) { // если в конце текста стоит пробелы, это условие не позволит появится ошибке на строчке temp[i].substring(0, 1
                     // пробелы будут удалятся и строчка будет в таком виде temp[i] = "";
@@ -75,10 +74,6 @@ public class LessonsUtils {
                         flag = false;
                     }
                 } else {
-                    flag = false;
-                }
-                count++;
-                if(count == 5){
                     flag = false;
                 }
             }
@@ -168,7 +163,7 @@ public class LessonsUtils {
     public void deleteFavoriteSentence(Lesson lesson, String text){
 
 
-        String[] arrayTextFavorite = lesson.getTextFavorite().split("[.\\?\\!\\\n]");
+        String[] arrayTextFavorite = lesson.getTextFavorite().split("[.\\?\\!]");
         ArrayList<String> arrayTextNewFavorite = new ArrayList<>();
 
 
@@ -187,7 +182,7 @@ public class LessonsUtils {
 
         //разделение текста начального [Aaa 1. Bbb 2. Ccc 3] на предложения по признаку точки
         // результат разделения: [Aaa 1] [ Bbb 2] [ Ccc 3].
-        String[] allTextArray = allText.split("[.\\?\\!\\\n]");
+        String[] allTextArray = allText.split("[.\\?\\!]");
 //
         //цикл для удаления пробелов перед началом предложения
         // проходим по всем элементам массива, созданого их общего текста allText
@@ -204,10 +199,7 @@ public class LessonsUtils {
         // [][Aaa 1][Bbb 2][Ccc 3] - первый элемент не содержит символов.
         ArrayList<String> allTextArrayWithoutEmptyElements;
         boolean flag;
-        //защита от бесконечного цыкла
-        int count = 0;
         for (int i = 0; i < allTextArray.length; i++) {
-            count = 0;
             flag = true;
             while (flag) {
                 if (allTextArray[i].length() != 0) {
@@ -221,11 +213,6 @@ public class LessonsUtils {
                     }
                 } else {
                     needToDeleteEmptyElement = true;
-                    flag = false;
-                }
-
-                count++;
-                if (count == 5){
                     flag = false;
                 }
             }
