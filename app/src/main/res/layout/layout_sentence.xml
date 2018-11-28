@@ -38,8 +38,6 @@
                 android:layout_height="25dp"
                 android:layout_gravity="center"
                 android:background="@drawable/ic_star_inact"/>
-
-
         </LinearLayout>
 
 
@@ -51,8 +49,20 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="5dp"
             android:text="Text Text Te Text Text  Text Text  Text h  fg"
-
             android:textSize="20sp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:gravity="left">
+
+            <ImageView
+                android:id="@+id/btn_translate_current_sentence"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:background="@drawable/ic_google_translator"/>
+        </LinearLayout>
 
 
     </LinearLayout>

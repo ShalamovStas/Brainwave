@@ -31,7 +31,7 @@ public class QuizLogic {
         createArrayCurrentSentence(currentSentence);
     }
 
-    public String[] getCurrentSentenceArray(){
+    public String[] getCurrentSentenceArray() {
         return temp;
     }
 
@@ -69,12 +69,12 @@ public class QuizLogic {
 
         for (int i = 0; i < mainTextArray.length; i++) {
 
-            if(mainTextArray[i].length() != 0){
+            if (mainTextArray[i].length() != 0) {
                 strings.add(mainTextArray[i]);
             }
         }
 
-        String[] newArraySplit = new String [strings.size()];
+        String[] newArraySplit = new String[strings.size()];
 
         for (int i = 0; i < strings.size(); i++) {
             newArraySplit[i] = strings.get(i);
@@ -132,12 +132,9 @@ public class QuizLogic {
 
         if (currentSentence == -1) {
             currentSentence = mainTextArray.length - 1;
-            createArrayCurrentSentence(currentSentence);
-            return allWord();
-        } else {
-            createArrayCurrentSentence(currentSentence);
-            return allWord();
         }
+        createArrayCurrentSentence(currentSentence);
+        return allWord();
 
     }
 
@@ -221,9 +218,9 @@ public class QuizLogic {
         mainTextArray[numberInArray] = newSentence;
         String allSentences = "";
         for (int i = 0; i < mainTextArray.length; i++) {
-            if(i != mainTextArray.length-1) {
+            if (i != mainTextArray.length - 1) {
                 allSentences = allSentences + mainTextArray[i] + ". ";
-            }else{
+            } else {
                 allSentences = allSentences + mainTextArray[i];
             }
         }
@@ -244,28 +241,27 @@ public class QuizLogic {
         return allSentences;
     }
 
-    public boolean checkFavoriteSentence(Lesson lesson, String text){
+    public boolean checkFavoriteSentence(Lesson lesson, String text) {
 
         boolean flag = false;
 
 
+        textFavoriteArray = lesson.getTextFavorite().split("[.\\?\\!\\\n]");
 
-           textFavoriteArray =  lesson.getTextFavorite().split("[.\\?\\!]");
 
-
-            for (int i = 0; i < textFavoriteArray.length; i++) {
-                if(textFavoriteArray[i].equalsIgnoreCase(text)){
-                    flag = true;
-                }
+        for (int i = 0; i < textFavoriteArray.length; i++) {
+            if (textFavoriteArray[i].equalsIgnoreCase(text)) {
+                flag = true;
             }
+        }
 
         return flag;
     }
 
-    public boolean checkIfFavoriteTextEmpty(Lesson lesson){
+    public boolean checkIfFavoriteTextEmpty(Lesson lesson) {
 
-        if((lesson.getTextFavorite() == null)){
-           return true;
+        if ((lesson.getTextFavorite() == null)) {
+            return true;
         }
         return false;
     }

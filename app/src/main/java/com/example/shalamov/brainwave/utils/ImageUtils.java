@@ -43,6 +43,9 @@ public class ImageUtils {
     private Integer[] mStars = {
             R.drawable.ic_star,
             R.drawable.ic_star_inact,
+            R.drawable.ic_star_quiz,
+            R.drawable.ic_empty,
+
     };
 
     public void updateLabel(String labelForLesson, ImageView mLabelLesson) {
@@ -146,6 +149,11 @@ public class ImageUtils {
                 break;
             case "star_inactive":
                 mLabelLesson.setImageResource(mStars[1]);
+                break;
+            case "favorite_sentence_quiz":
+                mLabelLesson.setImageResource(mStars[2]);
+                break;case "not_favorite_sentence_quiz":
+                mLabelLesson.setImageResource(mStars[3]);
                 break;
             case "nothing":
                 mLabelLesson.setImageResource(mThumbIds[1]);

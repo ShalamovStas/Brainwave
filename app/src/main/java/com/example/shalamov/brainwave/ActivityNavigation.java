@@ -65,7 +65,7 @@ public class ActivityNavigation  extends AppCompatActivity
     LinearLayout layoutNotepadForAddContent;
     TextView textNoteForSentence, mNumberSentence, mTextViewForConcat;
     View layoutForSentence;
-    RelativeLayout layoutForClick;
+    LinearLayout layoutForClick;
 //  JsonUtilsOld mJsonUtilsOld;
     String nameLesson;
     QuizLogic mQuizLogic;
@@ -565,11 +565,17 @@ public class ActivityNavigation  extends AppCompatActivity
 
         mLayoutLearnText = getLayoutInflater().inflate(R.layout.train_layout, null); //тренировочный лайоут с текстовым полем и кнопками внизу
         layoutForClick =  mLayoutLearnText.findViewById(R.id.layout_tap_quiz); //первый лейоут где располагается главный текст и по нему отслеживаются нажатия
+        LinearLayout layoutForClickPrevious =  mLayoutLearnText.findViewById(R.id.layout_btn_previous);
+        LinearLayout layoutForClickNext =  mLayoutLearnText.findViewById(R.id.layout_btn_next);
         LinearLayout mLayoutGoToTraining2 =  mLayoutLearnText.findViewById(R.id.btn_go_to_train2);
         LinearLayout mLayoutGoToTranslator =  mLayoutLearnText.findViewById(R.id.btn_go_to_translator);
         LinearLayout mLayoutGoToSettings =  mLayoutLearnText.findViewById(R.id.btn_go_to_settings);
         BottomNavigationView bottomNavigationItemView =  mLayoutLearnText.findViewById(R.id.navigation_bottom);
         textFieldForLearning =  mLayoutLearnText.findViewById(R.id.text_field_for_learning);
+
+        final ImageView mImageFavoriteOrNot = (ImageView)  mLayoutLearnText.findViewById(R.id.image_favorite_or_not);
+
+
 
         if (!dayTheme) {
             textFieldForLearning.setTextColor(ContextCompat.getColor(ActivityNavigation.this, R.color.myColorDark));
@@ -578,6 +584,14 @@ public class ActivityNavigation  extends AppCompatActivity
         }
 
         textFieldForLearning.setText(mQuizLogic.allWord());
+
+        if(!mQuizLogic.checkIfFavoriteTextEmpty(lesson)){
+            if(mQuizLogic.checkFavoriteSentence(lesson, mQuizLogic.getCurrentSentenceString())){
+                Global.getImageUtils().updateLabel("favorite_sentence_quiz", mImageFavoriteOrNot);
+            }else{
+                Global.getImageUtils().updateLabel("not_favorite_sentence_quiz", mImageFavoriteOrNot);
+            }
+        }
 
         //set settings
         textFieldForLearning.setTextSize(TypedValue.COMPLEX_UNIT_SP, settingsSizeTextQuiz);
@@ -596,6 +610,15 @@ public class ActivityNavigation  extends AppCompatActivity
                         textFieldForLearning.setText(mQuizLogic.previousSentence());
                         currentSentenceIndex = mQuizLogic.getCurrentSentenceIndex();
                         ab.setSubtitle("#" + mQuizLogic.getCurrentSentenceInt() + " from " + mQuizLogic.getNumberOfSentences());
+
+                        if(!mQuizLogic.checkIfFavoriteTextEmpty(lesson)){
+                            if(mQuizLogic.checkFavoriteSentence(lesson, mQuizLogic.getSentenceString(currentSentenceIndex))){
+                                Global.getImageUtils().updateLabel("favorite_sentence_quiz", mImageFavoriteOrNot);
+                            }else{
+                                Global.getImageUtils().updateLabel("not_favorite_sentence_quiz", mImageFavoriteOrNot);
+                            }
+                        }
+
                         if (voice) {
                             t1.speak(mQuizLogic.getSentenceString(currentSentenceIndex), TextToSpeech.QUEUE_FLUSH, null);
                         }
@@ -607,6 +630,13 @@ public class ActivityNavigation  extends AppCompatActivity
                         textFieldForLearning.setText(mQuizLogic.nextSentence());
                         currentSentenceIndex = mQuizLogic.getCurrentSentenceIndex();
                         ab.setSubtitle("#" + mQuizLogic.getCurrentSentenceInt() + " from " + mQuizLogic.getNumberOfSentences());
+                        if(!mQuizLogic.checkIfFavoriteTextEmpty(lesson)){
+                            if(mQuizLogic.checkFavoriteSentence(lesson, mQuizLogic.getSentenceString(currentSentenceIndex))){
+                                Global.getImageUtils().updateLabel("favorite_sentence_quiz", mImageFavoriteOrNot);
+                            }else{
+                                Global.getImageUtils().updateLabel("not_favorite_sentence_quiz", mImageFavoriteOrNot);
+                            }
+                        }
                         if (voice) {
                             t1.speak(mQuizLogic.getSentenceString(currentSentenceIndex), TextToSpeech.QUEUE_FLUSH, null);
                         }
@@ -644,6 +674,39 @@ public class ActivityNavigation  extends AppCompatActivity
             }
         });
 
+        layoutForClickPrevious.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                textFieldForLearning.setText(mQuizLogic.previousSentence());
+                currentSentenceIndex = mQuizLogic.getCurrentSentenceIndex();
+                ab.setSubtitle("#" + mQuizLogic.getCurrentSentenceInt() + " from " + mQuizLogic.getNumberOfSentences());
+
+                if(!mQuizLogic.checkIfFavoriteTextEmpty(lesson)){
+                    if(mQuizLogic.checkFavoriteSentence(lesson, mQuizLogic.getSentenceString(currentSentenceIndex))){
+                        Global.getImageUtils().updateLabel("favorite_sentence_quiz", mImageFavoriteOrNot);
+                    }else{
+                        Global.getImageUtils().updateLabel("not_favorite_sentence_quiz", mImageFavoriteOrNot);
+                    }
+                }
+            }
+        });
+
+        layoutForClickNext.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                textFieldForLearning.setText(mQuizLogic.nextSentence());
+                currentSentenceIndex = mQuizLogic.getCurrentSentenceIndex();
+                ab.setSubtitle("#" + mQuizLogic.getCurrentSentenceInt() + " from " + mQuizLogic.getNumberOfSentences());
+                if(!mQuizLogic.checkIfFavoriteTextEmpty(lesson)) {
+                    if (mQuizLogic.checkFavoriteSentence(lesson, mQuizLogic.getSentenceString(currentSentenceIndex))) {
+                        Global.getImageUtils().updateLabel("favorite_sentence_quiz", mImageFavoriteOrNot);
+                    } else {
+                        Global.getImageUtils().updateLabel("not_favorite_sentence_quiz", mImageFavoriteOrNot);
+                    }
+                }
+            }
+        });
+
         mLayoutGoToTraining2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -654,19 +717,7 @@ public class ActivityNavigation  extends AppCompatActivity
         mLayoutGoToTranslator.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                try {
-
-                    String sent = textFieldForLearning.getText().toString();
-
-                    Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://translate.google.com/#en/ru/" + sent));
-                    startActivity(browserIntent);
-                } catch (ActivityNotFoundException e) {
-                    // TODO Auto-generated catch block
-                    Toast.makeText(getApplication(), "Sorry, No Google Translation Installed",
-                            Toast.LENGTH_SHORT).show();
-                }
-
-
+                openGoogleTranslator(mQuizLogic.allWord());
             }
         });
 
@@ -1177,17 +1228,9 @@ public class ActivityNavigation  extends AppCompatActivity
             public void onClick(View view) {
                 Animation animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.anim1);
                 mBtnTranslator.startAnimation(animation);
-                try {
 
-                    String sent = lesson.getText();
+                openGoogleTranslator(lesson.getText());
 
-                    Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://translate.google.com/#en/ru/" + sent));
-                    startActivity(browserIntent);
-                } catch (ActivityNotFoundException e) {
-                    // TODO Auto-generated catch block
-                    Toast.makeText(getApplication(), "Sorry, No Google Translation Installed",
-                            Toast.LENGTH_SHORT).show();
-                }
             }
         });
 
@@ -1212,6 +1255,7 @@ public class ActivityNavigation  extends AppCompatActivity
                     layoutForSentence = getLayoutInflater().inflate(R.layout.layout_sentence, null);
                     LinearLayout layoutRextAndNumber = (LinearLayout) layoutForSentence.findViewById(R.id.layout_sentence_and_number);
                     final ImageView btnStar = (ImageView) layoutForSentence.findViewById(R.id.btn_star);
+                    final ImageView btnTranslateCurrentSentence = (ImageView) layoutForSentence.findViewById(R.id.btn_translate_current_sentence);
                     textNoteForSentence = (TextView) layoutForSentence.findViewById(R.id.text_for_sentence);
                     mNumberSentence = (TextView) layoutForSentence.findViewById(R.id.number_sentence);
                     mNumberSentence.setText("#" + (i + 1));
@@ -1356,6 +1400,13 @@ public class ActivityNavigation  extends AppCompatActivity
                         }
                     });
 
+                    btnTranslateCurrentSentence.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            openGoogleTranslator(textSentence);
+                        }
+                    });
+
                 }
 
 
@@ -1387,6 +1438,7 @@ public class ActivityNavigation  extends AppCompatActivity
             layoutForSentence = getLayoutInflater().inflate(R.layout.layout_sentence, null);
             LinearLayout layoutRextAndNumber = (LinearLayout) layoutForSentence.findViewById(R.id.layout_sentence_and_number);
             final ImageView btnStar = (ImageView)  layoutForSentence.findViewById(R.id.btn_star);
+            final ImageView btnTranslateCurrentSentence = (ImageView)  layoutForSentence.findViewById(R.id.btn_translate_current_sentence);
             textNoteForSentence = (TextView) layoutForSentence.findViewById(R.id.text_for_sentence);
             mNumberSentence = (TextView) layoutForSentence.findViewById(R.id.number_sentence);
             mNumberSentence.setText("#" + (i + 1));
@@ -1532,6 +1584,13 @@ public class ActivityNavigation  extends AppCompatActivity
                 }
             });
             layoutNotepadForAddContent.addView(layoutForSentence);
+
+            btnTranslateCurrentSentence.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    openGoogleTranslator(textSentence);
+                }
+            });
         }
 
 
@@ -1548,6 +1607,8 @@ public class ActivityNavigation  extends AppCompatActivity
                 mScroll.smoothScrollBy(0, scrollYPosition);
             }
         });
+
+
     }
 
     private void writeHistory(String currentPosition) {
@@ -1880,5 +1941,17 @@ public class ActivityNavigation  extends AppCompatActivity
                 break;
         }
 
+    }
+
+    private void openGoogleTranslator(String text){
+        try {
+
+            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://translate.google.com/#en/ru/" + text));
+            startActivity(browserIntent);
+        } catch (ActivityNotFoundException e) {
+            // TODO Auto-generated catch block
+            Toast.makeText(getApplication(), "Sorry, No Google Translation Installed",
+                    Toast.LENGTH_SHORT).show();
+        }
     }
 }
