@@ -1,5 +1,7 @@
 package com.example.shalamov.brainwave.utils;
 
+import android.nfc.Tag;
+
 import com.example.shalamov.brainwave.Global;
 
 import java.util.ArrayList;
@@ -14,7 +16,7 @@ public class LessonsUtils {
 
 
         //создаем масив из предложений
-        String[] arrayText = text.split("[.\\?\\!]");
+        String[] arrayText = text.split("[.\\?\\!\\\n]");
         lesson.setArrayText(arrayText);
 
 
@@ -53,6 +55,7 @@ public class LessonsUtils {
     // метод изменения предложения
     public void changeSentence(Lesson lesson, int index, String newSentence){
         // из модели урка берем текст и разделяем его по предложениям
+
 
         String[] arrayText = lesson.getText().split("[.\\?\\!\\\n]");
         String oldSentence = arrayText[index];

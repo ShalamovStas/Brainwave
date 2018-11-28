@@ -47,18 +47,19 @@ public class QuizLogic {
     }
 
     private void createArray() {
-        mainTextArray = mainText.split("[.\\?\\!\\\n]");
+
+        String[] temp = mainText.split("[.\\?\\!\\\n]");
 
         int count;
-        for (int i = 0; i < mainTextArray.length; i++) {
+        for (int i = 0; i < temp.length; i++) {
             count = 0;
             boolean flag = true;
             while (flag) {
-                if (mainTextArray[i].length() != 0) { // если в конце текста стоит пробелы, это условие не позволит появится ошибке на строчке temp[i].substring(0, 1
+                if (temp[i].length() != 0) { // если в конце текста стоит пробелы, это условие не позволит появится ошибке на строчке temp[i].substring(0, 1
                     // пробелы будут удалятся и строчка будет в таком виде temp[i] = "";
-                    String substring = mainTextArray[i].substring(0, 1);
+                    String substring = temp[i].substring(0, 1);
                     if (substring.equalsIgnoreCase(" ")) {
-                        mainTextArray[i] = mainTextArray[i].substring(1, mainTextArray[i].length());
+                        temp[i] = temp[i].substring(1, temp[i].length());
                         flag = true;
                     } else {
                         flag = false;
@@ -78,22 +79,27 @@ public class QuizLogic {
         ArrayList<String> strings = new ArrayList<>();
 
 
-        for (int i = 0; i < mainTextArray.length; i++) {
+        for (int i = 0; i < temp.length; i++) {
 
-            if (mainTextArray[i].length() != 0) {
-                strings.add(mainTextArray[i]);
+            if (temp[i].length() != 0) {
+                strings.add(temp[i]);
             }
         }
 
         String[] newArraySplit = new String[strings.size()];
         StringBuilder sb = new StringBuilder();
 
-        for (int i = 0; i < strings.size(); i++) {
-            newArraySplit[i] = strings.get(i);
-            sb.append(strings.get(i));
+        for (int j = 0; j < strings.size(); j++) {
+            newArraySplit[j] = strings.get(j);
+
+            //условте && needPoint позволяет не добовлять точку после последнего предложения
+            if ((newArraySplit.length - 1) != j) {
+                sb.append(".");
+            }
+
         }
         mainTextArray = newArraySplit;
-        lesson.setText(sb.toString());
+//        lesson.setText(sb.toString());
     }
 
     public String nextWord() {
