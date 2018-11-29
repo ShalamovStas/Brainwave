@@ -32,6 +32,8 @@ public class QuizLogic {
         currentWord = 0;
         createArray();
         createArrayCurrentSentence(currentSentence);
+
+        Log.d("brain", "QuizLogic(constructor)-mainText = " + mainText);
     }
 
     public String[] getCurrentSentenceArray() {

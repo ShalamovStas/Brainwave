@@ -49,6 +49,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.shalamov.brainwave.utils.Lesson;
+import com.example.shalamov.brainwave.utils.ToolForNotepad;
 
 import org.w3c.dom.Text;
 
@@ -148,6 +149,10 @@ public class ActivityNavigation  extends AppCompatActivity
     Animation animation;
 
 
+    //добавление элементов этапами
+    private ToolForNotepad toolForNotepad;
+    private Button mBtnNextSentences;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -165,6 +170,7 @@ public class ActivityNavigation  extends AppCompatActivity
 
         lessonNumber = Integer.parseInt(getIntent().getStringExtra("number"));
         lesson = (Lesson) Global.getLessonsList().get(lessonNumber);
+
 
 
 
@@ -1164,7 +1170,7 @@ public class ActivityNavigation  extends AppCompatActivity
 
 
         currentSentenceIndex = mQuizLogic.getCurrentSentenceIndex();
-
+        toolForNotepad.setStartPosition();
         ab.setSubtitle(lesson.getName());
 //        mNotepadText.setTextColor(Color.parseColor("#FFFFFF"));
 //        mTrainingText.setTextColor(Color.parseColor("#000000"));
@@ -1186,6 +1192,8 @@ public class ActivityNavigation  extends AppCompatActivity
         mScroll = (ScrollView) layoutNote.findViewById(R.id.scroll);
         mScroll.setFillViewport(true);
         layoutNotepadForAddContent = (LinearLayout) layoutNote.findViewById(R.id.note_layout_for_add);
+        mBtnNextSentences =  (Button)  layoutNote.findViewById(R.id.btn_next_sentences);
+
         mQuizLogic.setCurrSentenceNull();
 
         final LinearLayout mBtnFavoriteText = (LinearLayout) layoutNote.findViewById(R.id.btn_favorite);
@@ -1248,6 +1256,13 @@ public class ActivityNavigation  extends AppCompatActivity
                 startActivity(intent);
             }
         });
+
+        mBtnNextSentences.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showAllTextInNotePad();
+            }
+        });
         Log.d("brain", "Точка перед методом  showAllTextInNotePad()" + (Calendar.getInstance().getTimeInMillis() - time));
         showAllTextInNotePad();
 
@@ -1261,6 +1276,7 @@ public class ActivityNavigation  extends AppCompatActivity
     }
 
     private void showFavoriteTextInNotePad() {
+        toolForNotepad.setStartPosition();
         if(!mQuizLogic.checkIfFavoriteTextEmpty(lesson)) {
 
             for (int i = 0; i < mQuizLogic.getNumberOfSentences(); i++) {
@@ -1452,7 +1468,10 @@ public class ActivityNavigation  extends AppCompatActivity
 
     private void showAllTextInNotePad() {
 
-        for (int i = 0; i < mQuizLogic.getNumberOfSentences(); i++) {
+        Integer[] indexes = toolForNotepad.getIndexes();
+        Log.d("brain", "ActivityNavigation-showAllTextInNotePad-indexes[0] = " + indexes[0] + "\nindexes[1]="+indexes[1]);
+
+        for (int i = indexes[0]; i < indexes[1]; i++) {
 
 
 
@@ -1760,6 +1779,8 @@ public class ActivityNavigation  extends AppCompatActivity
         allTextForLesson = lesson.getText();
         mQuizLogic = new QuizLogic(lesson);
         mLogicTraining2 = new LogicTraining2();
+        toolForNotepad = new ToolForNotepad();
+        toolForNotepad.setNumberOfSentences(mQuizLogic.getNumberOfSentences());
     }
 
 

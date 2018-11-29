@@ -62,14 +62,17 @@ public class JsonUtils {
             JSONObject jsonObject = null;
 
             int numberOfKeysArray = jsonArray.length();
+
             for (int i = 0; i < numberOfKeysArray; i++) {
+                Log.d("brain", "fori - i = " + i);
+
                 jsonObject = jsonArray.getJSONObject(i);
 
                 Global.getLessonsUtils().createLesson(
                         i,                                          //номер урока
                         jsonObject.get("lesson_name").toString(),
                         jsonObject.get("Text").toString(),
-                        jsonObject.get("TextFavorite").toString(),
+                        "",
                         jsonObject.get("description1").toString(),
                         jsonObject.get("description2").toString(),
                         jsonObject.get("description3").toString(),

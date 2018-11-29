@@ -127,10 +127,18 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="5dp"
+        android:layout_height="wrap_content"
         android:background="@color/myColorGrey100"
         android:elevation="2dp"
         android:translationZ="2dp">
+
+        <Button
+            android:id="@+id/btn_next_sentences"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="-show next sentences-"
+            android:textColor="@color/myColorGrey100"
+            android:background="@color/colorPrimary"/>
 
     </LinearLayout>
 
@@ -150,5 +158,7 @@
         </LinearLayout>
 
     </ScrollView>
+
+
 
 </LinearLayout>

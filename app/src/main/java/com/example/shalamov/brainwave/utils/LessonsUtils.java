@@ -23,7 +23,7 @@ public class LessonsUtils {
 
         ArrayList lessons = Global.getLessonsList();
         lessons.add(lesson);
-        Log.d("brain", "LessonUtils - createLesson lessons.size() " + lessons.size());
+//        Log.d("brain", "LessonUtils - createLesson lessons.size() " + lessons.size());
     }
 
     public void changeLesson(int number, String name, String text, String description1, String description2, String description3, String description4, String label, String progress){
