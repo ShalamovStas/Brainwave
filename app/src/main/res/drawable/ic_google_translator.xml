@@ -1,21 +1,40 @@
-<vector android:height="100dp" android:viewportHeight="500"
-    android:viewportWidth="500" android:width="100dp" xmlns:android="http://schemas.android.com/apk/res/android">
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="20dp"
+    android:height="20dp"
+    android:viewportWidth="500"
+    android:viewportHeight="500">
     <group>
-        <clip-path android:pathData="M0,0h500v500h-500z M 0,0"/>
-        <path android:fillColor="#CFD8DC" android:pathData=" M 147.234 124.398 L 432.694 124.398 C 445.307 124.398 455.531 134.622 455.531 147.234 L 455.531 432.694 C 455.531 445.307 445.307 455.531 432.694 455.531 L 272.837 455.531 L 147.234 124.398 Z "/>
-        <path android:fillColor="#546E7A" android:pathData=" M 282.337 373.935 L 271.878 353.656 L 282.029 348.415 C 282.725 348.061 351.692 311.785 385.285 244.462 L 390.378 234.243 L 410.817 244.439 L 405.713 254.659 C 368.706 328.833 295.582 367.13 292.488 368.717 L 282.337 373.935 Z "/>
-        <path android:fillColor="#546E7A" android:pathData=" M 410.075 364.184 L 400.141 358.589 C 397.777 357.264 341.998 325.464 303.13 271.044 L 321.708 257.776 C 357.55 307.948 410.828 338.401 411.353 338.698 L 421.276 344.316 L 410.075 364.184 Z "/>
-        <path android:fillColor="#546E7A" android:pathData="M272.837,227.163h159.858v22.837h-159.858z"/>
-        <path android:fillColor="#546E7A" android:pathData="M341.347,204.326h22.837v45.674h-22.837z"/>
-        <path android:fillColor="#2196F3" android:pathData=" M 352.766 375.602 L 67.306 375.602 C 54.693 375.602 44.469 365.378 44.469 352.766 L 44.469 67.306 C 44.469 54.693 54.693 44.469 67.306 44.469 L 227.163 44.469 L 352.766 375.602 Z "/>
-        <path android:fillColor="#3F51B5" android:pathData=" M 272.837 455.531 L 238.582 375.602 L 352.766 375.602 L 272.837 455.531 Z "/>
-        <path android:fillColor="#FFFFFF" android:pathData=" M 194.872 250 L 145.088 250 L 133.578 284.255 L 101.561 284.255 L 155.958 135.816 L 183.865 135.816 L 238.582 284.255 L 206.553 284.255 L 194.872 250 Z  M 152.304 227.163 L 187.713 227.163 L 169.911 173.337 L 152.304 227.163 Z "/>
+        <clip-path android:pathData="M0,0h500v500h-500z M 0,0" />
+        <path
+            android:fillColor="#CFD8DC"
+            android:pathData=" M 147.234 124.398 L 432.694 124.398 C 445.307 124.398 455.531 134.622 455.531 147.234 L 455.531 432.694 C 455.531 445.307 445.307 455.531 432.694 455.531 L 272.837 455.531 L 147.234 124.398 Z " />
+        <path
+            android:fillColor="#546E7A"
+            android:pathData=" M 282.337 373.935 L 271.878 353.656 L 282.029 348.415 C 282.725 348.061 351.692 311.785 385.285 244.462 L 390.378 234.243 L 410.817 244.439 L 405.713 254.659 C 368.706 328.833 295.582 367.13 292.488 368.717 L 282.337 373.935 Z " />
+        <path
+            android:fillColor="#546E7A"
+            android:pathData=" M 410.075 364.184 L 400.141 358.589 C 397.777 357.264 341.998 325.464 303.13 271.044 L 321.708 257.776 C 357.55 307.948 410.828 338.401 411.353 338.698 L 421.276 344.316 L 410.075 364.184 Z " />
+        <path
+            android:fillColor="#546E7A"
+            android:pathData="M272.837,227.163h159.858v22.837h-159.858z" />
+        <path
+            android:fillColor="#546E7A"
+            android:pathData="M341.347,204.326h22.837v45.674h-22.837z" />
+        <path
+            android:fillColor="#2196F3"
+            android:pathData=" M 352.766 375.602 L 67.306 375.602 C 54.693 375.602 44.469 365.378 44.469 352.766 L 44.469 67.306 C 44.469 54.693 54.693 44.469 67.306 44.469 L 227.163 44.469 L 352.766 375.602 Z " />
+        <path
+            android:fillColor="#3F51B5"
+            android:pathData=" M 272.837 455.531 L 238.582 375.602 L 352.766 375.602 L 272.837 455.531 Z " />
+        <path
+            android:fillColor="#FFFFFF"
+            android:pathData=" M 194.872 250 L 145.088 250 L 133.578 284.255 L 101.561 284.255 L 155.958 135.816 L 183.865 135.816 L 238.582 284.255 L 206.553 284.255 L 194.872 250 Z  M 152.304 227.163 L 187.713 227.163 L 169.911 173.337 L 152.304 227.163 Z " />
         <group>
-            <clip-path android:pathData="M0.0,0.0h500.0v500.0h-500.0z M 0,0"/>
+            <clip-path android:pathData="M0.0,0.0h500.0v500.0h-500.0z M 0,0" />
             <group>
-                <clip-path android:pathData="M0.0,0.0h500.0v500.0h-500.0z M 0,0"/>
+                <clip-path android:pathData="M0.0,0.0h500.0v500.0h-500.0z M 0,0" />
                 <group>
-                    <clip-path android:pathData="M0.0,0.0h500.0v500.0h-500.0z M 0,0"/>
+                    <clip-path android:pathData="M0.0,0.0h500.0v500.0h-500.0z M 0,0" />
                 </group>
             </group>
         </group>

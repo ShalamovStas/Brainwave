@@ -22,6 +22,12 @@
     <color name="myColorGrey900">#212121</color>
 
 
+    <color name="myColorIndigo300">#7986cb</color>
+    <color name="myColorIndigo400">#5c6bc0</color>
+
+
+
+
     <color name="myColorCorrectTextGreen800">#2e7d32</color>
     <color name="myColorNotCorrectTextOrange800">#d84315</color>
 

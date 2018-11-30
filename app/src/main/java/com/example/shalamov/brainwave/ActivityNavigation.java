@@ -31,6 +31,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.ViewTreeObserver;
 import android.view.Window;
 import android.view.WindowManager;
 import android.view.animation.Animation;
@@ -151,7 +152,8 @@ public class ActivityNavigation extends AppCompatActivity
 
     //добавление элементов этапами
     private ToolForNotepad toolForNotepad;
-    private Button mBtnNextSentences;
+    private Button mBtnFavoriteTextBottomNavigation;
+    private Button mBtnAllTextBottomNavigation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -1188,7 +1190,12 @@ public class ActivityNavigation extends AppCompatActivity
         mScroll = (ScrollView) layoutNote.findViewById(R.id.scroll);
         mScroll.setFillViewport(true);
         layoutNotepadForAddContent = (LinearLayout) layoutNote.findViewById(R.id.note_layout_for_add);
-        mBtnNextSentences = (Button) layoutNote.findViewById(R.id.btn_next_sentences);
+
+
+        //кнопки внизу для навигации
+        mBtnFavoriteTextBottomNavigation = (Button) layoutNote.findViewById(R.id.btn_favorite_text_bottom_navigation);
+        mBtnAllTextBottomNavigation = (Button) layoutNote.findViewById(R.id.btn_all_text_bottom_navigation);
+
 
         mQuizLogic.setCurrSentenceNull();
 
@@ -1204,9 +1211,8 @@ public class ActivityNavigation extends AppCompatActivity
         mBtnFavoriteText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                scrollYPosition = 0;
                 removeContentFromNotepad();
-                mBtnNextSentences.setClickable(false);
-                mBtnNextSentences.setBackgroundColor(ContextCompat.getColor(ActivityNavigation.this, R.color.myColorGrey500));
                 mQuizLogic.setCurrSentenceNull();
                 showFavoriteTextInNotePad();
                 Animation animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.anim1);
@@ -1217,13 +1223,11 @@ public class ActivityNavigation extends AppCompatActivity
         mBtnAllText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                scrollYPosition = 0;
                 removeContentFromNotepad();
                 mQuizLogic.setCurrSentenceNull();
                 toolForNotepad.setStartPosition();
                 showAllTextInNotePad();
-                mBtnNextSentences.setClickable(true);
-                mBtnNextSentences.setBackgroundColor(ContextCompat.getColor(ActivityNavigation.this, R.color.colorPrimary));
-
                 Animation animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.anim1);
                 mBtnAllText.startAnimation(animation);
             }
@@ -1232,6 +1236,7 @@ public class ActivityNavigation extends AppCompatActivity
         mBtnSettings.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                scrollYPosition = 0;
                 showSettings();
                 Animation animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.anim1);
                 mBtnSettings.startAnimation(animation);
@@ -1241,6 +1246,7 @@ public class ActivityNavigation extends AppCompatActivity
         mBtnTranslator.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                scrollYPosition = 0;
                 Animation animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.anim1);
                 mBtnTranslator.startAnimation(animation);
 
@@ -1252,17 +1258,60 @@ public class ActivityNavigation extends AppCompatActivity
         mBtnOpenApp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                scrollYPosition = 0;
                 Intent intent = getPackageManager().getLaunchIntentForPackage("air.ru.uchimslova.words");
                 startActivity(intent);
             }
         });
 
-        mBtnNextSentences.setOnClickListener(new View.OnClickListener() {
+
+        //навигация внизу страницы
+        mBtnFavoriteTextBottomNavigation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                showAllTextInNotePad();
+                scrollYPosition = 0;
+                removeContentFromNotepad();
+                mQuizLogic.setCurrSentenceNull();
+                showFavoriteTextInNotePad();
+                Animation animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.anim1);
+                mBtnFavoriteText.startAnimation(animation);
             }
         });
+
+        mBtnAllTextBottomNavigation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                scrollYPosition = 0;
+                removeContentFromNotepad();
+                mQuizLogic.setCurrSentenceNull();
+                toolForNotepad.setStartPosition();
+                showAllTextInNotePad();
+                Animation animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.anim1);
+                mBtnAllText.startAnimation(animation);
+            }
+        });
+
+
+
+        // при достижении конца списка доюавляются новые элементы
+        mScroll.getViewTreeObserver().addOnScrollChangedListener(new ViewTreeObserver.OnScrollChangedListener() {
+            @Override
+            public void onScrollChanged() {
+                int maxSize = mScroll.getChildAt(0).getHeight() - mScroll.getHeight();
+
+                // DO SOMETHING WITH THE SCROLL COORDINATES
+                Log.d("brain", "ActivityNavig-onScrollChanged - was called");
+                Log.d("brain", "mScroll.getScrollY() = " + mScroll.getScrollY() +
+                "\nmaxSize = " + maxSize);
+
+                if(mScroll.getScrollY() == maxSize){
+                    showAllTextInNotePad();
+                }
+            }
+
+
+        });
+
         Log.d("brain", "Точка перед методом  showAllTextInNotePad()" + (Calendar.getInstance().getTimeInMillis() - time));
         showAllTextInNotePad();
 
@@ -1448,15 +1497,6 @@ public class ActivityNavigation extends AppCompatActivity
             layoutQuizForAddContent.removeAllViews();
             layoutQuizForAddContent.addView(layoutNote);
 
-            mScroll.post(new Runnable() {
-                @Override
-                public void run() {
-
-                    mScroll.smoothScrollBy(0, scrollYPosition);
-                }
-            });
-
-
         } else {
             Toast.makeText(this, "There are not any favorite sentences", Toast.LENGTH_SHORT).show();
         }
@@ -1630,20 +1670,18 @@ public class ActivityNavigation extends AppCompatActivity
                     }
                 });
             }
-        }else{
-            mBtnNextSentences.setClickable(false);
-            mBtnNextSentences.setBackgroundColor(ContextCompat.getColor(ActivityNavigation.this, R.color.myColorGrey500));
-
         }
+
         layoutQuizForAddContent.removeAllViews();
         layoutQuizForAddContent.addView(layoutNote);
-        mScroll.post(new Runnable() {
-            @Override
-            public void run() {
 
-                mScroll.smoothScrollBy(0, scrollYPosition);
-            }
-        });
+//        mScroll.post(new Runnable() {
+//            @Override
+//            public void run() {
+//
+//                mScroll.smoothScrollBy(0, scrollYPosition);
+//            }
+//        });
     }
 
     private void writeHistory(String currentPosition) {

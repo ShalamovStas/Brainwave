@@ -1,15 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
     <HorizontalScrollView
+        android:id="@+id/scroll_top_navigation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
         android:background="@color/myColorGrey100"
         android:scrollbars="none">
-
 
 
         <LinearLayout
@@ -126,19 +129,19 @@
     </HorizontalScrollView>
 
 
-
-    
     <ScrollView
         android:id="@+id/scroll"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/layout_bottom_navigation"
+        android:layout_below="@+id/scroll_top_navigation"
         android:orientation="vertical"
-        android:layout_weight="1">
+        android:background="@color/myColorGrey300">
 
         <LinearLayout
             android:id="@+id/note_layout_for_add"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical">
 
 
@@ -147,20 +150,39 @@
     </ScrollView>
 
     <LinearLayout
+        android:id="@+id/layout_bottom_navigation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
         android:background="@color/myColorGrey100">
 
-        <Button
-            android:id="@+id/btn_next_sentences"
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="-show next sentences-"
-            android:textColor="@color/myColorGrey100"
-            android:background="@color/colorPrimary"/>
+            android:orientation="horizontal">
+            <Button
+                android:id="@+id/btn_favorite_text_bottom_navigation"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@color/myColorIndigo300"
+                android:text="favorite"
+                android:textColor="@color/myColorGrey100" />
+
+            <Button
+                android:id="@+id/btn_all_text_bottom_navigation"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@color/myColorIndigo400"
+                android:text="All sentences"
+                android:textColor="@color/myColorGrey100" />
+        </LinearLayout>
+
 
     </LinearLayout>
 
 
 
-</LinearLayout>
+</RelativeLayout>
