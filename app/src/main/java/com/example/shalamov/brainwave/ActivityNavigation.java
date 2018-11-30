@@ -57,18 +57,18 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Locale;
 
-public class ActivityNavigation  extends AppCompatActivity
+public class ActivityNavigation extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     //Quiz Это базовый Layout для добавления контента
     View mLayoutLearnText, mLayoutBulder, layoutNote, mLayoutMainTraining2;
     LinearLayout layoutQuizForAddContent;
-//    mNotePadButton, mTreaningButton, mSettingsButton, mEditorButton, mNavigationLayout;
+    //    mNotePadButton, mTreaningButton, mSettingsButton, mEditorButton, mNavigationLayout;
     LinearLayout layoutNotepadForAddContent;
     TextView textNoteForSentence, mNumberSentence, mTextViewForConcat;
     View layoutForSentence;
     LinearLayout layoutForClick;
-//  JsonUtilsOld mJsonUtilsOld;
+    //  JsonUtilsOld mJsonUtilsOld;
     String nameLesson;
     QuizLogic mQuizLogic;
     ActionBar ab;
@@ -77,7 +77,7 @@ public class ActivityNavigation  extends AppCompatActivity
     EditText nameLessonChange;
     EditText mainTextLessonChange;
     String allTextForLesson;
-//  String oldNameLesson;
+    //  String oldNameLesson;
 //    ImageView mNotepadImage, mTrainingImage, mSettingsImage, mEditorImage;
     ScrollView mScroll;
 
@@ -86,7 +86,7 @@ public class ActivityNavigation  extends AppCompatActivity
 
     //global for all layouts
     boolean notePadShow;
-//    boolean previousLayoutIsTraining;
+    //    boolean previousLayoutIsTraining;
     String[] history = {"null", "null"};
     TextToSpeech t1;
     boolean dayTheme; // дневная тема если true, режим день
@@ -125,7 +125,7 @@ public class ActivityNavigation  extends AppCompatActivity
 
     //training2
     LinearLayout mLayoutPiecesLine1, mLayoutPiecesLine2, mLayoutPiecesLine3, mLayoutPiecesLine4, mLayoutPiecesLine5, mLayoutPiecesLine6, mLayoutPiecesLine7, mLayoutPiecesLine8, mLayoutPiecesLine9, mLayoutPiecesLine10, mLayoutPiecesLine11, mLayoutPiecesLine12;
-//    TextView mTextQuestionLabel;
+    //    TextView mTextQuestionLabel;
     ImageView mBtnEye, mBtnDialogue, mBtnBackspace;
     LogicTraining2 mLogicTraining2;
 
@@ -164,14 +164,12 @@ public class ActivityNavigation  extends AppCompatActivity
         ab = getSupportActionBar();
         ab.setDisplayHomeAsUpEnabled(true);
         ab.setDisplayShowHomeEnabled(true);
-        NavigationView navigationView =  findViewById(R.id.nav_view);
+        NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
 
         lessonNumber = Integer.parseInt(getIntent().getStringExtra("number"));
         lesson = (Lesson) Global.getLessonsList().get(lessonNumber);
-
-
 
 
 //        oldNameLesson = nameLesson;
@@ -386,15 +384,15 @@ public class ActivityNavigation  extends AppCompatActivity
         layoutSettings = getLayoutInflater().inflate(R.layout.layout_settings, null);
 
 
-        mTextExample =  layoutSettings.findViewById(R.id.text_example);
+        mTextExample = layoutSettings.findViewById(R.id.text_example);
         final TextView mTextExampleForNotepad = layoutSettings.findViewById(R.id.text_example_notepad);
 
         mSwitchBolt = layoutSettings.findViewById(R.id.bolt_switch);
         mSwitchDayNight = layoutSettings.findViewById(R.id.night_switch);
-        mSeekBar =  layoutSettings.findViewById(R.id.seek_bar);
-        SeekBar mSeekBarForNotepad =  layoutSettings.findViewById(R.id.seek_bar_for_notepad);
-        mButtonDefaultValues =  layoutSettings.findViewById(R.id.default_button);
-        mVoice =  layoutSettings.findViewById(R.id.voice);
+        mSeekBar = layoutSettings.findViewById(R.id.seek_bar);
+        SeekBar mSeekBarForNotepad = layoutSettings.findViewById(R.id.seek_bar_for_notepad);
+        mButtonDefaultValues = layoutSettings.findViewById(R.id.default_button);
+        mVoice = layoutSettings.findViewById(R.id.voice);
 
         mSwitchBolt.setChecked(boolBoltText);
         mSwitchDayNight.setChecked(!dayTheme);
@@ -509,7 +507,6 @@ public class ActivityNavigation  extends AppCompatActivity
         });
 
 
-
         mButtonDefaultValues.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -571,17 +568,16 @@ public class ActivityNavigation  extends AppCompatActivity
 //        }
 
         mLayoutLearnText = getLayoutInflater().inflate(R.layout.train_layout, null); //тренировочный лайоут с текстовым полем и кнопками внизу
-        layoutForClick =  mLayoutLearnText.findViewById(R.id.layout_tap_quiz); //первый лейоут где располагается главный текст и по нему отслеживаются нажатия
-        LinearLayout layoutForClickPrevious =  mLayoutLearnText.findViewById(R.id.layout_btn_previous);
-        LinearLayout layoutForClickNext =  mLayoutLearnText.findViewById(R.id.layout_btn_next);
-        LinearLayout mLayoutGoToTraining2 =  mLayoutLearnText.findViewById(R.id.btn_go_to_train2);
-        LinearLayout mLayoutGoToTranslator =  mLayoutLearnText.findViewById(R.id.btn_go_to_translator);
-        LinearLayout mLayoutGoToSettings =  mLayoutLearnText.findViewById(R.id.btn_go_to_settings);
-        BottomNavigationView bottomNavigationItemView =  mLayoutLearnText.findViewById(R.id.navigation_bottom);
-        textFieldForLearning =  mLayoutLearnText.findViewById(R.id.text_field_for_learning);
+        layoutForClick = mLayoutLearnText.findViewById(R.id.layout_tap_quiz); //первый лейоут где располагается главный текст и по нему отслеживаются нажатия
+        LinearLayout layoutForClickPrevious = mLayoutLearnText.findViewById(R.id.layout_btn_previous);
+        LinearLayout layoutForClickNext = mLayoutLearnText.findViewById(R.id.layout_btn_next);
+        LinearLayout mLayoutGoToTraining2 = mLayoutLearnText.findViewById(R.id.btn_go_to_train2);
+        LinearLayout mLayoutGoToTranslator = mLayoutLearnText.findViewById(R.id.btn_go_to_translator);
+        LinearLayout mLayoutGoToSettings = mLayoutLearnText.findViewById(R.id.btn_go_to_settings);
+        BottomNavigationView bottomNavigationItemView = mLayoutLearnText.findViewById(R.id.navigation_bottom);
+        textFieldForLearning = mLayoutLearnText.findViewById(R.id.text_field_for_learning);
 
-        final ImageView mImageFavoriteOrNot = (ImageView)  mLayoutLearnText.findViewById(R.id.image_favorite_or_not);
-
+        final ImageView mImageFavoriteOrNot = (ImageView) mLayoutLearnText.findViewById(R.id.image_favorite_or_not);
 
 
         if (!dayTheme) {
@@ -592,10 +588,10 @@ public class ActivityNavigation  extends AppCompatActivity
 
         textFieldForLearning.setText(mQuizLogic.allWord());
 
-        if(!mQuizLogic.checkIfFavoriteTextEmpty(lesson)){
-            if(mQuizLogic.checkFavoriteSentence(lesson, mQuizLogic.getCurrentSentenceString())){
+        if (!mQuizLogic.checkIfFavoriteTextEmpty(lesson)) {
+            if (mQuizLogic.checkFavoriteSentence(lesson, mQuizLogic.getCurrentSentenceString())) {
                 Global.getImageUtils().updateLabel("favorite_sentence_quiz", mImageFavoriteOrNot);
-            }else{
+            } else {
                 Global.getImageUtils().updateLabel("not_favorite_sentence_quiz", mImageFavoriteOrNot);
             }
         }
@@ -618,10 +614,10 @@ public class ActivityNavigation  extends AppCompatActivity
                         currentSentenceIndex = mQuizLogic.getCurrentSentenceIndex();
                         ab.setSubtitle("#" + mQuizLogic.getCurrentSentenceInt() + " from " + mQuizLogic.getNumberOfSentences());
 
-                        if(!mQuizLogic.checkIfFavoriteTextEmpty(lesson)){
-                            if(mQuizLogic.checkFavoriteSentence(lesson, mQuizLogic.getSentenceString(currentSentenceIndex))){
+                        if (!mQuizLogic.checkIfFavoriteTextEmpty(lesson)) {
+                            if (mQuizLogic.checkFavoriteSentence(lesson, mQuizLogic.getSentenceString(currentSentenceIndex))) {
                                 Global.getImageUtils().updateLabel("favorite_sentence_quiz", mImageFavoriteOrNot);
-                            }else{
+                            } else {
                                 Global.getImageUtils().updateLabel("not_favorite_sentence_quiz", mImageFavoriteOrNot);
                             }
                         }
@@ -637,10 +633,10 @@ public class ActivityNavigation  extends AppCompatActivity
                         textFieldForLearning.setText(mQuizLogic.nextSentence());
                         currentSentenceIndex = mQuizLogic.getCurrentSentenceIndex();
                         ab.setSubtitle("#" + mQuizLogic.getCurrentSentenceInt() + " from " + mQuizLogic.getNumberOfSentences());
-                        if(!mQuizLogic.checkIfFavoriteTextEmpty(lesson)){
-                            if(mQuizLogic.checkFavoriteSentence(lesson, mQuizLogic.getSentenceString(currentSentenceIndex))){
+                        if (!mQuizLogic.checkIfFavoriteTextEmpty(lesson)) {
+                            if (mQuizLogic.checkFavoriteSentence(lesson, mQuizLogic.getSentenceString(currentSentenceIndex))) {
                                 Global.getImageUtils().updateLabel("favorite_sentence_quiz", mImageFavoriteOrNot);
-                            }else{
+                            } else {
                                 Global.getImageUtils().updateLabel("not_favorite_sentence_quiz", mImageFavoriteOrNot);
                             }
                         }
@@ -688,10 +684,10 @@ public class ActivityNavigation  extends AppCompatActivity
                 currentSentenceIndex = mQuizLogic.getCurrentSentenceIndex();
                 ab.setSubtitle("#" + mQuizLogic.getCurrentSentenceInt() + " from " + mQuizLogic.getNumberOfSentences());
 
-                if(!mQuizLogic.checkIfFavoriteTextEmpty(lesson)){
-                    if(mQuizLogic.checkFavoriteSentence(lesson, mQuizLogic.getSentenceString(currentSentenceIndex))){
+                if (!mQuizLogic.checkIfFavoriteTextEmpty(lesson)) {
+                    if (mQuizLogic.checkFavoriteSentence(lesson, mQuizLogic.getSentenceString(currentSentenceIndex))) {
                         Global.getImageUtils().updateLabel("favorite_sentence_quiz", mImageFavoriteOrNot);
-                    }else{
+                    } else {
                         Global.getImageUtils().updateLabel("not_favorite_sentence_quiz", mImageFavoriteOrNot);
                     }
                 }
@@ -704,7 +700,7 @@ public class ActivityNavigation  extends AppCompatActivity
                 textFieldForLearning.setText(mQuizLogic.nextSentence());
                 currentSentenceIndex = mQuizLogic.getCurrentSentenceIndex();
                 ab.setSubtitle("#" + mQuizLogic.getCurrentSentenceInt() + " from " + mQuizLogic.getNumberOfSentences());
-                if(!mQuizLogic.checkIfFavoriteTextEmpty(lesson)) {
+                if (!mQuizLogic.checkIfFavoriteTextEmpty(lesson)) {
                     if (mQuizLogic.checkFavoriteSentence(lesson, mQuizLogic.getSentenceString(currentSentenceIndex))) {
                         Global.getImageUtils().updateLabel("favorite_sentence_quiz", mImageFavoriteOrNot);
                     } else {
@@ -1192,16 +1188,16 @@ public class ActivityNavigation  extends AppCompatActivity
         mScroll = (ScrollView) layoutNote.findViewById(R.id.scroll);
         mScroll.setFillViewport(true);
         layoutNotepadForAddContent = (LinearLayout) layoutNote.findViewById(R.id.note_layout_for_add);
-        mBtnNextSentences =  (Button)  layoutNote.findViewById(R.id.btn_next_sentences);
+        mBtnNextSentences = (Button) layoutNote.findViewById(R.id.btn_next_sentences);
 
         mQuizLogic.setCurrSentenceNull();
 
         final LinearLayout mBtnFavoriteText = (LinearLayout) layoutNote.findViewById(R.id.btn_favorite);
         final LinearLayout mBtnAllText = (LinearLayout) layoutNote.findViewById(R.id.btn_all_text);
 
-        final LinearLayout mBtnSettings = (LinearLayout)  layoutNote.findViewById(R.id.btn_settings);
-        final LinearLayout mBtnTranslator = (LinearLayout)  layoutNote.findViewById(R.id.btn_translator);
-        final LinearLayout mBtnOpenApp = (LinearLayout)  layoutNote.findViewById(R.id.btn_open_app);
+        final LinearLayout mBtnSettings = (LinearLayout) layoutNote.findViewById(R.id.btn_settings);
+        final LinearLayout mBtnTranslator = (LinearLayout) layoutNote.findViewById(R.id.btn_translator);
+        final LinearLayout mBtnOpenApp = (LinearLayout) layoutNote.findViewById(R.id.btn_open_app);
 
         Log.d("brain", "инициализация " + (Calendar.getInstance().getTimeInMillis() - time));
 
@@ -1209,7 +1205,8 @@ public class ActivityNavigation  extends AppCompatActivity
             @Override
             public void onClick(View view) {
                 removeContentFromNotepad();
-
+                mBtnNextSentences.setClickable(false);
+                mBtnNextSentences.setBackgroundColor(ContextCompat.getColor(ActivityNavigation.this, R.color.myColorGrey500));
                 mQuizLogic.setCurrSentenceNull();
                 showFavoriteTextInNotePad();
                 Animation animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.anim1);
@@ -1222,7 +1219,10 @@ public class ActivityNavigation  extends AppCompatActivity
             public void onClick(View view) {
                 removeContentFromNotepad();
                 mQuizLogic.setCurrSentenceNull();
+                toolForNotepad.setStartPosition();
                 showAllTextInNotePad();
+                mBtnNextSentences.setClickable(true);
+                mBtnNextSentences.setBackgroundColor(ContextCompat.getColor(ActivityNavigation.this, R.color.colorPrimary));
 
                 Animation animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.anim1);
                 mBtnAllText.startAnimation(animation);
@@ -1277,7 +1277,7 @@ public class ActivityNavigation  extends AppCompatActivity
 
     private void showFavoriteTextInNotePad() {
         toolForNotepad.setStartPosition();
-        if(!mQuizLogic.checkIfFavoriteTextEmpty(lesson)) {
+        if (!mQuizLogic.checkIfFavoriteTextEmpty(lesson)) {
 
             for (int i = 0; i < mQuizLogic.getNumberOfSentences(); i++) {
 
@@ -1319,12 +1319,11 @@ public class ActivityNavigation  extends AppCompatActivity
                     }
 
 
-                        if (mQuizLogic.checkFavoriteSentence(lesson, textSentence)) {
-                            Global.getImageUtils().updateLabel("star_active", btnStar);
-                        } else {
-                            Global.getImageUtils().updateLabel("star_inactive", btnStar);
-                        }
-
+                    if (mQuizLogic.checkFavoriteSentence(lesson, textSentence)) {
+                        Global.getImageUtils().updateLabel("star_active", btnStar);
+                    } else {
+                        Global.getImageUtils().updateLabel("star_inactive", btnStar);
+                    }
 
 
                     layoutForSentence.setOnLongClickListener(new View.OnLongClickListener() {
@@ -1458,7 +1457,7 @@ public class ActivityNavigation  extends AppCompatActivity
             });
 
 
-        }else{
+        } else {
             Toast.makeText(this, "There are not any favorite sentences", Toast.LENGTH_SHORT).show();
         }
 
@@ -1469,175 +1468,172 @@ public class ActivityNavigation  extends AppCompatActivity
     private void showAllTextInNotePad() {
 
         Integer[] indexes = toolForNotepad.getIndexes();
-        Log.d("brain", "ActivityNavigation-showAllTextInNotePad-indexes[0] = " + indexes[0] + "\nindexes[1]="+indexes[1]);
+        Log.d("brain", "ActivityNavigation-showAllTextInNotePad-indexes[0] = " + indexes[0] + "\nindexes[1]=" + indexes[1]);
 
-        for (int i = indexes[0]; i < indexes[1]; i++) {
-
-
-
-            final int indexSentence = i;
-            final String textSentence = mQuizLogic.getCurrentSentenceString();
-            layoutForSentence = getLayoutInflater().inflate(R.layout.layout_sentence, null);
-            LinearLayout layoutRextAndNumber = (LinearLayout) layoutForSentence.findViewById(R.id.layout_sentence_and_number);
-            final ImageView btnStar = (ImageView)  layoutForSentence.findViewById(R.id.btn_star);
-            final ImageView btnTranslateCurrentSentence = (ImageView)  layoutForSentence.findViewById(R.id.btn_translate_current_sentence);
-            textNoteForSentence = (TextView) layoutForSentence.findViewById(R.id.text_for_sentence);
-            mNumberSentence = (TextView) layoutForSentence.findViewById(R.id.number_sentence);
-            mNumberSentence.setText("#" + (i + 1));
-
-            textNoteForSentence.setTextSize(TypedValue.COMPLEX_UNIT_SP, settingsSizeTextNote);
-            textNoteForSentence.setText(textSentence);
+        if (indexes[0] != indexes[1]) {
+            for (int i = indexes[0]; i < indexes[1]; i++) {
 
 
+                final int indexSentence = i;
+                final String textSentence = mQuizLogic.getCurrentSentenceString();
+                layoutForSentence = getLayoutInflater().inflate(R.layout.layout_sentence, null);
+                LinearLayout layoutRextAndNumber = (LinearLayout) layoutForSentence.findViewById(R.id.layout_sentence_and_number);
+                final ImageView btnStar = (ImageView) layoutForSentence.findViewById(R.id.btn_star);
+                final ImageView btnTranslateCurrentSentence = (ImageView) layoutForSentence.findViewById(R.id.btn_translate_current_sentence);
+                textNoteForSentence = (TextView) layoutForSentence.findViewById(R.id.text_for_sentence);
+                mNumberSentence = (TextView) layoutForSentence.findViewById(R.id.number_sentence);
+                mNumberSentence.setText("#" + (i + 1));
+
+                textNoteForSentence.setTextSize(TypedValue.COMPLEX_UNIT_SP, settingsSizeTextNote);
+                textNoteForSentence.setText(textSentence);
 
 
-
-            if (!dayTheme) {
-                layoutRextAndNumber.setBackgroundColor(ContextCompat.getColor(ActivityNavigation.this, R.color.myColorGrey600));
-                layoutNote.setBackgroundColor(ContextCompat.getColor(ActivityNavigation.this, R.color.myColorGrey800));
-            }
-
-            if (updateTextMarkColor == i) {
-//                textNoteForSentence.setTextColor((Color.parseColor("#0097a7")));
-                textNoteForSentence.setTextColor(ContextCompat.getColor(ActivityNavigation.this, R.color.myColor2));
-                textNoteForSentence.setTypeface(Typeface.DEFAULT_BOLD);
-            } else {
-//                textNoteForSentence.setTextColor((Color.parseColor("#303f9f")));
                 if (!dayTheme) {
-                    textNoteForSentence.setTextColor(ContextCompat.getColor(ActivityNavigation.this, R.color.myColorDark));
+                    layoutRextAndNumber.setBackgroundColor(ContextCompat.getColor(ActivityNavigation.this, R.color.myColorGrey600));
+                    layoutNote.setBackgroundColor(ContextCompat.getColor(ActivityNavigation.this, R.color.myColorGrey800));
+                }
+
+                if (updateTextMarkColor == i) {
+//                textNoteForSentence.setTextColor((Color.parseColor("#0097a7")));
+                    textNoteForSentence.setTextColor(ContextCompat.getColor(ActivityNavigation.this, R.color.myColor2));
+                    textNoteForSentence.setTypeface(Typeface.DEFAULT_BOLD);
                 } else {
-                    textNoteForSentence.setTextColor(ContextCompat.getColor(ActivityNavigation.this, R.color.colorPrimaryDark));
+//                textNoteForSentence.setTextColor((Color.parseColor("#303f9f")));
+                    if (!dayTheme) {
+                        textNoteForSentence.setTextColor(ContextCompat.getColor(ActivityNavigation.this, R.color.myColorDark));
+                    } else {
+                        textNoteForSentence.setTextColor(ContextCompat.getColor(ActivityNavigation.this, R.color.colorPrimaryDark));
+                    }
                 }
-            }
 
 
-
-            if(!mQuizLogic.checkIfFavoriteTextEmpty(lesson)) {
-                if (mQuizLogic.checkFavoriteSentence(lesson, textSentence)) {
-                    Global.getImageUtils().updateLabel("star_active", btnStar);
-                }else{
-                    Global.getImageUtils().updateLabel("star_inactive", btnStar);
+                if (!mQuizLogic.checkIfFavoriteTextEmpty(lesson)) {
+                    if (mQuizLogic.checkFavoriteSentence(lesson, textSentence)) {
+                        Global.getImageUtils().updateLabel("star_active", btnStar);
+                    } else {
+                        Global.getImageUtils().updateLabel("star_inactive", btnStar);
+                    }
                 }
-            }
 
 
+                layoutForSentence.setOnLongClickListener(new View.OnLongClickListener() {
+                    @Override
+                    public boolean onLongClick(View view) {
+                        AlertDialog.Builder builder = new AlertDialog.Builder(ActivityNavigation.this);
+                        builder.setCancelable(false);
+                        builder.setTitle("Correcting");
+                        final EditText editText = new EditText(ActivityNavigation.this);
+                        editText.setTextSize(TypedValue.COMPLEX_UNIT_SP, 25);
+                        editText.setText(mQuizLogic.getSentenceString(indexSentence));
+                        builder.setView(editText);
+                        builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
 
-
-
-
-            layoutForSentence.setOnLongClickListener(new View.OnLongClickListener() {
-                @Override
-                public boolean onLongClick(View view) {
-                    AlertDialog.Builder builder = new AlertDialog.Builder(ActivityNavigation.this);
-                    builder.setCancelable(false);
-                    builder.setTitle("Correcting");
-                    final EditText editText = new EditText(ActivityNavigation.this);
-                    editText.setTextSize(TypedValue.COMPLEX_UNIT_SP, 25);
-                    editText.setText(mQuizLogic.getSentenceString(indexSentence));
-                    builder.setView(editText);
-                    builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {
-
-                            // сохраняем положение экрана для того чтобы не перематывать заново
-                            saveStateNotePadLayout();
-                            // текст не может быть пустой
-                            if (editText.getText().length() == 0) {
-                                Toast.makeText(ActivityNavigation.this, "Text can`t be empty!", Toast.LENGTH_SHORT).show();
-                            } else {
-                                //запоминаем какой текст подсвечивать
-                                updateTextMarkColor = indexSentence;
-                                //изменяем предложение в уроке
-                                // флаг присутствовали изменения
-                                wasChanged = true;
-                                Global.getLessonsUtils().changeSentence(lesson, indexSentence, editText.getText().toString());
-                                updateContent();
-
-                                ab.setSubtitle("#" + (indexSentence + 1) + " changed!");
-
-                            }
-                        }
-
-                    }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {
-
-                        }
-                    }).setNeutralButton("Delete sentence", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {
-                            AlertDialog.Builder builder1 = new AlertDialog.Builder(ActivityNavigation.this);
-                            builder1.setCancelable(false);
-                            builder1.setTitle("Delete sentence?");
-                            builder1.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialogInterface, int i) {
-                                    saveStateNotePadLayout();
+                                // сохраняем положение экрана для того чтобы не перематывать заново
+                                saveStateNotePadLayout();
+                                // текст не может быть пустой
+                                if (editText.getText().length() == 0) {
+                                    Toast.makeText(ActivityNavigation.this, "Text can`t be empty!", Toast.LENGTH_SHORT).show();
+                                } else {
+                                    //запоминаем какой текст подсвечивать
                                     updateTextMarkColor = indexSentence;
+                                    //изменяем предложение в уроке
+                                    // флаг присутствовали изменения
                                     wasChanged = true;
-                                    Global.getLessonsUtils().deleteSentence(lesson, indexSentence);
+                                    Global.getLessonsUtils().changeSentence(lesson, indexSentence, editText.getText().toString());
                                     updateContent();
 
-                                }
-
-                            }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    ab.setSubtitle("#" + (indexSentence + 1) + " changed!");
 
                                 }
-                            });
-                            builder1.create().show();
+                            }
 
-                        }
-                    });
-                    builder.create().show();
+                        }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
 
-                    return true;
-                }
-            });
+                            }
+                        }).setNeutralButton("Delete sentence", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                AlertDialog.Builder builder1 = new AlertDialog.Builder(ActivityNavigation.this);
+                                builder1.setCancelable(false);
+                                builder1.setTitle("Delete sentence?");
+                                builder1.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                        saveStateNotePadLayout();
+                                        updateTextMarkColor = indexSentence;
+                                        wasChanged = true;
+                                        Global.getLessonsUtils().deleteSentence(lesson, indexSentence);
+                                        updateContent();
 
-            layoutForSentence.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    currentSentenceIndex = indexSentence;
-                    showQuiz();
-                }
-            });
+                                    }
 
-            btnStar.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    boolean flag;
+                                }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
 
-                    if (!mQuizLogic.checkIfFavoriteTextEmpty(lesson)) {
-                        flag = mQuizLogic.checkFavoriteSentence(lesson, textSentence);
+                                    }
+                                });
+                                builder1.create().show();
 
-                        if (flag) {
-                            Global.getImageUtils().updateLabel("star_inactive", btnStar);
-                            Global.getLessonsUtils().deleteFavoriteSentence(lesson, textSentence);
-                            wasChanged = true;
+                            }
+                        });
+                        builder.create().show();
+
+                        return true;
+                    }
+                });
+
+                layoutForSentence.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        currentSentenceIndex = indexSentence;
+                        showQuiz();
+                    }
+                });
+
+                btnStar.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        boolean flag;
+
+                        if (!mQuizLogic.checkIfFavoriteTextEmpty(lesson)) {
+                            flag = mQuizLogic.checkFavoriteSentence(lesson, textSentence);
+
+                            if (flag) {
+                                Global.getImageUtils().updateLabel("star_inactive", btnStar);
+                                Global.getLessonsUtils().deleteFavoriteSentence(lesson, textSentence);
+                                wasChanged = true;
+                            } else {
+                                Global.getImageUtils().updateLabel("star_active", btnStar);
+                                Global.getLessonsUtils().addFavoriteSentence(lesson, textSentence);
+                                wasChanged = true;
+                            }
                         } else {
                             Global.getImageUtils().updateLabel("star_active", btnStar);
                             Global.getLessonsUtils().addFavoriteSentence(lesson, textSentence);
                             wasChanged = true;
                         }
-                    }else{
-                        Global.getImageUtils().updateLabel("star_active", btnStar);
-                        Global.getLessonsUtils().addFavoriteSentence(lesson, textSentence);
-                        wasChanged = true;
+
+
                     }
+                });
+                layoutNotepadForAddContent.addView(layoutForSentence);
 
+                btnTranslateCurrentSentence.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        openGoogleTranslator(textSentence);
+                    }
+                });
+            }
+        }else{
+            mBtnNextSentences.setClickable(false);
+            mBtnNextSentences.setBackgroundColor(ContextCompat.getColor(ActivityNavigation.this, R.color.myColorGrey500));
 
-                }
-            });
-            layoutNotepadForAddContent.addView(layoutForSentence);
-
-            btnTranslateCurrentSentence.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    openGoogleTranslator(textSentence);
-                }
-            });
         }
         layoutQuizForAddContent.removeAllViews();
         layoutQuizForAddContent.addView(layoutNote);
@@ -1701,7 +1697,7 @@ public class ActivityNavigation  extends AppCompatActivity
         buttonDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(ediTextForDeleting.getText().length() != 0 && mainTextLessonChange.getText().length()!= 0){
+                if (ediTextForDeleting.getText().length() != 0 && mainTextLessonChange.getText().length() != 0) {
                     String newText = Global.getLessonsUtils().deleteElementInString(mainTextLessonChange.getText().toString(), ediTextForDeleting.getText().toString());
                     mainTextLessonChange.setText(newText);
                     ediTextForDeleting.setText("");
@@ -1759,7 +1755,6 @@ public class ActivityNavigation  extends AppCompatActivity
     }
 
 
-
     @Override
     protected void onResume() {
         findDisplayOrientation();
@@ -1805,8 +1800,8 @@ public class ActivityNavigation  extends AppCompatActivity
                 }
 
             } else {
-                if(wasChanged) {
-                            Global.getJsonUtils().saveFromModelToFile();
+                if (wasChanged) {
+                    Global.getJsonUtils().saveFromModelToFile();
                     Toast.makeText(this, "Saved", Toast.LENGTH_SHORT).show();
                 }
                 super.onBackPressed();
@@ -1832,10 +1827,10 @@ public class ActivityNavigation  extends AppCompatActivity
             if (!notePadShow) {
                 showNotePad();
             } else {
-                if(wasChanged) {
+                if (wasChanged) {
                     Global.getJsonUtils().saveFromModelToFile();
                     Toast.makeText(this, "Saved", Toast.LENGTH_SHORT).show();
-                        }
+                }
                 finish();
             }
             return true;
@@ -1900,50 +1895,50 @@ public class ActivityNavigation  extends AppCompatActivity
 //                        t1.setSpeechRate(1f);
 //                        t1.speak(mQuizLogic.getSentenceString(currentSentenceIndex), TextToSpeech.QUEUE_FLUSH, null);
 //                    }
-                    return true;
-            }
-
             return true;
         }
 
-        @SuppressWarnings("StatementWithEmptyBody")
-        @Override
-        public boolean onNavigationItemSelected (MenuItem item){
-            // Handle navigation view item clicks here.
-            int id = item.getItemId();
+        return true;
+    }
 
-            if (id == R.id.nav_note_pad) {
+    @SuppressWarnings("StatementWithEmptyBody")
+    @Override
+    public boolean onNavigationItemSelected(MenuItem item) {
+        // Handle navigation view item clicks here.
+        int id = item.getItemId();
 
-                showNotePad();
-            } else if (id == R.id.nav_training) {
-                showQuiz();
-            } else if (id == R.id.nav_editor) {
-                showEditor();
-            } else if (id == R.id.nav_settings) {
-                showSettings();
-            } else if (id == R.id.nav_training2) {
-                showTraining2();
-            }
+        if (id == R.id.nav_note_pad) {
 
-            DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-            drawer.closeDrawer(GravityCompat.END);
-            return true;
+            showNotePad();
+        } else if (id == R.id.nav_training) {
+            showQuiz();
+        } else if (id == R.id.nav_editor) {
+            showEditor();
+        } else if (id == R.id.nav_settings) {
+            showSettings();
+        } else if (id == R.id.nav_training2) {
+            showTraining2();
         }
 
-        @Override
-        protected void onActivityResult ( int requestCode, int resultCode, Intent data){
-            super.onActivityResult(requestCode, resultCode, data);
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawer.closeDrawer(GravityCompat.END);
+        return true;
+    }
 
-            if (resultCode == 2) {
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
 
-                mLabelLesson = (ImageView) mLayoutBulder.findViewById(R.id.image_for_lesson_builder);
-                labelForLesson = data.getStringExtra("Label");
-                lesson.setLabel(labelForLesson);
-                Global.getImageUtils().updateLabel(lesson.getLabel(), mLabelLesson);
+        if (resultCode == 2) {
+
+            mLabelLesson = (ImageView) mLayoutBulder.findViewById(R.id.image_for_lesson_builder);
+            labelForLesson = data.getStringExtra("Label");
+            lesson.setLabel(labelForLesson);
+            Global.getImageUtils().updateLabel(lesson.getLabel(), mLabelLesson);
 //                mJsonUtilsOld.updateLabel(labelForLesson, mLabelLesson);
 
-            }
         }
+    }
 
     @Override
     protected void onStop() {
@@ -1952,16 +1947,16 @@ public class ActivityNavigation  extends AppCompatActivity
     }
 
     @Override
-        protected void onDestroy () {
+    protected void onDestroy() {
 
-            if (t1 != null) {
-                t1.stop();
-                t1.shutdown();
-            }
-
-            manager.unregisterMediaButtonEventReceiver(new ComponentName(getPackageName(), RemoteControlReceiver.class.getName()));
-            super.onDestroy();
+        if (t1 != null) {
+            t1.stop();
+            t1.shutdown();
         }
+
+        manager.unregisterMediaButtonEventReceiver(new ComponentName(getPackageName(), RemoteControlReceiver.class.getName()));
+        super.onDestroy();
+    }
 
     private String getSpinnerSelect() {
         String selectedSpinner = spinner.getSelectedItem().toString();
@@ -1998,7 +1993,7 @@ public class ActivityNavigation  extends AppCompatActivity
 
     }
 
-    private void openGoogleTranslator(String text){
+    private void openGoogleTranslator(String text) {
         try {
 
             Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://translate.google.com/#en/ru/" + text));

@@ -14,9 +14,7 @@ public class ToolForNotepad {
 
 
     public ToolForNotepad(){
-        step = 5;
-        startElementIndex = 0;
-        stopElementIndex = 4;
+        setStartPosition();
     }
 
     public void setNumberOfSentences(int numberOfSentences) {
@@ -24,9 +22,10 @@ public class ToolForNotepad {
     }
 
     public void setStartPosition(){
-        step = 5;
+        currentPosition = 0;
+        step = 10;
         startElementIndex = 0;
-        stopElementIndex = 4;
+        stopElementIndex = 10;
     }
     //метод возвращает индекс первого элемента и индекс последнего элемента
     // для одного шага
@@ -38,7 +37,10 @@ public class ToolForNotepad {
     //
     public Integer[] getIndexes(){
         Integer[] indexes = new Integer[2];
-
+        if(currentPosition != 0){
+            startElementIndex = stopElementIndex;
+            stopElementIndex = stopElementIndex + step;
+        }
         if(stopElementIndex > numberOfSentences){
             stopElementIndex = numberOfSentences;
         }
@@ -48,8 +50,8 @@ public class ToolForNotepad {
         }
         indexes[0] = startElementIndex;
         indexes[1] = stopElementIndex;
-        startElementIndex = stopElementIndex + 1;
-        stopElementIndex = stopElementIndex + step;
+        currentPosition++;
+
         return indexes;
     }
 }

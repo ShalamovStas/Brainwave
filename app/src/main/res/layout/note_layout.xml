@@ -125,28 +125,15 @@
         </LinearLayout>
     </HorizontalScrollView>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/myColorGrey100"
-        android:elevation="2dp"
-        android:translationZ="2dp">
 
-        <Button
-            android:id="@+id/btn_next_sentences"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="-show next sentences-"
-            android:textColor="@color/myColorGrey100"
-            android:background="@color/colorPrimary"/>
 
-    </LinearLayout>
-
+    
     <ScrollView
         android:id="@+id/scroll"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:layout_weight="1">
 
         <LinearLayout
             android:id="@+id/note_layout_for_add"
@@ -158,6 +145,21 @@
         </LinearLayout>
 
     </ScrollView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/myColorGrey100">
+
+        <Button
+            android:id="@+id/btn_next_sentences"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="-show next sentences-"
+            android:textColor="@color/myColorGrey100"
+            android:background="@color/colorPrimary"/>
+
+    </LinearLayout>
 
 
 
