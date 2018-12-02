@@ -1400,7 +1400,7 @@ public class ActivityNavigation extends AppCompatActivity
                                         //изменяем предложение в уроке
                                         // флаг присутствовали изменения
                                         wasChanged = true;
-                                        Global.getLessonsUtils().changeSentence(lesson, indexSentence, editText.getText().toString());
+                                        Global.getLessonsUtils().changeSentence(lesson, textSentence, editText.getText().toString());
                                         updateContent();
 
                                         ab.setSubtitle("#" + (indexSentence + 1) + " changed!");
@@ -1425,7 +1425,7 @@ public class ActivityNavigation extends AppCompatActivity
                                             saveStateNotePadLayout();
                                             updateTextMarkColor = indexSentence;
                                             wasChanged = true;
-                                            Global.getLessonsUtils().deleteSentence(lesson, indexSentence);
+                                            Global.getLessonsUtils().deleteSentence(lesson, textSentence);
                                             updateContent();
 
                                         }
@@ -1581,7 +1581,7 @@ public class ActivityNavigation extends AppCompatActivity
                                     //изменяем предложение в уроке
                                     // флаг присутствовали изменения
                                     wasChanged = true;
-                                    Global.getLessonsUtils().changeSentence(lesson, indexSentence, editText.getText().toString());
+                                    Global.getLessonsUtils().changeSentence(lesson, textSentence, editText.getText().toString());
                                     updateContent();
 
                                     ab.setSubtitle("#" + (indexSentence + 1) + " changed!");
@@ -1606,7 +1606,7 @@ public class ActivityNavigation extends AppCompatActivity
                                         saveStateNotePadLayout();
                                         updateTextMarkColor = indexSentence;
                                         wasChanged = true;
-                                        Global.getLessonsUtils().deleteSentence(lesson, indexSentence);
+                                        Global.getLessonsUtils().deleteSentence(lesson, textSentence);
                                         updateContent();
 
                                     }
@@ -1802,7 +1802,9 @@ public class ActivityNavigation extends AppCompatActivity
     private void updateContent() {
 
         allTextForLesson = lesson.getText();
-        mQuizLogic.setNull(allTextForLesson);
+        mQuizLogic.setNull();
+        toolForNotepad.setNumberOfSentences(lesson.getArrayListText().size());
+
         showNotePad();
 
     }

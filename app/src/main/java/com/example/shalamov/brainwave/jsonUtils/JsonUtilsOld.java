@@ -114,36 +114,37 @@ public class JsonUtilsOld {
         return null;
     }
 
-    public void readJsonStringToArrayList(String resource) {
-        try {
-
-            lessonsList.clear();
-
-
-            JSONObject jsonObject = null;
-            JSONArray jsonArray = new JSONArray(resource);
-            int numberOfKeysArray = jsonArray.length();
-            for (int i = 0; i < numberOfKeysArray; i++) {
-                jsonObject = jsonArray.getJSONObject(i);
-                Lesson lesson = new Lesson(
-                        i,
-                        jsonObject.get("lesson_name").toString(),
-                        jsonObject.get("Text").toString(),
-                        "",
-                        jsonObject.get("description1").toString(),
-                        jsonObject.get("description2").toString(),
-                        jsonObject.get("description3").toString(),
-                        jsonObject.get("description4").toString(),
-                        jsonObject.get("label").toString(),
-                        jsonObject.get("progress").toString());
-
-                lessonsList.add(lesson);
-            }
-        } catch (JSONException e1) {
-            e1.printStackTrace();
-        }
-
-    }
+//    public void readJsonStringToArrayList(String resource) {
+//        try {
+//
+//            lessonsList.clear();
+//
+//
+//            JSONObject jsonObject = null;
+//            JSONArray jsonArray = new JSONArray(resource);
+//            int numberOfKeysArray = jsonArray.length();
+//            for (int i = 0; i < numberOfKeysArray; i++) {
+//                jsonObject = jsonArray.getJSONObject(i);
+//
+//                Lesson lesson = new Lesson(
+//                        i,
+//                        jsonObject.get("lesson_name").toString(),
+//                        jsonObject.get("Text").toString(),
+//                        "",
+//                        jsonObject.get("description1").toString(),
+//                        jsonObject.get("description2").toString(),
+//                        jsonObject.get("description3").toString(),
+//                        jsonObject.get("description4").toString(),
+//                        jsonObject.get("label").toString(),
+//                        jsonObject.get("progress").toString());
+//
+//                lessonsList.add(lesson);
+//            }
+//        } catch (JSONException e1) {
+//            e1.printStackTrace();
+//        }
+//
+//    }
 
 
     public void updateLabel(String labelForLesson, ImageView mLabelLesson) {

@@ -48,6 +48,7 @@ public class ToolForNotepad {
         if(startElementIndex > numberOfSentences){
             startElementIndex = numberOfSentences;
         }
+
         indexes[0] = startElementIndex;
         indexes[1] = stopElementIndex;
         currentPosition++;

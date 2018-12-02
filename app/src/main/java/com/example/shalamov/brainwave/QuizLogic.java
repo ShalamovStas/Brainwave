@@ -11,11 +11,14 @@ import java.util.ArrayList;
  */
 
 public class QuizLogic {
+    final String TAG = "QuizLogic";
     private Lesson lesson;
     private String mainText;
-    private String textFavorite;
-    private String[] mainTextArray; // предолжения разделены (предл1), (предл2), ...
-    private String[] textFavoriteArray;
+//    private String textFavorite;
+    private ArrayList arrayListText;
+    private ArrayList<String> arrayListTextFavorite;
+//    private String[] mainTextArray; // предолжения разделены (предл1), (предл2), ...
+//    private String[] textFavoriteArray;
     private String[] temp; //сдесь разделяется текущее предложение. после
     // изменения предложения архив пересоздается
 
@@ -27,10 +30,9 @@ public class QuizLogic {
 
         this.lesson = lesson;
         this.mainText = lesson.getText();
-        this.textFavorite = lesson.getTextFavorite();
+//        this.textFavorite = lesson.getTextFavorite();
         currentSentence = 0;
         currentWord = 0;
-        createArray();
         createArrayCurrentSentence(currentSentence);
 
         Log.d("brain", "QuizLogic(constructor)-mainText = " + mainText);
@@ -40,69 +42,76 @@ public class QuizLogic {
         return temp;
     }
 
-    public void setNull(String mainText) {
-        this.mainText = mainText;
+    public void setNull() {
+        Log.d(TAG, "setNull()\ncurrentSentence = " + currentSentence);
         currentSentence = 0;
         currentWord = 0;
-        createArray();
+//        createArray();
         createArrayCurrentSentence(currentSentence);
     }
 
-    private void createArray() {
-
-        String[] temp = mainText.split("[.\\?\\!\\\n]");
-
-        int count;
-        for (int i = 0; i < temp.length; i++) {
-            count = 0;
-            boolean flag = true;
-            while (flag) {
-                if (temp[i].length() != 0) { // если в конце текста стоит пробелы, это условие не позволит появится ошибке на строчке temp[i].substring(0, 1
-                    // пробелы будут удалятся и строчка будет в таком виде temp[i] = "";
-                    String substring = temp[i].substring(0, 1);
-                    if (substring.equalsIgnoreCase(" ")) {
-                        temp[i] = temp[i].substring(1, temp[i].length());
-                        flag = true;
-                    } else {
-                        flag = false;
-                    }
-                } else {
-                    flag = false;
-                }
-                count++;
-                if(count == 5){
-                    flag = false;
-                }
-            }
-
-
-        }
-        // delete empty elements
-        ArrayList<String> strings = new ArrayList<>();
-
-
-        for (int i = 0; i < temp.length; i++) {
-
-            if (temp[i].length() != 0) {
-                strings.add(temp[i]);
-            }
-        }
-
-        String[] newArraySplit = new String[strings.size()];
-        StringBuilder sb = new StringBuilder();
-
-        for (int j = 0; j < strings.size(); j++) {
-            newArraySplit[j] = strings.get(j);
-
-            //условте && needPoint позволяет не добовлять точку после последнего предложения
-            if ((newArraySplit.length - 1) != j) {
-                sb.append(".");
-            }
-
-        }
-        mainTextArray = newArraySplit;
-//        lesson.setText(sb.toString());
-    }
+//    private void createArray() {
+//        Log.d(TAG, "\n======================createArray start======================");
+//
+//        Log.d(TAG, "mainText" + "{" +  mainText + "}");
+//
+//        String[] temp = mainText.split("[.\\?\\!\\\n]");
+//
+//        int count;
+//        for (int i = 0; i < temp.length; i++) {
+//            count = 0;
+//            boolean flag = true;
+//            while (flag) {
+//                if (temp[i].length() != 0) { // если в конце текста стоит пробелы, это условие не позволит появится ошибке на строчке temp[i].substring(0, 1
+//                    // пробелы будут удалятся и строчка будет в таком виде temp[i] = "";
+//                    String substring = temp[i].substring(0, 1);
+//                    if (substring.equalsIgnoreCase(" ")) {
+//                        temp[i] = temp[i].substring(1, temp[i].length());
+//                        flag = true;
+//                    } else {
+//                        flag = false;
+//                    }
+//                } else {
+//                    flag = false;
+//                }
+//                count++;
+//                if(count == 5){
+//                    flag = false;
+//                }
+//            }
+//
+//
+//        }
+//        // delete empty elements
+//        ArrayList<String> strings = new ArrayList<>();
+//
+//
+//        for (int i = 0; i < temp.length; i++) {
+//
+//            if (temp[i].length() != 0) {
+//                strings.add(temp[i]);
+//            }
+//        }
+//
+//        String[] newArraySplit = new String[strings.size()];
+//        StringBuilder sb = new StringBuilder();
+//
+//        for (int j = 0; j < strings.size(); j++) {
+//            newArraySplit[j] = strings.get(j);
+//
+//            //условте && needPoint позволяет не добовлять точку после последнего предложения
+//            if ((newArraySplit.length - 1) != j) {
+//                sb.append(".");
+//            }
+//
+//        }
+//
+//        mainTextArray = newArraySplit;
+////        lesson.setText(sb.toString());
+//
+//        Log.d(TAG,"strings:" + "{" +  strings.toString() + "}");
+//        Log.d(TAG, "\n======================createArray stop======================");
+//    }
 
     public String nextWord() {
 
@@ -136,7 +145,7 @@ public class QuizLogic {
 
     public String nextSentence() {
 
-        if (currentSentence == mainTextArray.length - 1) {
+        if (currentSentence == lesson.getArrayListText().size() - 1) {
             currentSentence = 0;
             createArrayCurrentSentence(currentSentence);
             return allWord();
@@ -153,7 +162,7 @@ public class QuizLogic {
         currentSentence--;
 
         if (currentSentence == -1) {
-            currentSentence = mainTextArray.length - 1;
+            currentSentence = lesson.getArrayListText().size() - 1;
         }
         createArrayCurrentSentence(currentSentence);
         return allWord();
@@ -164,13 +173,13 @@ public class QuizLogic {
         currentTextInLayout = "";
         currentWord = 0;
 
-        String senttenceForSplit = mainTextArray[currentSentence]; //получим предложение для разделения
+        String senttenceForSplit = lesson.getArrayListText().get(currentSentence); //получим предложение для разделения
         temp = senttenceForSplit.split("[ ]");           // арай со словами готов
 
     }
 
     public int getNumberOfSentences() {
-        return mainTextArray.length;
+        return lesson.getArrayListText().size();
     }
 
 
@@ -179,7 +188,7 @@ public class QuizLogic {
     }
 
     public int getCurrentSentenceIndex() {
-        if (currentSentence == mainTextArray.length) {
+        if (currentSentence == lesson.getArrayListText().size()) {
             currentSentence = 0;
         }
         return currentSentence;
@@ -187,12 +196,17 @@ public class QuizLogic {
 
     public String getCurrentSentenceString() {
 
-        return mainTextArray[currentSentence++];
+        Log.d(TAG, "getCurrentSentenceString()\ncurrentSentence = " + currentSentence);
+
+        String text = lesson.getArrayListText().get(currentSentence);
+
+        currentSentence++;
+        return text;
     }
 
     public String getSentenceString(int index) {
 
-        return mainTextArray[index];
+        return lesson.getArrayListText().get(index);
     }
 
     public String allWord() {
@@ -217,62 +231,56 @@ public class QuizLogic {
         currentWord = 0;
     }
 
-    public String previousPlusSentence() {
 
+//    public void nextSentencePlus() {
+//
+//        int jump;
+//        int maxIndex = lesson.getArrayListText().size(). - 1;
+//        jump = maxIndex - currentSentence;
+//        jump = jump / 2;
+//        currentSentence = currentSentence + jump;
+//        createArrayCurrentSentence(currentSentence);
+//
+//    }
 
-        return "";
-    }
+//    public String changeSentence(String newSentence, int numberInArray) {
+//
+//
+//        mainTextArray[numberInArray] = newSentence;
+//        String allSentences = "";
+//        for (int i = 0; i < mainTextArray.length; i++) {
+//            if (i != mainTextArray.length - 1) {
+//                allSentences = allSentences + mainTextArray[i] + ". ";
+//            } else {
+//                allSentences = allSentences + mainTextArray[i];
+//            }
+//        }
+//
+//
+//        return allSentences;
+//    }
 
-    public void nextSentencePlus() {
-
-        int jump;
-        int maxIndex = mainTextArray.length - 1;
-        jump = maxIndex - currentSentence;
-        jump = jump / 2;
-        currentSentence = currentSentence + jump;
-        createArrayCurrentSentence(currentSentence);
-
-    }
-
-    public String changeSentence(String newSentence, int numberInArray) {
-
-
-        mainTextArray[numberInArray] = newSentence;
-        String allSentences = "";
-        for (int i = 0; i < mainTextArray.length; i++) {
-            if (i != mainTextArray.length - 1) {
-                allSentences = allSentences + mainTextArray[i] + ". ";
-            } else {
-                allSentences = allSentences + mainTextArray[i];
-            }
-        }
-
-
-        return allSentences;
-    }
-
-    public String deleteSentence(int indexSentence) {
-
-        String allSentences = "";
-        for (int i = 0; i < mainTextArray.length; i++) {
-            if (i == indexSentence) {
-                continue;
-            }
-            allSentences = allSentences + mainTextArray[i] + ". ";
-        }
-        return allSentences;
-    }
+//    public String deleteSentence(int indexSentence) {
+//
+//        String allSentences = "";
+//        for (int i = 0; i < mainTextArray.length; i++) {
+//            if (i == indexSentence) {
+//                continue;
+//            }
+//            allSentences = allSentences + mainTextArray[i] + ". ";
+//        }
+//        return allSentences;
+//    }
 
     public boolean checkFavoriteSentence(Lesson lesson, String text) {
 
         boolean flag = false;
 
 
-        textFavoriteArray = lesson.getTextFavorite().split("[.\\?\\!\\\n]");
+        ArrayList<String> arrayListTextFavorite = lesson.getArrayListTextFavorite();
 
-
-        for (int i = 0; i < textFavoriteArray.length; i++) {
-            if (textFavoriteArray[i].equalsIgnoreCase(text)) {
+        for (int i = 0; i < arrayListTextFavorite.size(); i++) {
+            if (arrayListTextFavorite.get(i).equalsIgnoreCase(text)) {
                 flag = true;
             }
         }
@@ -282,9 +290,12 @@ public class QuizLogic {
 
     public boolean checkIfFavoriteTextEmpty(Lesson lesson) {
 
-        if ((lesson.getTextFavorite() == null)) {
-            return true;
+        boolean flag = false;
+        ArrayList<String> arrayListTextFavorite = lesson.getArrayListTextFavorite();
+
+        if ((arrayListTextFavorite.size() != 0)) {
+            flag =  true;
         }
-        return false;
+        return flag;
     }
 }

@@ -1,6 +1,5 @@
 package com.example.shalamov.brainwave.utils;
 
-import android.nfc.Tag;
 import android.util.Log;
 
 import com.example.shalamov.brainwave.Global;
@@ -9,186 +8,255 @@ import java.util.ArrayList;
 
 public class LessonsUtils {
 
+    final String TAG = "LessonUtils";
+
     // класс для работы с объектами Lesson и списком уроков
     // изменение объектов, добавление новых, итд
 
-    public void createLesson(int number, String name, String text, String textFavorite, String description1, String description2, String description3, String description4, String label, String progress){
-       Lesson lesson = new Lesson(number, name, text, textFavorite,description1, description2, description3, description4, label, progress);
+    public void createLesson(int number, String name, String text, String textFavorite, String description1, String description2, String description3, String description4, String label, String progress) {
+
+        Log.d(TAG, "\n======================createLesson start======================");
 
 
-        //создаем масив из предложений
-        String[] arrayText = text.split("[.\\?\\!\\\n]");
-        lesson.setArrayText(arrayText);
+        //создаем коллекцию, элементы которой являются отдельные предложения
+        ArrayList<String> textArrayList = new ArrayList<>();
+        ArrayList<String> textArrayListFavorite = new ArrayList<>();
+        //используем метод разделения общего текста text на отдельные предложения и записываем
+        //отдельные предложения в коллекцию - метод splitSentence это позволяет делать
+        splitSentence(text, textArrayList);
+        splitSentence(textFavorite, textArrayListFavorite);
+        //из разделенных предложений с удаленными абзацами  и отступами формируется строка
+        //textLesson, которая бутед записана в модель Lesson
+        String textLesson = arrayListToString(textArrayList);
 
 
-        ArrayList lessons = Global.getLessonsList();
-        lessons.add(lesson);
-//        Log.d("brain", "LessonUtils - createLesson lessons.size() " + lessons.size());
-    }
-
-    public void changeLesson(int number, String name, String text, String description1, String description2, String description3, String description4, String label, String progress){
-        Lesson lesson = (Lesson) Global.getLessonsList().get(number);
+        Lesson lesson = new Lesson();
+        lesson.setNumber(number);
         lesson.setName(name);
-        lesson.setText(text);
-        lesson.setTextFavorite("");
+        lesson.setText(textLesson);
+        lesson.setArrayListText(textArrayList);
+        lesson.setTextFavorite(textFavorite);
+        lesson.setArrayListTextFavorite(textArrayListFavorite);
+        lesson.setLabel(label);
+        lesson.setProgress(progress);
         lesson.setDescription1(description1);
         lesson.setDescription2(description2);
         lesson.setDescription3(description3);
         lesson.setDescription4(description4);
-        lesson.setLabel(label);
-        lesson.setProgress(progress);
+
+
+        Global.getLessonsList().add(lesson);
+
 
     }
 
-    public void createNewLesson( String name, String text, String textFavorite, String description1, String description2, String description3, String description4, String label, String progress){
-        Lesson lesson = new Lesson(Global.getLessonsList().size() + 1, name, text, textFavorite ,description1, description2, description3, description4, label, progress);
+    //метод для разделения текста на отдельные предложения, которые записываются в коллекцию
+    private void splitSentence(String text, ArrayList<String> textArrayList) {
+        Log.d(TAG, "\n======================splitSentence start======================");
+        Log.d(TAG, "\ntext:[" + "" + text + "]");
 
 
-        //создаем масив из предложений
-        String[] arrayText = text.split("[.\\?\\!\\\n]");
+        //разделение текста начального [ . Aaa 1. Bbb 2. Ccc 3] на предложения по признаку точки
+        // результат разделения: [ ] [Aaa 1] [ Bbb 2] [ Ccc 3].
+        String[] allTextArray = text.split("[.\\?\\!\\\n]");
+//
+        //цикл для удаления пробелов перед началом предложения
+        // проходим по всем элементам массива, созданого их общего текста
+        // для первого элемента, который равен [ ], flag = true;
+        // while ->
+        //if (true) {
+        //выделяем первый элемент substring
+        // если первій элемент == " "
+        // присваиваем элементу массива знаяение без первого элемента
+        // flag = true; цикл повторяется до тех пор, пока не будут удалены все пробелы
+        // (условие substring.equalsIgnoreCase(" ") это регулирует)
 
-        lesson.setArrayText(arrayText);
+        boolean needToDeleteEmptyElement = false; // если в массиве присутствуют пустые элементы, например
+        // [][Aaa 1][Bbb 2][Ccc 3] - первый элемент не содержит символов.
+        // этот флаг служит для указания того, что необходимо удалить пустые элементы
+
+        int count = 0; // счетчик для защиты от бесконечного цикла
+        boolean flag;
+        for (int i = 0; i < allTextArray.length; i++) {
+            flag = true;
+            count = 0;
+            while (flag) {
+                if (allTextArray[i].length() != 0) {
+                    count++;
+                    String substring = allTextArray[i].substring(0, 1);
+
+                    if (substring.equalsIgnoreCase(" ")) {
+                        allTextArray[i] = allTextArray[i].substring(1, allTextArray[i].length());
+                        flag = true;
+                    }
+                    if (!substring.equalsIgnoreCase(" ")) {
+                        flag = false;
+                    }
+                }
+
+                if (allTextArray[i].length() == 0) {
+                    needToDeleteEmptyElement = true;
+                    flag = false;
+                }
+                //защита от бесконечного цикла
+                if (count == 5) {
+                    flag = false;
+                }
+            }
+
+        }
+
+        // проверяем условие если существуют пустые элементы в массиве,
+        // то создаем новую коллекцию, в которую запишем все элементы массива без пустых элементов
 
 
-        ArrayList lessons = Global.getLessonsList();
-        lessons.add(lesson);
+        for (int i = 0; i < allTextArray.length; i++) {
+            if (allTextArray[i].length() != 0) {
+                textArrayList.add(allTextArray[i]);
+            }
+        }
+
+
+        // на в даной точке имеем либо массив либо коллекцию
+        Log.d(TAG, "\ntextArrayList:[" + "" + textArrayList.toString() + "]");
+        Log.d(TAG, "\n======================splitSentence end======================");
+    }
+
+    public void changeLesson(int number, String name, String text, String description1, String description2, String description3, String description4, String label, String progress) {
+
+        Lesson lesson = (Lesson) Global.getLessonsList().get(number);
+
+        ArrayList<String> textArrayList = lesson.getArrayListText();
+        ArrayList<String> textArrayListFavorite = lesson.getArrayListTextFavorite();
+        textArrayList.removeAll(textArrayList);
+        textArrayListFavorite.removeAll(textArrayListFavorite);
+        splitSentence(text, textArrayList);
+
+        String textLesson = arrayListToString(textArrayList);
+
+        lesson.setNumber(number);
+        lesson.setName(name);
+        lesson.setText(textLesson);
+        lesson.setArrayListText(textArrayList);
+        lesson.setTextFavorite("");
+        lesson.setArrayListTextFavorite(textArrayListFavorite);
+        lesson.setLabel(label);
+        lesson.setProgress(progress);
+        lesson.setDescription1(description1);
+        lesson.setDescription2(description2);
+        lesson.setDescription3(description3);
+        lesson.setDescription4(description4);
+
     }
 
     // метод изменения предложения
-    public void changeSentence(Lesson lesson, int index, String newSentence){
-        // из модели урка берем текст и разделяем его по предложениям
+    public void changeSentence(Lesson lesson, String oldSentence, String newSentence) {
 
+        // изменяем основной текст
+        // работаем с коллекцией
+        ArrayList<String> textArrayList = lesson.getArrayListText();
 
-        String[] arrayText = lesson.getText().split("[.\\?\\!\\\n]");
-        String oldSentence = arrayText[index];
-        //изменяем предложение по извесному индексу
-        arrayText[index] = newSentence;
-
-        if(!(lesson.getTextFavorite().equalsIgnoreCase(""))){
-            String[] arrayTextFavorite = lesson.getTextFavorite().split("[.\\?\\!\\\n]");
-
-            boolean flag = true;
-            int count = 0;
-            while (flag) {
-                if (oldSentence.length() != 0) { // если в конце текста стоит пробелы, это условие не позволит появится ошибке на строчке temp[i].substring(0, 1
-                    // пробелы будут удалятся и строчка будет в таком виде temp[i] = "";
-                    String substring = oldSentence.substring(0, 1);
-                    if (substring.equalsIgnoreCase(" ")) {
-                        oldSentence = oldSentence.substring(1, oldSentence.length());
-                        flag = true;
-                    } else {
-                        flag = false;
-                    }
-                } else {
-                    flag = false;
-                }
-                count++;
-                if(count == 5){
-                    flag = false;
-                }
-            }
-
-            for (int i = 0; i < arrayTextFavorite.length; i++) {
-
-
-
-                if(arrayTextFavorite[i].equalsIgnoreCase(oldSentence)){
-                    arrayTextFavorite[i] = newSentence;
-                }
-            }
-            StringBuilder newTextFavorite = new StringBuilder();
-            for (int i = 0; i < arrayTextFavorite.length; i++) {
-                //условие для того, чтобы в конце текста не появлялась точка, что приводит к появлению нового элемента массива
-                // при разделении текста на предложения.
-                newTextFavorite.append(arrayTextFavorite[i]);
-                if(!((arrayTextFavorite.length-1)==i)) {
-                    newTextFavorite.append(".");
-                }
-            }
-            lesson.setTextFavorite(newTextFavorite.toString());
-        }
-
-        StringBuilder newText = new StringBuilder();
-        //в цикле проходим все элементы массива для создания одного текста
-        for (int i = 0; i < arrayText.length; i++) {
-            //условие для того, чтобы в конце текста не появлялась точка, что приводит к появлению нового элемента массива
-            // при разделении текста на предложения.
-            newText.append(arrayText[i]);
-            if(!((arrayText.length-1)==i)) {
-                newText.append(".");
+        //проходим по коллекции и ищем предложение которое нужно заменить
+        for (int i = 0; i < textArrayList.size(); i++) {
+            if (textArrayList.get(i).equalsIgnoreCase(oldSentence)) {
+                textArrayList.set(i, newSentence);
             }
         }
+        // создание поля text для модели с учтом скорректированого предложения
+        String textLesson = arrayListToString(textArrayList);
+        lesson.setText(textLesson);
 
-        lesson.setText(newText.toString());
 
+        // изменяем отмеченый текст если он есть
+        ArrayList<String> textArrayListFavorite = lesson.getArrayListTextFavorite();
+
+        if (textArrayListFavorite.size() != 0) {
+
+            for (int i = 0; i < textArrayListFavorite.size(); i++) {
+
+                if (textArrayListFavorite.get(i).equalsIgnoreCase(oldSentence)) {
+                    textArrayListFavorite.set(i, newSentence);
+                }
+            }
+
+            // создание поля textFavorite для модели с учтом скорректированого предложения
+            String textLessonFavorite = arrayListToString(textArrayListFavorite);
+            lesson.setText(textLessonFavorite);
+
+        }
 
     }
 
-    public void deleteSentence(Lesson lesson, int index){
-        // из модели урка берем текст и разделяем его по предложениям
-        String[] arrayText = lesson.getText().split("[.\\?\\!]");
-        //изменяем предложение по извесному индексу
+    public void deleteSentence(Lesson lesson, String sentence) {
 
-        //проверяем не пустой ли текст со звездочкой
-        //
-        if(checkIfFavoriteSentenceExist(lesson)){
-            // при условии того, что существуют предложения со звездочкой,
-            //используем метод удаления элемента в виде String из общей строки String,
-            // который возвращает строку
-            // метод удаляет пробелы перед строкой массива если они существуют
-            lesson.setTextFavorite(deleteElementInString(lesson.getTextFavorite(), arrayText[index]));
-        }
+        // работаем с коллекцией
+        ArrayList<String> textArrayList = lesson.getArrayListText();
 
-        ArrayList<String> arrayTextNew = new ArrayList<>();
-// copy old array to new without old sentence
-        for (int i = 0; i < arrayText.length; i++) {
-            if(!(i == index)) {
-
-                arrayTextNew.add(arrayText[i]);
+        //проходим по коллекции и ищем предложение которое нужно заменить
+        for (int i = 0; i < textArrayList.size(); i++) {
+            if (textArrayList.get(i).equalsIgnoreCase(sentence)) {
+                textArrayList.remove(i);
             }
         }
+        // создание поля text для модели с учтом скорректированого предложения
+        String textLesson = arrayListToString(textArrayList);
+        lesson.setText(textLesson);
 
-        lesson.setText(arrayToString(arrayTextNew));
+        ArrayList<String> textArrayListFavorite = lesson.getArrayListTextFavorite();
 
+        if (textArrayListFavorite.size() != 0) {
 
+            for (int i = 0; i < textArrayListFavorite.size(); i++) {
+
+                if (textArrayListFavorite.get(i).equalsIgnoreCase(sentence)) {
+                    textArrayListFavorite.remove(i);
+                }
+            }
+            // создание поля textFavorite для модели с учтом скорректированого предложения
+            String textLessonFavorite = arrayListToString(textArrayListFavorite);
+            lesson.setText(textLessonFavorite);
+        }
     }
 
-    public void deleteLesson(int index){
+    public void deleteLesson(int index) {
         Global.getLessonsList().remove(index);
         Global.getJsonUtils().saveFromModelToFile();
     }
 
-    public void addFavoriteSentence(Lesson lesson, String text){
-        String newText;
-        if(lesson.getTextFavorite().equalsIgnoreCase("")){
-            newText = text;
-            lesson.setTextFavorite(newText);
-        }else{
-            newText = lesson.getTextFavorite() + "." + text;
-            lesson.setTextFavorite(newText);
-        }
+    public void addFavoriteSentence(Lesson lesson, String text) {
+        // изменяем отмеченый текст если он есть
+        ArrayList<String> textArrayListFavorite = lesson.getArrayListTextFavorite();
 
-        }
+        textArrayListFavorite.add(text);
 
-    public void deleteFavoriteSentence(Lesson lesson, String text){
+        // создание поля textFavorite для модели с учтом скорректированого предложения
+        String textLessonFavorite = arrayListToString(textArrayListFavorite);
+        lesson.setText(textLessonFavorite);
+    }
 
+    public void deleteFavoriteSentence(Lesson lesson, String text) {
 
-        String[] arrayTextFavorite = lesson.getTextFavorite().split("[.\\?\\!\\\n]");
-        ArrayList<String> arrayTextNewFavorite = new ArrayList<>();
+        ArrayList<String> textArrayListFavorite = lesson.getArrayListTextFavorite();
 
+        if (textArrayListFavorite.size() != 0) {
 
-            for (int j = 0; j < arrayTextFavorite.length; j++) {
-                if(!arrayTextFavorite[j].equalsIgnoreCase(text)){
-                    arrayTextNewFavorite.add(arrayTextFavorite[j]);
+            for (int i = 0; i < textArrayListFavorite.size(); i++) {
+
+                if (textArrayListFavorite.get(i).equalsIgnoreCase(text)) {
+                    textArrayListFavorite.remove(i);
                 }
             }
+            // создание поля textFavorite для модели с учтом скорректированого предложения
+            if(textArrayListFavorite.size() != 0) {
+                String textLessonFavorite = arrayListToString(textArrayListFavorite);
+                lesson.setText(textLessonFavorite);
+            }
+        }
 
-
-        lesson.setTextFavorite(arrayToString(arrayTextNewFavorite));
 
     }
 
-    public String deleteElementInString (String allText, String elementForDelete){
+    public String deleteElementInString(String allText, String elementForDelete) {
 
         //разделение текста начального [Aaa 1. Bbb 2. Ccc 3] на предложения по признаку точки
         // результат разделения: [Aaa 1] [ Bbb 2] [ Ccc 3].
@@ -230,7 +298,7 @@ public class LessonsUtils {
                 }
 
                 count++;
-                if (count == 5){
+                if (count == 5) {
                     flag = false;
                 }
             }
@@ -241,12 +309,11 @@ public class LessonsUtils {
         // с без пробелов в начале предложения
 
 
-
         StringBuilder newText = new StringBuilder();
         boolean needPoint;
         for (int j = 0; j < allTextArray.length; j++) {
             needPoint = false;
-            if(!allTextArray[j].equalsIgnoreCase(elementForDelete)){
+            if (!allTextArray[j].equalsIgnoreCase(elementForDelete)) {
                 newText.append(allTextArray[j]);
                 needPoint = true;
             }
@@ -258,52 +325,24 @@ public class LessonsUtils {
 
         }
 
-       return newText.toString();
+        return newText.toString();
     }
 
 
-    private String arrayToString (ArrayList<String> array){
+    private String arrayListToString(ArrayList<String> array) {
 
-        StringBuilder newText = new StringBuilder();
-        //в цикле проходим все элементы массива для создания одного текста
+        StringBuilder textLesson = new StringBuilder();
+        boolean needPoint;
         for (int i = 0; i < array.size(); i++) {
+            textLesson.append(array.get(i));
 
-
-            //условие для того, чтобы в конце текста не появлялась точка, что приводит к появлению нового элемента массива
-            // при разделении текста на предложения.
-            newText.append(array.get(i));
-            if (!((array.size() - 1) == i)) {
-                newText.append(".");
+            if ((array.size() - 1) != i) {
+                textLesson.append(".");
             }
         }
-        return newText.toString();
+
+        return textLesson.toString();
     }
 
-
-    private String arrayToString (String[] array){
-
-        StringBuilder newText = new StringBuilder();
-        //в цикле проходим все элементы массива для создания одного текста
-        for (int i = 0; i < array.length; i++) {
-
-
-            //условие для того, чтобы в конце текста не появлялась точка, что приводит к появлению нового элемента массива
-            // при разделении текста на предложения.
-            newText.append(array[i]);
-            if (!((array.length - 1) == i)) {
-                newText.append(".");
-            }
-        }
-        return newText.toString();
-    }
-
-    private boolean checkIfFavoriteSentenceExist(Lesson lesson){
-
-        if(lesson.getTextFavorite().equalsIgnoreCase("")){
-            return false;
-        }else{
-            return true;
-        }
-    }
 
 }
