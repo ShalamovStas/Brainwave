@@ -293,7 +293,7 @@ public class QuizLogic {
         boolean flag = false;
         ArrayList<String> arrayListTextFavorite = lesson.getArrayListTextFavorite();
 
-        if ((arrayListTextFavorite.size() != 0)) {
+        if ((arrayListTextFavorite.size() == 0)) {
             flag =  true;
         }
         return flag;

@@ -181,7 +181,7 @@ public class LessonsUtils {
 
             // создание поля textFavorite для модели с учтом скорректированого предложения
             String textLessonFavorite = arrayListToString(textArrayListFavorite);
-            lesson.setText(textLessonFavorite);
+            lesson.setTextFavorite(textLessonFavorite);
 
         }
 
@@ -214,7 +214,7 @@ public class LessonsUtils {
             }
             // создание поля textFavorite для модели с учтом скорректированого предложения
             String textLessonFavorite = arrayListToString(textArrayListFavorite);
-            lesson.setText(textLessonFavorite);
+            lesson.setTextFavorite(textLessonFavorite);
         }
     }
 
@@ -224,6 +224,7 @@ public class LessonsUtils {
     }
 
     public void addFavoriteSentence(Lesson lesson, String text) {
+        Log.d(TAG, "=========addFavoriteSentence()=========");
         // изменяем отмеченый текст если он есть
         ArrayList<String> textArrayListFavorite = lesson.getArrayListTextFavorite();
 
@@ -231,7 +232,8 @@ public class LessonsUtils {
 
         // создание поля textFavorite для модели с учтом скорректированого предложения
         String textLessonFavorite = arrayListToString(textArrayListFavorite);
-        lesson.setText(textLessonFavorite);
+        lesson.setTextFavorite(textLessonFavorite);
+        Log.d(TAG, "textLessonFavorite = " + textLessonFavorite);
     }
 
     public void deleteFavoriteSentence(Lesson lesson, String text) {

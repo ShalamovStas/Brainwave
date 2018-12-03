@@ -1211,6 +1211,7 @@ public class ActivityNavigation extends AppCompatActivity
         mBtnFavoriteText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 scrollYPosition = 0;
                 removeContentFromNotepad();
                 mQuizLogic.setCurrSentenceNull();
@@ -1223,6 +1224,7 @@ public class ActivityNavigation extends AppCompatActivity
         mBtnAllText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 scrollYPosition = 0;
                 removeContentFromNotepad();
                 mQuizLogic.setCurrSentenceNull();
@@ -1269,6 +1271,7 @@ public class ActivityNavigation extends AppCompatActivity
         mBtnFavoriteTextBottomNavigation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 scrollYPosition = 0;
                 removeContentFromNotepad();
                 mQuizLogic.setCurrSentenceNull();
@@ -1294,6 +1297,7 @@ public class ActivityNavigation extends AppCompatActivity
 
 
         // при достижении конца списка доюавляются новые элементы
+
         mScroll.getViewTreeObserver().addOnScrollChangedListener(new ViewTreeObserver.OnScrollChangedListener() {
             @Override
             public void onScrollChanged() {
@@ -1304,7 +1308,7 @@ public class ActivityNavigation extends AppCompatActivity
                 Log.d("brain", "mScroll.getScrollY() = " + mScroll.getScrollY() +
                 "\nmaxSize = " + maxSize);
 
-                if(mScroll.getScrollY() == maxSize){
+                if(mScroll.getScrollY() == maxSize && !history[0].equalsIgnoreCase("Settings") && !history[0].equalsIgnoreCase("NotePadFavorite")){
                     showAllTextInNotePad();
                 }
             }
@@ -1325,6 +1329,7 @@ public class ActivityNavigation extends AppCompatActivity
     }
 
     private void showFavoriteTextInNotePad() {
+        writeHistory("NotePadFavorite");
         toolForNotepad.setStartPosition();
         if (!mQuizLogic.checkIfFavoriteTextEmpty(lesson)) {
 
@@ -1506,6 +1511,7 @@ public class ActivityNavigation extends AppCompatActivity
 
 
     private void showAllTextInNotePad() {
+        writeHistory("NotePad");
 
         Integer[] indexes = toolForNotepad.getIndexes();
         Log.d("brain", "ActivityNavigation-showAllTextInNotePad-indexes[0] = " + indexes[0] + "\nindexes[1]=" + indexes[1]);
