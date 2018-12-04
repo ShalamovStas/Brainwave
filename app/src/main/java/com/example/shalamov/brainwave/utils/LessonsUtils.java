@@ -164,6 +164,10 @@ public class LessonsUtils {
         }
         // создание поля text для модели с учтом скорректированого предложения
         String textLesson = arrayListToString(textArrayList);
+        // обновление коллекции для для соответствия количества предложений и количества элементов коллекций
+        textArrayList.removeAll(textArrayList);
+        splitSentence(textLesson, textArrayList);
+
         lesson.setText(textLesson);
 
 
@@ -181,6 +185,8 @@ public class LessonsUtils {
 
             // создание поля textFavorite для модели с учтом скорректированого предложения
             String textLessonFavorite = arrayListToString(textArrayListFavorite);
+            textArrayListFavorite.removeAll(textArrayListFavorite);
+            splitSentence(textLessonFavorite, textArrayListFavorite);
             lesson.setTextFavorite(textLessonFavorite);
 
         }
@@ -251,7 +257,7 @@ public class LessonsUtils {
             // создание поля textFavorite для модели с учтом скорректированого предложения
             if(textArrayListFavorite.size() != 0) {
                 String textLessonFavorite = arrayListToString(textArrayListFavorite);
-                lesson.setText(textLessonFavorite);
+                lesson.setTextFavorite(textLessonFavorite);
             }
         }
 

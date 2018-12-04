@@ -1298,18 +1298,26 @@ public class ActivityNavigation extends AppCompatActivity
 
         // при достижении конца списка доюавляются новые элементы
 
+
         mScroll.getViewTreeObserver().addOnScrollChangedListener(new ViewTreeObserver.OnScrollChangedListener() {
             @Override
             public void onScrollChanged() {
                 int maxSize = mScroll.getChildAt(0).getHeight() - mScroll.getHeight();
 
                 // DO SOMETHING WITH THE SCROLL COORDINATES
-                Log.d("brain", "ActivityNavig-onScrollChanged - was called");
-                Log.d("brain", "mScroll.getScrollY() = " + mScroll.getScrollY() +
-                "\nmaxSize = " + maxSize);
+//                Log.d("brain", "ActivityNavig-onScrollChanged - was called");
+//                Log.d("brain", "mScroll.getScrollY() = " + mScroll.getScrollY() +
+//                "\nmaxSize = " + maxSize);
 
-                if(mScroll.getScrollY() == maxSize && !history[0].equalsIgnoreCase("Settings") && !history[0].equalsIgnoreCase("NotePadFavorite")){
-                    showAllTextInNotePad();
+                boolean flag = history[1].equalsIgnoreCase("Editor");
+                Log.d("ActivityNavigation", "==========onScrollChanged===========\n" + "flag = " + flag+ "\n" +
+                        "history[0] = " + history[1]);
+
+                if(mScroll.getScrollY() == maxSize && !(history[1].equalsIgnoreCase("Editor"))){
+                    if(!(history[1].equalsIgnoreCase( "NotePadFavorite"))){
+                        showAllTextInNotePad();
+                    }
+
                 }
             }
 
@@ -1505,6 +1513,7 @@ public class ActivityNavigation extends AppCompatActivity
         } else {
             Toast.makeText(this, "There are not any favorite sentences", Toast.LENGTH_SHORT).show();
         }
+        mQuizLogic.setCurrSentenceNull();
 
 
     }
