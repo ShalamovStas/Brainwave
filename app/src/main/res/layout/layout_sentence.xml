@@ -7,7 +7,7 @@
     <LinearLayout
         android:id="@+id/layout_sentence_and_number"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_gravity="center_horizontal"
         android:layout_marginLeft="5dp"
         android:layout_marginRight="5dp"
@@ -40,6 +40,12 @@
         </LinearLayout>
 
 
+        <!--<WebView-->
+            <!--android:id="@+id/text_for_sentence_web"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content">-->
+
+        <!--</WebView>-->
 
 
         <TextView

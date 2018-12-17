@@ -110,7 +110,7 @@
         android:layout_height="wrap_content"
         android:layout_above="@+id/navigation_bottom"
         android:layout_alignParentEnd="true"
-        android:layout_marginEnd="80dp"
+        android:layout_marginEnd="68dp"
         android:layout_marginBottom="7dp"
         android:background="@drawable/press_selector">
 
@@ -130,7 +130,7 @@
         android:layout_height="wrap_content"
         android:layout_above="@+id/navigation_bottom"
         android:layout_alignParentEnd="true"
-        android:layout_marginEnd="160dp"
+        android:layout_marginEnd="129dp"
         android:layout_marginBottom="7dp"
         android:background="@drawable/press_selector">
 
@@ -139,7 +139,25 @@
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:background="@drawable/ic_settings"
+            />
 
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/btn_add_rus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/navigation_bottom"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="190dp"
+        android:layout_marginBottom="7dp"
+        android:background="@drawable/press_selector">
+
+
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@android:drawable/ic_input_add"
             />
 
     </LinearLayout>

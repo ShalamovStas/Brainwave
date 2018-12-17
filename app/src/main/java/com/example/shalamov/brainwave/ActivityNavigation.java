@@ -2,6 +2,8 @@ package com.example.shalamov.brainwave;
 
 import android.animation.ObjectAnimator;
 import android.content.ActivityNotFoundException;
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -20,6 +22,7 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
+import android.text.Html;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.Display;
@@ -36,6 +39,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
@@ -67,6 +71,7 @@ public class ActivityNavigation extends AppCompatActivity
     //    mNotePadButton, mTreaningButton, mSettingsButton, mEditorButton, mNavigationLayout;
     LinearLayout layoutNotepadForAddContent;
     TextView textNoteForSentence, mNumberSentence, mTextViewForConcat;
+    //    WebView textNoteForSentenceWeb;
     View layoutForSentence;
     LinearLayout layoutForClick;
     //  JsonUtilsOld mJsonUtilsOld;
@@ -149,6 +154,8 @@ public class ActivityNavigation extends AppCompatActivity
     private Spinner spinner;
     Animation animation;
 
+    ClipboardManager clipboard;
+
 
     //добавление элементов этапами
     private ToolForNotepad toolForNotepad;
@@ -168,6 +175,7 @@ public class ActivityNavigation extends AppCompatActivity
         ab.setDisplayShowHomeEnabled(true);
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        clipboard = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
 
 
         lessonNumber = Integer.parseInt(getIntent().getStringExtra("number"));
@@ -576,6 +584,7 @@ public class ActivityNavigation extends AppCompatActivity
         LinearLayout mLayoutGoToTraining2 = mLayoutLearnText.findViewById(R.id.btn_go_to_train2);
         LinearLayout mLayoutGoToTranslator = mLayoutLearnText.findViewById(R.id.btn_go_to_translator);
         LinearLayout mLayoutGoToSettings = mLayoutLearnText.findViewById(R.id.btn_go_to_settings);
+        LinearLayout mLayoutAddRus = mLayoutLearnText.findViewById(R.id.btn_add_rus);
         BottomNavigationView bottomNavigationItemView = mLayoutLearnText.findViewById(R.id.navigation_bottom);
         textFieldForLearning = mLayoutLearnText.findViewById(R.id.text_field_for_learning);
 
@@ -1295,7 +1304,6 @@ public class ActivityNavigation extends AppCompatActivity
         });
 
 
-
         // при достижении конца списка доюавляются новые элементы
 
 
@@ -1310,11 +1318,11 @@ public class ActivityNavigation extends AppCompatActivity
 //                "\nmaxSize = " + maxSize);
 
                 boolean flag = history[1].equalsIgnoreCase("Editor");
-                Log.d("ActivityNavigation", "==========onScrollChanged===========\n" + "flag = " + flag+ "\n" +
+                Log.d("ActivityNavigation", "==========onScrollChanged===========\n" + "flag = " + flag + "\n" +
                         "history[0] = " + history[1]);
 
-                if(mScroll.getScrollY() == maxSize && !(history[1].equalsIgnoreCase("Editor"))){
-                    if(!(history[1].equalsIgnoreCase( "NotePadFavorite"))){
+                if (mScroll.getScrollY() == maxSize && !(history[1].equalsIgnoreCase("Editor"))) {
+                    if (!(history[1].equalsIgnoreCase("NotePadFavorite"))) {
                         showAllTextInNotePad();
                     }
 
@@ -1356,7 +1364,7 @@ public class ActivityNavigation extends AppCompatActivity
                     mNumberSentence.setText("#" + (i + 1));
 
                     textNoteForSentence.setTextSize(TypedValue.COMPLEX_UNIT_SP, settingsSizeTextNote);
-                    textNoteForSentence.setText(textSentence);
+                    textNoteForSentence.setText(Html.fromHtml(formTextForWeb(textSentence)));
                     layoutNotepadForAddContent.addView(layoutForSentence);
 
                     layoutForSentence.getAnimation();
@@ -1536,11 +1544,16 @@ public class ActivityNavigation extends AppCompatActivity
                 final ImageView btnStar = (ImageView) layoutForSentence.findViewById(R.id.btn_star);
                 final ImageView btnTranslateCurrentSentence = (ImageView) layoutForSentence.findViewById(R.id.btn_translate_current_sentence);
                 textNoteForSentence = (TextView) layoutForSentence.findViewById(R.id.text_for_sentence);
+//                textNoteForSentenceWeb = (WebView) layoutForSentence.findViewById(R.id.text_for_sentence_web);
                 mNumberSentence = (TextView) layoutForSentence.findViewById(R.id.number_sentence);
                 mNumberSentence.setText("#" + (i + 1));
 
                 textNoteForSentence.setTextSize(TypedValue.COMPLEX_UNIT_SP, settingsSizeTextNote);
-                textNoteForSentence.setText(textSentence);
+
+                textNoteForSentence.setText(Html.fromHtml(formTextForWeb(textSentence)));
+
+
+//                textNoteForSentenceWeb.loadData(formTextForWeb(textSentence), "text/html; charset=utf-8", "utf-8");
 
 
                 if (!dayTheme) {
@@ -1635,7 +1648,36 @@ public class ActivityNavigation extends AppCompatActivity
                                 builder1.create().show();
 
                             }
-                        });
+                        }).setNeutralButton("Paste", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                                        ClipData abc = clipboard.getPrimaryClip();
+                                        ClipData.Item item = abc.getItemAt(0);
+                                        String text = item.getText().toString();
+                                        editText.setText(editText.getText() + "=>" + text);
+
+
+                                        // сохраняем положение экрана для того чтобы не перематывать заново
+                                        saveStateNotePadLayout();
+                                        // текст не может быть пустой
+                                        if (editText.getText().length() == 0) {
+                                            Toast.makeText(ActivityNavigation.this, "Text can`t be empty!", Toast.LENGTH_SHORT).show();
+                                        } else {
+                                            //запоминаем какой текст подсвечивать
+                                            updateTextMarkColor = indexSentence;
+                                            //изменяем предложение в уроке
+                                            // флаг присутствовали изменения
+                                            wasChanged = true;
+                                            Global.getLessonsUtils().changeSentence(lesson, textSentence, editText.getText().toString());
+                                            updateContent();
+
+                                            ab.setSubtitle("#" + (indexSentence + 1) + " changed!");
+
+                                        }
+                                    }
+                                }
+                        );
                         builder.create().show();
 
                         return true;
@@ -1682,6 +1724,7 @@ public class ActivityNavigation extends AppCompatActivity
                     @Override
                     public void onClick(View view) {
                         openGoogleTranslator(textSentence);
+
                     }
                 });
             }
@@ -1697,6 +1740,30 @@ public class ActivityNavigation extends AppCompatActivity
 //                mScroll.smoothScrollBy(0, scrollYPosition);
 //            }
 //        });
+    }
+
+    private String formTextForWeb(String textSentence) {
+        String[] allTextArray = textSentence.split("[=>]");
+        int size = allTextArray.length;
+        String finalText = "";
+        switch (size) {
+            case 0:
+                finalText = "<b><font color=#FF0000>ERROR</font></b>";
+                break;
+            case 1:
+                finalText = "<font color=#082779>" + allTextArray[0] + "</font>";
+                break;
+            case 3:
+                finalText = "<font color=#082779>" + allTextArray[0] + "</font>" +
+                        "<br><br><font color=#205128>" + allTextArray[2] + "</font>";
+                break;
+            default:
+                finalText = "<font color=#082779>" + textSentence + "</font>";
+                break;
+
+        }
+
+        return finalText;
     }
 
     private void writeHistory(String currentPosition) {
