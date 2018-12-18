@@ -13,8 +13,6 @@ import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import com.example.shalamov.brainwave.jsonUtils.JsonUtilsOld;
-
 import java.util.ArrayList;
 
 public class BuilderLesson extends AppCompatActivity {
@@ -83,7 +81,7 @@ public class BuilderLesson extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
 //        return super.onCreateOptionsMenu(menu);
 
-        menu.add(0, 1, 0, "save").setIcon(R.drawable.ic_save_black_24dp).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+        menu.add(0, 1, 0, "save").setIcon(R.drawable.ic_save).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
         return true;
     }
 

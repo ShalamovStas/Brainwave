@@ -20,6 +20,15 @@ public class Global {
     private static LessonsUtils lessonsUtils;
     private static ActivityNavigation activityNavigation;
     private static ImageUtils imageUtils;
+    private static QuizLogic mQuizLogic;
+
+    public static QuizLogic getmQuizLogic() {
+        return mQuizLogic;
+    }
+
+    public static void setmQuizLogic(QuizLogic mQuizLogic) {
+        Global.mQuizLogic = mQuizLogic;
+    }
 
     public static ImageUtils getImageUtils() {
         return imageUtils;

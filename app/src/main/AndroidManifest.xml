@@ -30,15 +30,17 @@
         <activity
             android:name=".ActivityNavigation"
             android:label="@string/title_activity_navigation"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/AppTheme.NoActionBar"></activity>
 
-        </activity>
-
-        <receiver android:name=".RemoteControlReceiver" android:enabled="true">
+        <receiver
+            android:name=".RemoteControlReceiver"
+            android:enabled="true">
             <intent-filter>
                 <action android:name="android.intent.action.MEDIA_BUTTON" />
             </intent-filter>
         </receiver>
+
+        <activity android:name=".Room1"></activity>
     </application>
 
 </manifest>

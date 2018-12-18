@@ -1364,7 +1364,7 @@ public class ActivityNavigation extends AppCompatActivity
                     mNumberSentence.setText("#" + (i + 1));
 
                     textNoteForSentence.setTextSize(TypedValue.COMPLEX_UNIT_SP, settingsSizeTextNote);
-                    textNoteForSentence.setText(Html.fromHtml(formTextForWeb(textSentence)));
+                    textNoteForSentence.setText(Html.fromHtml(Global.getLessonsUtils().formTextForWeb(textSentence)));
                     layoutNotepadForAddContent.addView(layoutForSentence);
 
                     layoutForSentence.getAnimation();
@@ -1543,6 +1543,7 @@ public class ActivityNavigation extends AppCompatActivity
                 LinearLayout layoutRextAndNumber = (LinearLayout) layoutForSentence.findViewById(R.id.layout_sentence_and_number);
                 final ImageView btnStar = (ImageView) layoutForSentence.findViewById(R.id.btn_star);
                 final ImageView btnTranslateCurrentSentence = (ImageView) layoutForSentence.findViewById(R.id.btn_translate_current_sentence);
+                final ImageView btnPaste = (ImageView) layoutForSentence.findViewById(R.id.btn_paste);
                 textNoteForSentence = (TextView) layoutForSentence.findViewById(R.id.text_for_sentence);
 //                textNoteForSentenceWeb = (WebView) layoutForSentence.findViewById(R.id.text_for_sentence_web);
                 mNumberSentence = (TextView) layoutForSentence.findViewById(R.id.number_sentence);
@@ -1550,7 +1551,7 @@ public class ActivityNavigation extends AppCompatActivity
 
                 textNoteForSentence.setTextSize(TypedValue.COMPLEX_UNIT_SP, settingsSizeTextNote);
 
-                textNoteForSentence.setText(Html.fromHtml(formTextForWeb(textSentence)));
+                textNoteForSentence.setText(Html.fromHtml(Global.getLessonsUtils().formTextForWeb(textSentence)));
 
 
 //                textNoteForSentenceWeb.loadData(formTextForWeb(textSentence), "text/html; charset=utf-8", "utf-8");
@@ -1655,7 +1656,7 @@ public class ActivityNavigation extends AppCompatActivity
                                         ClipData abc = clipboard.getPrimaryClip();
                                         ClipData.Item item = abc.getItemAt(0);
                                         String text = item.getText().toString();
-                                        editText.setText(editText.getText() + "=>" + text);
+
 
 
                                         // сохраняем положение экрана для того чтобы не перематывать заново
@@ -1669,7 +1670,7 @@ public class ActivityNavigation extends AppCompatActivity
                                             //изменяем предложение в уроке
                                             // флаг присутствовали изменения
                                             wasChanged = true;
-                                            Global.getLessonsUtils().changeSentence(lesson, textSentence, editText.getText().toString());
+                                            Global.getLessonsUtils().changeSentence(lesson, textSentence, editText.getText() + "=>" + text);
                                             updateContent();
 
                                             ab.setSubtitle("#" + (indexSentence + 1) + " changed!");
@@ -1684,11 +1685,16 @@ public class ActivityNavigation extends AppCompatActivity
                     }
                 });
 
+
                 layoutForSentence.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         currentSentenceIndex = indexSentence;
-                        showQuiz();
+                        Intent intent = new Intent(ActivityNavigation.this, Room1.class);
+                        intent.putExtra("number", Integer.toString(lessonNumber));
+                        intent.putExtra("currentSentenceIndex", Integer.toString(currentSentenceIndex));
+                        startActivity(intent);
+//                        showQuiz();
                     }
                 });
 
@@ -1727,6 +1733,32 @@ public class ActivityNavigation extends AppCompatActivity
 
                     }
                 });
+
+                btnPaste.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        ClipData abc = clipboard.getPrimaryClip();
+                        ClipData.Item item = abc.getItemAt(0);
+                        String text = item.getText().toString();
+
+
+                        // сохраняем положение экрана для того чтобы не перематывать заново
+                        saveStateNotePadLayout();
+                        // текст не может быть пустой
+
+                            //запоминаем какой текст подсвечивать
+                            updateTextMarkColor = indexSentence;
+                            //изменяем предложение в уроке
+                            // флаг присутствовали изменения
+                            wasChanged = true;
+                            Global.getLessonsUtils().changeSentence(lesson, textSentence, textSentence + "=>" + text);
+                            updateContent();
+
+                            ab.setSubtitle("#" + (indexSentence + 1) + " changed!");
+
+
+                    }
+                });
             }
         }
 
@@ -1742,29 +1774,7 @@ public class ActivityNavigation extends AppCompatActivity
 //        });
     }
 
-    private String formTextForWeb(String textSentence) {
-        String[] allTextArray = textSentence.split("[=>]");
-        int size = allTextArray.length;
-        String finalText = "";
-        switch (size) {
-            case 0:
-                finalText = "<b><font color=#FF0000>ERROR</font></b>";
-                break;
-            case 1:
-                finalText = "<font color=#082779>" + allTextArray[0] + "</font>";
-                break;
-            case 3:
-                finalText = "<font color=#082779>" + allTextArray[0] + "</font>" +
-                        "<br><br><font color=#205128>" + allTextArray[2] + "</font>";
-                break;
-            default:
-                finalText = "<font color=#082779>" + textSentence + "</font>";
-                break;
 
-        }
-
-        return finalText;
-    }
 
     private void writeHistory(String currentPosition) {
         history[0] = history[1];
@@ -1895,6 +1905,7 @@ public class ActivityNavigation extends AppCompatActivity
 
         allTextForLesson = lesson.getText();
         mQuizLogic = new QuizLogic(lesson);
+        Global.setmQuizLogic(mQuizLogic);
         mLogicTraining2 = new LogicTraining2();
         toolForNotepad = new ToolForNotepad();
         toolForNotepad.setNumberOfSentences(mQuizLogic.getNumberOfSentences());
@@ -1993,8 +2004,8 @@ public class ActivityNavigation extends AppCompatActivity
 
 
 //                    if (history[1].equalsIgnoreCase("Training")) {
-//                        t1.setSpeechRate(1f);
-//                        t1.speak(textFieldForLearning.getText().toString(), TextToSpeech.QUEUE_FLUSH, null);
+//                        textToSpeech.setSpeechRate(1f);
+//                        textToSpeech.speak(textFieldForLearning.getText().toString(), TextToSpeech.QUEUE_FLUSH, null);
 //                    }
 //                    if (history[1].equalsIgnoreCase("Training2")) {
 //                        String[] arrayTextCurrent; // массив слов который введен в поле для конкатенации
@@ -2009,14 +2020,21 @@ public class ActivityNavigation extends AppCompatActivity
 //                                speech = speech + arrayTextToSpeech[i];
 //                            }
 //                            speech = speech + ".";
-//                            t1.setSpeechRate(0.5f);
-//                            t1.speak(speech, TextToSpeech.QUEUE_FLUSH, null);
+//                            textToSpeech.setSpeechRate(0.5f);
+//                            textToSpeech.speak(speech, TextToSpeech.QUEUE_FLUSH, null);
 //                        }
 //
 //                    } else {
-//                        t1.setSpeechRate(1f);
-//                        t1.speak(mQuizLogic.getSentenceString(currentSentenceIndex), TextToSpeech.QUEUE_FLUSH, null);
+//                        textToSpeech.setSpeechRate(1f);
+//                        textToSpeech.speak(mQuizLogic.getSentenceString(currentSentenceIndex), TextToSpeech.QUEUE_FLUSH, null);
 //                    }
+            return true;
+        }
+        if(id == R.id.action_save){
+
+            Global.getJsonUtils().saveFromModelToFile();
+            Toast.makeText(this, "Saved", Toast.LENGTH_SHORT).show();
+
             return true;
         }
 

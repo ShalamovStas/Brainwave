@@ -66,6 +66,13 @@
                 android:layout_width="25dp"
                 android:layout_height="25dp"
                 android:background="@drawable/ic_google_translator"/>
+
+            <ImageView
+                android:id="@+id/btn_paste"
+                android:layout_marginStart="10dp"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:background="@drawable/ic_content_paste"/>
         </LinearLayout>
 
 

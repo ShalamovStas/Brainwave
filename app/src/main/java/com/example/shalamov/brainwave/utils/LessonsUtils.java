@@ -352,5 +352,64 @@ public class LessonsUtils {
         return textLesson.toString();
     }
 
+    public String formTextForWeb(String textSentence) {
+        String[] allTextArray = textSentence.split("[=>]");
+        int size = allTextArray.length;
+        String finalText = "";
+        switch (size) {
+            case 0:
+                finalText = "<b><font color=#FF0000>ERROR</font></b>";
+                break;
+            case 1:
+                    finalText = "<font color=#082779>" + allTextArray[0] + "</font>";
+                break;
+            case 3:
+                finalText = "<font color=#082779>" + allTextArray[0] + "</font>" +
+                        "<br><br><font color=#205128>" + allTextArray[2] + "</font>";
+                break;
+            case 5:
+                finalText = "<font color=#082779>" + allTextArray[0] + "</font>" +
+                        "<br><br><font color=#205128>" + allTextArray[2] + "</font>" +
+                        "<br><font color=#9f3924>" + allTextArray[4] + "</font>";
+                break;
+            default:
+                finalText = "<font color=#082779>" + textSentence + "</font>";
+                break;
+
+        }
+
+        return finalText;
+    }
+
+    public String formTextForWebBoltFormat(String textSentence) {
+        String[] allTextArray = textSentence.split("[=>]");
+        int size = allTextArray.length;
+        String finalText = "";
+        switch (size) {
+            case 0:
+                finalText = "<b><font color=#FF0000>ERROR</font></b>";
+                break;
+            case 1:
+                finalText = "<b><font color=#082779>" + allTextArray[0] + "</font></b>";
+                break;
+            case 3:
+                finalText = "<b><font color=#082779>" + allTextArray[0] + "</font></b>" +
+                        "<br><br><b><font color=#205128>" + allTextArray[2] + "</font></b>";
+                break;
+            case 5:
+                finalText = "<b><font color=#082779>" + allTextArray[0] + "</font></b>" +
+                        "<br><br><font color=#205128>" + allTextArray[2] + "</font>" +
+                        "<br><font color=#9f3924>" + allTextArray[4] + "</font></b>";
+                break;
+            default:
+                finalText = "<b><font color=#082779>" + textSentence + "</font></b>";
+                break;
+
+        }
+
+        return finalText;
+    }
+
+
 
 }
