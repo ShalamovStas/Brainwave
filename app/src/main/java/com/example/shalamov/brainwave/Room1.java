@@ -65,9 +65,9 @@ public class Room1 extends AppCompatActivity {
         layoutForClick = findViewById(R.id.layout_tap_quiz); //первый лейоут где располагается главный текст и по нему отслеживаются нажатия
         LinearLayout layoutForClickPrevious = findViewById(R.id.layout_btn_previous);
         LinearLayout layoutForClickNext = findViewById(R.id.layout_btn_next);
-//        LinearLayout mLayoutGoToTraining2 = findViewById(R.id.btn_go_to_train2);
+        LinearLayout mLayoutCleanText = findViewById(R.id.btn_clean_text);
         LinearLayout mLayoutGoToTranslator = findViewById(R.id.btn_go_to_translator);
-//        LinearLayout mLayoutGoToSettings = findViewById(R.id.btn_go_to_settings);
+        LinearLayout mLayoutCorrectText = findViewById(R.id.btn_correct_text);
         LinearLayout mLayoutPaste = findViewById(R.id.btn_paste);
         BottomNavigationView bottomNavigationItemView = findViewById(R.id.navigation_bottom);
         textFieldForLearning = findViewById(R.id.text_field_for_learning);
@@ -205,6 +205,35 @@ public class Room1 extends AppCompatActivity {
                 pasteText();
             }
         });
+
+        mLayoutCorrectText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                correctText();
+            }
+        });
+
+        mLayoutCleanText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String textForClean = Global.getLessonsUtils().cleanText(mQuizLogic.getCurrentSentenceString());
+                Global.getLessonsUtils().changeSentence(lesson, mQuizLogic.getCurrentSentenceString(), textForClean);
+
+                textFieldForLearning.setText(Html.fromHtml(Global.getLessonsUtils().formTextForWebBoltFormat(mQuizLogic.getCurrentSentenceString())));
+
+
+            }
+        });
+    }
+
+
+    private void correctText() {
+
+        Intent intent = new Intent(Room1.this, TextEditorActivity.class);
+        intent.putExtra("lessonNumber", Integer.toString(lessonNumber));
+        intent.putExtra("currentSentenceIndex", Integer.toString(currentSentenceIndex));
+        startActivity(intent);
+
     }
 
     private void pasteText() {
@@ -214,7 +243,7 @@ public class Room1 extends AppCompatActivity {
 
         Log.d(TAG, "\npaste text:[" + text + "]" + "\nmQuizLogic.getCurrentSentenceString() = " + mQuizLogic.getCurrentSentenceString());
 
-//        Global.getLessonsUtils().changeSentence(lesson, mQuizLogic.getCurrentSentenceString(), mQuizLogic.getCurrentSentenceString() + "=>" + text);
+        Global.getLessonsUtils().changeSentence(lesson, mQuizLogic.getCurrentSentenceString(), mQuizLogic.getCurrentSentenceString() + "=>" + text);
 
         textFieldForLearning.setText(Html.fromHtml(Global.getLessonsUtils().formTextForWebBoltFormat(mQuizLogic.getSentenceString(currentSentenceIndex))));
 
@@ -260,5 +289,17 @@ public class Room1 extends AppCompatActivity {
         }
 
         return true;
+    }
+
+    @Override
+    protected void onResume() {
+        updateContent();
+        super.onResume();
+
+
+    }
+
+    private void updateContent() {
+        textFieldForLearning.setText(Html.fromHtml(Global.getLessonsUtils().formTextForWebBoltFormat(mQuizLogic.getCurrentSentenceString())));
     }
 }

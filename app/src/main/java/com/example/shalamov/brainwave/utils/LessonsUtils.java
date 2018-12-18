@@ -397,9 +397,9 @@ public class LessonsUtils {
                         "<br><br><b><font color=#205128>" + allTextArray[2] + "</font></b>";
                 break;
             case 5:
-                finalText = "<b><font color=#082779>" + allTextArray[0] + "</font></b>" +
+                finalText = "<b><font color=#082779>" + allTextArray[0] + "</font>" +
                         "<br><br><font color=#205128>" + allTextArray[2] + "</font>" +
-                        "<br><font color=#9f3924>" + allTextArray[4] + "</font></b>";
+                        "<br><br><font color=#9f3924>" + allTextArray[4] + "</font></b>";
                 break;
             default:
                 finalText = "<b><font color=#082779>" + textSentence + "</font></b>";
@@ -408,6 +408,13 @@ public class LessonsUtils {
         }
 
         return finalText;
+    }
+
+    public String cleanText(String textSentence) {
+        String[] allTextArray = textSentence.split("[=>]");
+
+
+        return allTextArray[0];
     }
 
 

@@ -170,9 +170,43 @@
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:background="@drawable/ic_content_paste"
-
             />
+    </LinearLayout>
 
+    <LinearLayout
+        android:id="@+id/btn_correct_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/navigation_bottom"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="130dp"
+        android:layout_marginBottom="7dp"
+        android:background="@drawable/press_selector">
+
+
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@android:drawable/ic_menu_edit"
+            />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/btn_clean_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/navigation_bottom"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="200dp"
+        android:layout_marginBottom="7dp"
+        android:background="@drawable/press_selector">
+
+
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@android:drawable/ic_menu_set_as"
+            />
     </LinearLayout>
 
 

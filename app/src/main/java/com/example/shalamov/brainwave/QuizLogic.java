@@ -200,9 +200,11 @@ public class QuizLogic {
 
         String text = lesson.getArrayListText().get(currentSentence);
 
-        currentSentence++;
+//        currentSentence++;
         return text;
     }
+
+
 
     public String getSentenceString(int index) {
 

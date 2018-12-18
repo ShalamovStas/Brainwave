@@ -1353,6 +1353,7 @@ public class ActivityNavigation extends AppCompatActivity
 
                 final int indexSentence = i;
                 final String textSentence = mQuizLogic.getCurrentSentenceString();
+                mQuizLogic.nextSentence();
                 if (mQuizLogic.checkFavoriteSentence(lesson, textSentence)) {
 
                     layoutForSentence = getLayoutInflater().inflate(R.layout.layout_sentence, null);
@@ -1539,6 +1540,8 @@ public class ActivityNavigation extends AppCompatActivity
 
                 final int indexSentence = i;
                 final String textSentence = mQuizLogic.getCurrentSentenceString();
+
+                mQuizLogic.nextSentence();//шаг на следующее предложение
                 layoutForSentence = getLayoutInflater().inflate(R.layout.layout_sentence, null);
                 LinearLayout layoutRextAndNumber = (LinearLayout) layoutForSentence.findViewById(R.id.layout_sentence_and_number);
                 final ImageView btnStar = (ImageView) layoutForSentence.findViewById(R.id.btn_star);
@@ -1658,7 +1661,6 @@ public class ActivityNavigation extends AppCompatActivity
                                         String text = item.getText().toString();
 
 
-
                                         // сохраняем положение экрана для того чтобы не перематывать заново
                                         saveStateNotePadLayout();
                                         // текст не может быть пустой
@@ -1746,15 +1748,15 @@ public class ActivityNavigation extends AppCompatActivity
                         saveStateNotePadLayout();
                         // текст не может быть пустой
 
-                            //запоминаем какой текст подсвечивать
-                            updateTextMarkColor = indexSentence;
-                            //изменяем предложение в уроке
-                            // флаг присутствовали изменения
-                            wasChanged = true;
-                            Global.getLessonsUtils().changeSentence(lesson, textSentence, textSentence + "=>" + text);
-                            updateContent();
+                        //запоминаем какой текст подсвечивать
+                        updateTextMarkColor = indexSentence;
+                        //изменяем предложение в уроке
+                        // флаг присутствовали изменения
+                        wasChanged = true;
+                        Global.getLessonsUtils().changeSentence(lesson, textSentence, textSentence + "=>" + text);
+                        updateContent();
 
-                            ab.setSubtitle("#" + (indexSentence + 1) + " changed!");
+                        ab.setSubtitle("#" + (indexSentence + 1) + " changed!");
 
 
                     }
@@ -1773,7 +1775,6 @@ public class ActivityNavigation extends AppCompatActivity
 //            }
 //        });
     }
-
 
 
     private void writeHistory(String currentPosition) {
@@ -1921,23 +1922,13 @@ public class ActivityNavigation extends AppCompatActivity
 
             if (!notePadShow) {
 
-
                 if (history[0] == "Training") {
-
-                    if (history[1] == "Training") {
-                        showNotePad();
-                    }
                     showQuiz();
                 } else {
                     showNotePad();
                 }
-
             } else {
-                if (wasChanged) {
-                    Global.getJsonUtils().saveFromModelToFile();
-                    Toast.makeText(this, "Saved", Toast.LENGTH_SHORT).show();
-                }
-                super.onBackPressed();
+                closeNotePad();
             }
         }
     }
@@ -1960,11 +1951,8 @@ public class ActivityNavigation extends AppCompatActivity
             if (!notePadShow) {
                 showNotePad();
             } else {
-                if (wasChanged) {
-                    Global.getJsonUtils().saveFromModelToFile();
-                    Toast.makeText(this, "Saved", Toast.LENGTH_SHORT).show();
-                }
-                finish();
+
+                closeNotePad();
             }
             return true;
         }
@@ -2030,7 +2018,7 @@ public class ActivityNavigation extends AppCompatActivity
 //                    }
             return true;
         }
-        if(id == R.id.action_save){
+        if (id == R.id.action_save) {
 
             Global.getJsonUtils().saveFromModelToFile();
             Toast.makeText(this, "Saved", Toast.LENGTH_SHORT).show();
@@ -2039,6 +2027,30 @@ public class ActivityNavigation extends AppCompatActivity
         }
 
         return true;
+    }
+
+    private void closeNotePad() {
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(ActivityNavigation.this);
+        builder.setMessage("Save lesson?");
+        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+
+                Global.getJsonUtils().saveFromModelToFile();
+                Toast.makeText(ActivityNavigation.this, "Saved", Toast.LENGTH_SHORT).show();
+                finish();
+            }
+        }).setNegativeButton("No", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                finish();
+            }
+        });
+
+        builder.create().show();
+
+
     }
 
     @SuppressWarnings("StatementWithEmptyBody")
