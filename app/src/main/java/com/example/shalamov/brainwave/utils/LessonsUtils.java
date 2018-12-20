@@ -13,7 +13,7 @@ public class LessonsUtils {
     // класс для работы с объектами Lesson и списком уроков
     // изменение объектов, добавление новых, итд
 
-    public void createLesson(int number, String name, String text, String textFavorite, String description1, String description2, String description3, String description4, String label, String progress) {
+    public void createLesson(int number, String name, String text, String textFavorite, String description1, String words, String label, String progress) {
 
         Log.d(TAG, "\n======================createLesson start======================");
 
@@ -21,10 +21,12 @@ public class LessonsUtils {
         //создаем коллекцию, элементы которой являются отдельные предложения
         ArrayList<String> textArrayList = new ArrayList<>();
         ArrayList<String> textArrayListFavorite = new ArrayList<>();
+        ArrayList<String> textArrayWords = new ArrayList<>();
         //используем метод разделения общего текста text на отдельные предложения и записываем
         //отдельные предложения в коллекцию - метод splitSentence это позволяет делать
         splitSentence(text, textArrayList);
         splitSentence(textFavorite, textArrayListFavorite);
+        splitSentence(words, textArrayWords);
         //из разделенных предложений с удаленными абзацами  и отступами формируется строка
         //textLesson, которая бутед записана в модель Lesson
         String textLesson = arrayListToString(textArrayList);
@@ -40,9 +42,8 @@ public class LessonsUtils {
         lesson.setLabel(label);
         lesson.setProgress(progress);
         lesson.setDescription1(description1);
-        lesson.setDescription2(description2);
-        lesson.setDescription3(description3);
-        lesson.setDescription4(description4);
+        lesson.setWords(words);
+        lesson.setArrayListWords(textArrayWords);
 
 
         Global.getLessonsList().add(lesson);
@@ -122,7 +123,7 @@ public class LessonsUtils {
         Log.d(TAG, "\n======================splitSentence end======================");
     }
 
-    public void changeLesson(int number, String name, String text, String description1, String description2, String description3, String description4, String label, String progress) {
+    public void changeLesson(int number, String name, String text, String description1, String words, String label, String progress) {
 
         Lesson lesson = (Lesson) Global.getLessonsList().get(number);
 
@@ -143,9 +144,7 @@ public class LessonsUtils {
         lesson.setLabel(label);
         lesson.setProgress(progress);
         lesson.setDescription1(description1);
-        lesson.setDescription2(description2);
-        lesson.setDescription3(description3);
-        lesson.setDescription4(description4);
+        lesson.setWords("");
 
     }
 
@@ -242,6 +241,50 @@ public class LessonsUtils {
         Log.d(TAG, "textLessonFavorite = " + textLessonFavorite);
     }
 
+    public boolean addWord(Lesson lesson, String text) {
+        Log.d(TAG, "=========addWord()=========");
+        // изменяем отмеченый текст если он есть
+        ArrayList<String> words = lesson.getArrayListWords();
+
+        // флаг поиска совпадения
+        //если  такое слово уже существует, операция не завершается и возвращает false
+        boolean flag = true;
+
+        for (int i = 0; i < words.size(); i++) {
+            if (words.get(i).equalsIgnoreCase(text)) {
+                flag = false;
+            }
+        }
+
+        if(flag) {
+            words.add(text);
+
+            // создание поля textFavorite для модели с учтом скорректированого предложения
+            String wordsString = arrayListToString(words);
+            lesson.setWords(wordsString);
+            Log.d(TAG, "words = " + wordsString);
+        }
+
+        return flag;
+    }
+
+    public void deleteWord(Lesson lesson, String text) {
+
+        ArrayList<String> words = lesson.getArrayListWords();
+
+        if (words.size() != 0) {
+
+            for (int i = 0; i < words.size(); i++) {
+
+                if (words.get(i).equalsIgnoreCase(text)) {
+                    words.remove(i);
+                }
+            }
+            String wordsString = arrayListToString(words);
+            lesson.setWords(wordsString);
+        }
+    }
+
     public void deleteFavoriteSentence(Lesson lesson, String text) {
 
         ArrayList<String> textArrayListFavorite = lesson.getArrayListTextFavorite();
@@ -255,7 +298,7 @@ public class LessonsUtils {
                 }
             }
             // создание поля textFavorite для модели с учтом скорректированого предложения
-            if(textArrayListFavorite.size() != 0) {
+            if (textArrayListFavorite.size() != 0) {
                 String textLessonFavorite = arrayListToString(textArrayListFavorite);
                 lesson.setTextFavorite(textLessonFavorite);
             }
@@ -361,7 +404,7 @@ public class LessonsUtils {
                 finalText = "<b><font color=#FF0000>ERROR</font></b>";
                 break;
             case 1:
-                    finalText = "<font color=#082779>" + allTextArray[0] + "</font>";
+                finalText = "<font color=#082779>" + allTextArray[0] + "</font>";
                 break;
             case 3:
                 finalText = "<font color=#082779>" + allTextArray[0] + "</font>" +
@@ -413,10 +456,8 @@ public class LessonsUtils {
     public String cleanText(String textSentence) {
         String[] allTextArray = textSentence.split("[=>]");
 
-
         return allTextArray[0];
     }
-
 
 
 }

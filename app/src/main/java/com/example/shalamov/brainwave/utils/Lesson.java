@@ -13,11 +13,18 @@ public class Lesson {
     private String label;
     private String progress;
     private String description1;
-    private String description2;
-    private String description3;
-    private String description4;
+    private String words;
+    private ArrayList<String> arrayListWords;
 
 
+
+    public void setArrayListWords(ArrayList<String> arrayListWords) {
+        this.arrayListWords = arrayListWords;
+    }
+
+    public void setWords(String words) {
+        this.words = words;
+    }
 
     public void setArrayListTextFavorite(ArrayList<String> arrayListTextFavorite) {
         this.arrayListTextFavorite = arrayListTextFavorite;
@@ -55,18 +62,6 @@ public class Lesson {
         this.description1 = description1;
     }
 
-    public void setDescription2(String description2) {
-        this.description2 = description2;
-    }
-
-    public void setDescription3(String description3) {
-        this.description3 = description3;
-    }
-
-    public void setDescription4(String description4) {
-        this.description4 = description4;
-    }
-
 
 
     public String getName() {
@@ -81,16 +76,12 @@ public class Lesson {
         return description1;
     }
 
-    public String getDescription2() {
-        return description2;
+    public String getWords() {
+        return words;
     }
 
-    public String getDescription3() {
-        return description3;
-    }
-
-    public String getDescription4() {
-        return description4;
+    public ArrayList<String> getArrayListWords() {
+        return arrayListWords;
     }
 
     public String getLabel() {

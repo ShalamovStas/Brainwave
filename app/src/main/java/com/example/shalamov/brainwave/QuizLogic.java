@@ -13,12 +13,11 @@ import java.util.ArrayList;
 public class QuizLogic {
     final String TAG = "QuizLogic";
     private Lesson lesson;
-    private String mainText;
-//    private String textFavorite;
+    private String mainText, favoriteText;
+    boolean useOnlyFavorite;
     private ArrayList arrayListText;
     private ArrayList<String> arrayListTextFavorite;
-//    private String[] mainTextArray; // предолжения разделены (предл1), (предл2), ...
-//    private String[] textFavoriteArray;
+
     private String[] temp; //сдесь разделяется текущее предложение. после
     // изменения предложения архив пересоздается
 
@@ -26,16 +25,25 @@ public class QuizLogic {
     private int currentSentence; //Текущее предложение
     private int currentWord; //Текущее Слово
 
-    public QuizLogic(Lesson lesson) {
+    public QuizLogic() {
 
+
+        Log.d("brain", "QuizLogic(constructor)-mainText = " + mainText);
+    }
+
+    public void setLesson(Lesson lesson){
         this.lesson = lesson;
         this.mainText = lesson.getText();
+        this.favoriteText = lesson.getTextFavorite();
 //        this.textFavorite = lesson.getTextFavorite();
+        useOnlyFavorite = false;
         currentSentence = 0;
         currentWord = 0;
         createArrayCurrentSentence(currentSentence);
+    }
 
-        Log.d("brain", "QuizLogic(constructor)-mainText = " + mainText);
+    public void setUseFavorite (boolean flag){
+        useOnlyFavorite = flag;
     }
 
     public String[] getCurrentSentenceArray() {
@@ -145,25 +153,42 @@ public class QuizLogic {
 
     public String nextSentence() {
 
-        if (currentSentence == lesson.getArrayListText().size() - 1) {
-            currentSentence = 0;
-            createArrayCurrentSentence(currentSentence);
-            return allWord();
-        } else {
-            currentSentence++;
-            createArrayCurrentSentence(currentSentence);
-            return allWord();
+        if(!useOnlyFavorite) {
+
+            if (currentSentence == lesson.getArrayListText().size() - 1) {
+                currentSentence = 0;
+                createArrayCurrentSentence(currentSentence);
+            } else {
+                currentSentence++;
+                createArrayCurrentSentence(currentSentence);
+            }
+        }else{
+            if (currentSentence == lesson.getArrayListTextFavorite().size() - 1) {
+                currentSentence = 0;
+                createArrayCurrentSentence(currentSentence);
+            } else {
+                currentSentence++;
+                createArrayCurrentSentence(currentSentence);
+            }
         }
 
+        return allWord();
     }
 
     public String previousSentence() {
 
         currentSentence--;
 
-        if (currentSentence == -1) {
+
+        if (currentSentence == -1 && !useOnlyFavorite) {
             currentSentence = lesson.getArrayListText().size() - 1;
         }
+
+        if (currentSentence == -1 && useOnlyFavorite) {
+            currentSentence = lesson.getArrayListTextFavorite().size() - 1;
+        }
+
+
         createArrayCurrentSentence(currentSentence);
         return allWord();
 
@@ -172,24 +197,41 @@ public class QuizLogic {
     public void createArrayCurrentSentence(int currentSentence) {
         currentTextInLayout = "";
         currentWord = 0;
-
-        String senttenceForSplit = lesson.getArrayListText().get(currentSentence); //получим предложение для разделения
+        String senttenceForSplit;
+        if(!useOnlyFavorite) {
+            senttenceForSplit = lesson.getArrayListText().get(currentSentence); //получим предложение для разделения
+        }else{
+            senttenceForSplit = lesson.getArrayListTextFavorite().get(currentSentence); //получим предложение для разделения
+        }
         temp = senttenceForSplit.split("[ ]");           // арай со словами готов
 
     }
 
     public int getNumberOfSentences() {
-        return lesson.getArrayListText().size();
+        if(!useOnlyFavorite) {
+            return lesson.getArrayListText().size();
+        }else{
+            return lesson.getArrayListTextFavorite().size();
+
+        }
     }
 
 
     public int getCurrentSentenceInt() {
+
         return currentSentence + 1;
     }
 
+
     public int getCurrentSentenceIndex() {
-        if (currentSentence == lesson.getArrayListText().size()) {
-            currentSentence = 0;
+        if(!useOnlyFavorite) {
+            if (currentSentence == lesson.getArrayListText().size()) {
+                currentSentence = 0;
+            }
+        }else{
+            if (currentSentence == lesson.getArrayListTextFavorite().size()) {
+                currentSentence = 0;
+            }
         }
         return currentSentence;
     }
@@ -197,8 +239,13 @@ public class QuizLogic {
     public String getCurrentSentenceString() {
 
         Log.d(TAG, "getCurrentSentenceString()\ncurrentSentence = " + currentSentence);
+        String text;
+        if(!useOnlyFavorite) {
+            text = lesson.getArrayListText().get(currentSentence);
+        }else{
+            text = lesson.getArrayListTextFavorite().get(currentSentence);
 
-        String text = lesson.getArrayListText().get(currentSentence);
+        }
 
 //        currentSentence++;
         return text;
@@ -208,7 +255,11 @@ public class QuizLogic {
 
     public String getSentenceString(int index) {
 
-        return lesson.getArrayListText().get(index);
+        if(!useOnlyFavorite) {
+            return lesson.getArrayListText().get(index);
+        }else{
+            return lesson.getArrayListTextFavorite().get(index);
+        }
     }
 
     public String allWord() {

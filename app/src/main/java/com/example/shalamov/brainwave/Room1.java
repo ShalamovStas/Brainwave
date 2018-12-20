@@ -18,7 +18,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -29,7 +28,7 @@ import java.util.Locale;
 public class Room1 extends AppCompatActivity {
 
     QuizLogic mQuizLogic;
-    int currentSentenceIndex, lessonNumber;
+    int currentSentenceIndex, lessonNumber, showOnlyFavoriteSentences;
     ActionBar ab;
     TextView textFieldForLearning;
     Lesson lesson;
@@ -46,8 +45,9 @@ public class Room1 extends AppCompatActivity {
         ab = getSupportActionBar();
         ab.setDisplayHomeAsUpEnabled(true);
         ab.setDisplayShowHomeEnabled(true);
-        lessonNumber = Integer.parseInt(getIntent().getStringExtra("number"));
+        lessonNumber = Integer.parseInt(getIntent().getStringExtra("lessonNumber"));
         currentSentenceIndex = Integer.parseInt(getIntent().getStringExtra("currentSentenceIndex"));
+        showOnlyFavoriteSentences = Integer.parseInt(getIntent().getStringExtra("onlyFavorite"));
         clipboard = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
         initializing();
 
@@ -60,6 +60,11 @@ public class Room1 extends AppCompatActivity {
 
         mQuizLogic.setCurrSentence(currentSentenceIndex);
         mQuizLogic.createArrayCurrentSentence(currentSentenceIndex);
+        if(showOnlyFavoriteSentences == 1){
+            ab.setTitle("Favorite");
+        }else{
+            ab.setTitle("Text");
+        }
         ab.setSubtitle("#" + (currentSentenceIndex + 1) + " from " + mQuizLogic.getNumberOfSentences());
 
         layoutForClick = findViewById(R.id.layout_tap_quiz); //первый лейоут где располагается главный текст и по нему отслеживаются нажатия
@@ -73,6 +78,14 @@ public class Room1 extends AppCompatActivity {
         textFieldForLearning = findViewById(R.id.text_field_for_learning);
 
         final ImageView mImageFavoriteOrNot = (ImageView) findViewById(R.id.image_favorite_or_not);
+
+        if (!mQuizLogic.checkIfFavoriteTextEmpty(lesson)) {
+            if (mQuizLogic.checkFavoriteSentence(lesson, mQuizLogic.getSentenceString(currentSentenceIndex))) {
+                Global.getImageUtils().updateLabel("favorite_sentence_quiz", mImageFavoriteOrNot);
+            } else {
+                Global.getImageUtils().updateLabel("not_favorite_sentence_quiz", mImageFavoriteOrNot);
+            }
+        }
 
         textFieldForLearning.setText(Html.fromHtml(Global.getLessonsUtils().formTextForWebBoltFormat(mQuizLogic.allWord())));
 

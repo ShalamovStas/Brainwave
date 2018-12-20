@@ -41,7 +41,13 @@
         </receiver>
 
         <activity android:name=".Room1" />
-        <activity android:name=".TextEditorActivity"></activity>
+        <activity android:name=".TextEditorActivity" />
+        <activity android:name=".ActivityBeforeTraining" />
+        <activity android:name=".TextActivity" />
+        <activity android:name=".VocabularyBuilderActivity" />
+        <activity android:name=".ChooseWordForVocabularyActivity" />
+        <activity android:name=".ListWordsActivity" />
+        <activity android:name=".QuizWordsActivity"></activity>
     </application>
 
 </manifest>

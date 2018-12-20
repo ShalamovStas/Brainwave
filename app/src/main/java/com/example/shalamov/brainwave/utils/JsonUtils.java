@@ -74,9 +74,7 @@ public class JsonUtils {
                         jsonObject.get("Text").toString(),
                         jsonObject.get("TextFavorite").toString(),
                         jsonObject.get("description1").toString(),
-                        jsonObject.get("description2").toString(),
-                        jsonObject.get("description3").toString(),
-                        jsonObject.get("description4").toString(),
+                        jsonObject.get("words").toString(),
                         jsonObject.get("label").toString(),
                         jsonObject.get("progress").toString()
                 );
@@ -120,9 +118,8 @@ public class JsonUtils {
                         jsonObject.put("Text", lesson.getText());
                         jsonObject.put("TextFavorite", lesson.getTextFavorite());
                         jsonObject.put("description1", lesson.getDescription1());
-                        jsonObject.put("description2", lesson.getDescription2());
-                        jsonObject.put("description3", lesson.getDescription3());
-                        jsonObject.put("description4", lesson.getDescription4());
+                        jsonObject.put("words", lesson.getWords());
+
                         jsonObject.put("label", lesson.getLabel());
                         jsonObject.put("progress", lesson.getProgress());
 

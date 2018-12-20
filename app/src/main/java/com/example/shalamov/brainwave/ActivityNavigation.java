@@ -145,7 +145,7 @@ public class ActivityNavigation extends AppCompatActivity
     int rotation;
     int sizeScreen;
 
-    AudioManager manager;
+//    AudioManager manager;
 
     int lessonNumber;
     Lesson lesson;
@@ -178,7 +178,7 @@ public class ActivityNavigation extends AppCompatActivity
         clipboard = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
 
 
-        lessonNumber = Integer.parseInt(getIntent().getStringExtra("number"));
+        lessonNumber = Integer.parseInt(getIntent().getStringExtra("lessonNumber"));
         lesson = (Lesson) Global.getLessonsList().get(lessonNumber);
 
 
@@ -198,8 +198,8 @@ public class ActivityNavigation extends AppCompatActivity
 //        AudioManager am = (AudioManager) this.getSystemService(Context.AUDIO_SERVICE);
 //        am.registerMediaButtonEventReceiver(am);
 
-        manager = (AudioManager) this.getSystemService(Context.AUDIO_SERVICE);
-        manager.registerMediaButtonEventReceiver(new ComponentName(getPackageName(), RemoteControlReceiver.class.getName()));
+//        manager = (AudioManager) this.getSystemService(Context.AUDIO_SERVICE);
+//        manager.registerMediaButtonEventReceiver(new ComponentName(getPackageName(), RemoteControlReceiver.class.getName()));
 
         Global.setActivityNavigation(this);
 
@@ -1652,35 +1652,7 @@ public class ActivityNavigation extends AppCompatActivity
                                 builder1.create().show();
 
                             }
-                        }).setNeutralButton("Paste", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialogInterface, int i) {
-
-                                        ClipData abc = clipboard.getPrimaryClip();
-                                        ClipData.Item item = abc.getItemAt(0);
-                                        String text = item.getText().toString();
-
-
-                                        // сохраняем положение экрана для того чтобы не перематывать заново
-                                        saveStateNotePadLayout();
-                                        // текст не может быть пустой
-                                        if (editText.getText().length() == 0) {
-                                            Toast.makeText(ActivityNavigation.this, "Text can`t be empty!", Toast.LENGTH_SHORT).show();
-                                        } else {
-                                            //запоминаем какой текст подсвечивать
-                                            updateTextMarkColor = indexSentence;
-                                            //изменяем предложение в уроке
-                                            // флаг присутствовали изменения
-                                            wasChanged = true;
-                                            Global.getLessonsUtils().changeSentence(lesson, textSentence, editText.getText() + "=>" + text);
-                                            updateContent();
-
-                                            ab.setSubtitle("#" + (indexSentence + 1) + " changed!");
-
-                                        }
-                                    }
-                                }
-                        );
+                        });
                         builder.create().show();
 
                         return true;
@@ -1693,8 +1665,9 @@ public class ActivityNavigation extends AppCompatActivity
                     public void onClick(View view) {
                         currentSentenceIndex = indexSentence;
                         Intent intent = new Intent(ActivityNavigation.this, Room1.class);
-                        intent.putExtra("number", Integer.toString(lessonNumber));
+                        intent.putExtra("lessonNumber", Integer.toString(lessonNumber));
                         intent.putExtra("currentSentenceIndex", Integer.toString(currentSentenceIndex));
+                        intent.putExtra("onlyFavorite", "0");
                         startActivity(intent);
 //                        showQuiz();
                     }
@@ -1858,8 +1831,7 @@ public class ActivityNavigation extends AppCompatActivity
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
                             wasChanged = true;
-                            Global.getLessonsUtils().changeLesson(lessonNumber, nameLessonChange.getText().toString(), mainTextLessonChange.getText().toString(), ActivityNavigation.this.getSpinnerSelect(), "description2", "description3", "description1",
-                                    lesson.getLabel(), "progress 1");
+                            Global.getLessonsUtils().changeLesson(lessonNumber, nameLessonChange.getText().toString(), mainTextLessonChange.getText().toString(), ActivityNavigation.this.getSpinnerSelect(), "", lesson.getLabel(), "progress 1");
                             updateContent();
                         }
 
@@ -1905,8 +1877,9 @@ public class ActivityNavigation extends AppCompatActivity
     private void createQuiz() {
 
         allTextForLesson = lesson.getText();
-        mQuizLogic = new QuizLogic(lesson);
-        Global.setmQuizLogic(mQuizLogic);
+        mQuizLogic = Global.getmQuizLogic();
+
+        mQuizLogic.setUseFavorite(false);
         mLogicTraining2 = new LogicTraining2();
         toolForNotepad = new ToolForNotepad();
         toolForNotepad.setNumberOfSentences(mQuizLogic.getNumberOfSentences());
@@ -2030,25 +2003,26 @@ public class ActivityNavigation extends AppCompatActivity
     }
 
     private void closeNotePad() {
+        finish();
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(ActivityNavigation.this);
-        builder.setMessage("Save lesson?");
-        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-
-                Global.getJsonUtils().saveFromModelToFile();
-                Toast.makeText(ActivityNavigation.this, "Saved", Toast.LENGTH_SHORT).show();
-                finish();
-            }
-        }).setNegativeButton("No", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                finish();
-            }
-        });
-
-        builder.create().show();
+//        AlertDialog.Builder builder = new AlertDialog.Builder(ActivityNavigation.this);
+//        builder.setMessage("Save lesson?");
+//        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+//            @Override
+//            public void onClick(DialogInterface dialogInterface, int i) {
+//
+//                Global.getJsonUtils().saveFromModelToFile();
+//                Toast.makeText(ActivityNavigation.this, "Saved", Toast.LENGTH_SHORT).show();
+//                finish();
+//            }
+//        }).setNegativeButton("No", new DialogInterface.OnClickListener() {
+//            @Override
+//            public void onClick(DialogInterface dialogInterface, int i) {
+//                finish();
+//            }
+//        });
+//
+//        builder.create().show();
 
 
     }
@@ -2106,7 +2080,7 @@ public class ActivityNavigation extends AppCompatActivity
             t1.shutdown();
         }
 
-        manager.unregisterMediaButtonEventReceiver(new ComponentName(getPackageName(), RemoteControlReceiver.class.getName()));
+//        manager.unregisterMediaButtonEventReceiver(new ComponentName(getPackageName(), RemoteControlReceiver.class.getName()));
         super.onDestroy();
     }
 
