@@ -42,12 +42,9 @@ public class JsonUtils {
                 jsonObject.put("Text", "This application is very useful " + i);
                 jsonObject.put("TextFavorite", "");
                 jsonObject.put("description1", "description1");
-                jsonObject.put("description2", "description2");
-                jsonObject.put("description3", "description3");
-                jsonObject.put("description4", "description4");
-                jsonObject.put("label", "label_1");
-                jsonObject.put("progress", "1");
-
+                jsonObject.put("words", "word=>слово");
+                jsonObject.put("label", "label_0");
+                jsonObject.put("progress", "");
                 jsonArray.put(jsonObject);
             }
         } catch (JSONException e) {

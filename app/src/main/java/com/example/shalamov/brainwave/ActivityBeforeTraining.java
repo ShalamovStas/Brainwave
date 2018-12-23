@@ -2,6 +2,8 @@ package com.example.shalamov.brainwave;
 
 import android.content.Intent;
 import android.speech.tts.TextToSpeech;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -20,7 +22,7 @@ public class ActivityBeforeTraining extends AppCompatActivity {
     private Lesson lesson;
 
 
-    LinearLayout mBtnOnlyText, mBtnList, mBtnFavorite, mBtnTextWithTranslation, mBtnVocabularyBuilder , mBtnWordsList, mBtnQuizForWords;
+    LinearLayout mBtnOnlyText, mBtnList, mBtnFavorite, mBtnTextWithTranslation, mBtnVocabularyBuilder , mBtnWordsList, mBtnQuizForWords, mBtnPlayer;
     TextView mTextNumberOfSentences;
 
 
@@ -56,6 +58,7 @@ public class ActivityBeforeTraining extends AppCompatActivity {
         mBtnVocabularyBuilder = (LinearLayout) findViewById(R.id.btn_vocabulary_builder);
         mBtnWordsList = (LinearLayout) findViewById(R.id.btn_words_list);
         mBtnQuizForWords = (LinearLayout) findViewById(R.id.btn_quiz_for_words);
+        mBtnPlayer = (LinearLayout) findViewById(R.id.btn_player);
     }
 
     private void setListeners() {
@@ -148,6 +151,19 @@ public class ActivityBeforeTraining extends AppCompatActivity {
                 }
             }
         });
+
+        mBtnPlayer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+//                if(lesson.getArrayListWords().size() != 0) {
+//                    Intent intent = new Intent(ActivityBeforeTraining.this, PlayerActivity.class);
+//                    intent.putExtra("lessonNumber", Integer.toString(lessonNumber));
+//                    startActivity(intent);
+//                }else{
+//                    Toast.makeText(ActivityBeforeTraining.this, "Нет слов для изучения!", Toast.LENGTH_SHORT).show();
+//                }
+            }
+        });
     }
 
 
@@ -179,6 +195,13 @@ public class ActivityBeforeTraining extends AppCompatActivity {
         }
 
         return true;
+    }
+
+    @Override
+    public void onBackPressed() {
+        Global.getJsonUtils().saveFromModelToFile();
+        Toast.makeText(this, "Saved", Toast.LENGTH_SHORT).show();
+        finish();
     }
 }
 

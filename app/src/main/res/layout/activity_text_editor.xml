@@ -16,23 +16,60 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <EditText
-                android:id="@+id/edit_text"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="edit text"
-                android:layout_margin="5dp"
-                android:textColor="@color/colorPrimaryDark"
-                android:textSize="27sp"
-                android:background="@android:color/transparent"
-                />
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+                <EditText
+                    android:id="@+id/edit_text_english"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="English"
+                    android:layout_margin="5dp"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="27sp"
+                    android:background="@android:color/transparent"
+                    />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp">
+
+                </LinearLayout>
+            </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginLeft="40dp"
+            android:layout_marginRight="40dp"
+            android:background="@color/colorPrimary">
+        </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+                <EditText
+                    android:id="@+id/edit_text_russian"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Russian"
+                    android:layout_margin="5dp"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="27sp"
+                    android:background="@android:color/transparent"
+                    />
+            </LinearLayout>
+
+
 
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="50dp">
-
+                android:layout_height="30dp">
             </LinearLayout>
+            
+            
         </LinearLayout>
 
     </ScrollView>
@@ -55,8 +92,17 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:background="@color/myColorIndigo300"
+                android:background="@color/myColorIndigo400"
                 android:text="save"
+                android:textColor="@color/myColorGrey100" />
+
+            <Button
+                android:id="@+id/btn_clean"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@color/myColorIndigo300"
+                android:text="delete text"
                 android:textColor="@color/myColorGrey100" />
 
             <Button

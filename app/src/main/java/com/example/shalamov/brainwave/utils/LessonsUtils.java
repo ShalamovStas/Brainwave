@@ -144,7 +144,7 @@ public class LessonsUtils {
         lesson.setLabel(label);
         lesson.setProgress(progress);
         lesson.setDescription1(description1);
-        lesson.setWords("");
+        lesson.setWords(lesson.getWords());
 
     }
 
@@ -458,6 +458,7 @@ public class LessonsUtils {
 
         return allTextArray[0];
     }
+
 
 
 }

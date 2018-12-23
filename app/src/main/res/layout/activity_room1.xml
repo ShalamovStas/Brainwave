@@ -121,12 +121,96 @@
 
     </LinearLayout>
 
+    <LinearLayout
+        android:id="@+id/bottom_navigation_choose_word_for_vocabulary"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal"
+        android:weightSum="5">
+
+        <LinearLayout
+            android:id="@+id/btn_word_vocabulary_builder"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:background="@color/colorPrimary">
+            <ImageView
+                android:layout_margin="8dp"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:background="@drawable/ic_add_word"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/btn_clean_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:background="@color/myColorIndigo400">
+            <ImageView
+                android:layout_margin="8dp"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:background="@drawable/ic_delete_ru"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/btn_correct_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:background="@color/colorPrimary">
+            <ImageView
+                android:layout_margin="8dp"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:background="@drawable/ic_pen"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/btn_paste"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:background="@color/myColorIndigo400">
+            <ImageView
+                android:layout_margin="8dp"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:background="@drawable/ic_add_ru"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/btn_go_to_translator"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:background="@color/colorPrimary">
+            <ImageView
+                android:layout_margin="8dp"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:background="@drawable/ic_translate"/>
+        </LinearLayout>
+
+
+
+
+
+    </LinearLayout>
+
     <android.support.design.widget.BottomNavigationView
         android:id="@+id/navigation_bottom"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:background="@color/myColorGrey500"
+        android:layout_above="@+id/bottom_navigation_choose_word_for_vocabulary"
+        android:background="@color/myColorIndigo200"
         app:itemIconTint="@color/myColor1"
         app:itemTextColor="@color/myColor1"
         app:menu="@menu/bottom_navigation_items">
@@ -135,79 +219,11 @@
 
 
 
-    <LinearLayout
-        android:id="@+id/btn_go_to_translator"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/navigation_bottom"
-        android:layout_alignParentEnd="true"
-        android:layout_marginEnd="7dp"
-        android:layout_marginBottom="7dp"
-        android:background="@drawable/press_selector">
 
 
-        <ImageView
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:background="@drawable/ic_translate"
-
-            />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/btn_paste"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/navigation_bottom"
-        android:layout_alignParentEnd="true"
-        android:layout_marginEnd="68dp"
-        android:layout_marginBottom="7dp"
-        android:background="@drawable/press_selector">
 
 
-        <ImageView
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:background="@drawable/ic_content_paste"
-            />
-    </LinearLayout>
 
-    <LinearLayout
-        android:id="@+id/btn_correct_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/navigation_bottom"
-        android:layout_alignParentEnd="true"
-        android:layout_marginEnd="130dp"
-        android:layout_marginBottom="7dp"
-        android:background="@drawable/press_selector">
-
-
-        <ImageView
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:background="@android:drawable/ic_menu_edit"
-            />
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/btn_clean_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/navigation_bottom"
-        android:layout_alignParentEnd="true"
-        android:layout_marginEnd="200dp"
-        android:layout_marginBottom="7dp"
-        android:background="@drawable/press_selector">
-
-
-        <ImageView
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:background="@android:drawable/ic_menu_set_as"
-            />
-    </LinearLayout>
 
 
     <!--<LinearLayout-->
@@ -227,5 +243,7 @@
             <!--android:background="@android:drawable/ic_input_add" />-->
 
     <!--</LinearLayout>-->
+
+
 
 </RelativeLayout>

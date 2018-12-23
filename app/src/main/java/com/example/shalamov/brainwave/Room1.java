@@ -27,14 +27,14 @@ import java.util.Locale;
 
 public class Room1 extends AppCompatActivity {
 
-    QuizLogic mQuizLogic;
+    private QuizLogic mQuizLogic;
     int currentSentenceIndex, lessonNumber, showOnlyFavoriteSentences;
-    ActionBar ab;
-    TextView textFieldForLearning;
-    Lesson lesson;
-    LinearLayout layoutForClick;
-    TextToSpeech textToSpeech;
-    ClipboardManager clipboard;
+    private ActionBar ab;
+    private TextView textFieldForLearning;
+    private Lesson lesson;
+    private LinearLayout layoutForClick;
+    private TextToSpeech textToSpeech;
+    private ClipboardManager clipboard;
     final String TAG = "Room1";
 
     @Override
@@ -74,6 +74,7 @@ public class Room1 extends AppCompatActivity {
         LinearLayout mLayoutGoToTranslator = findViewById(R.id.btn_go_to_translator);
         LinearLayout mLayoutCorrectText = findViewById(R.id.btn_correct_text);
         LinearLayout mLayoutPaste = findViewById(R.id.btn_paste);
+        LinearLayout mLayoutGoToChooseWordForVocabulary = findViewById(R.id.btn_word_vocabulary_builder);
         BottomNavigationView bottomNavigationItemView = findViewById(R.id.navigation_bottom);
         textFieldForLearning = findViewById(R.id.text_field_for_learning);
 
@@ -229,14 +230,37 @@ public class Room1 extends AppCompatActivity {
         mLayoutCleanText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String textForClean = Global.getLessonsUtils().cleanText(mQuizLogic.getCurrentSentenceString());
-                Global.getLessonsUtils().changeSentence(lesson, mQuizLogic.getCurrentSentenceString(), textForClean);
 
+                String textForClean = Global.getLessonsUtils().cleanText(mQuizLogic.getCurrentSentenceString());
+//                Log.d(TAG, "textForClean = " + textForClean);
+                copyData(mQuizLogic.getCurrentSentenceString());
+                Global.getLessonsUtils().changeSentence(lesson, mQuizLogic.getCurrentSentenceString(), textForClean);
                 textFieldForLearning.setText(Html.fromHtml(Global.getLessonsUtils().formTextForWebBoltFormat(mQuizLogic.getCurrentSentenceString())));
 
 
             }
         });
+
+        mLayoutGoToChooseWordForVocabulary.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(Room1.this, ChooseWordForVocabularyActivity.class);
+                intent.putExtra("lessonNumber", Integer.toString(lessonNumber));
+                intent.putExtra("currentSentenceIndex", Integer.toString(mQuizLogic.getCurrentSentenceIndex()));
+                startActivity(intent);
+            }
+        });
+    }
+
+    private void copyData(String textForClean) {
+
+        String[] text = textForClean.split("[=>]");
+
+        if(text.length >= 3){
+            ClipData myClip = ClipData.newPlainText("text", text[2]);
+            clipboard.setPrimaryClip(myClip);
+//            Log.d(TAG, "\ncopiedText: " + text[2]);
+        }
     }
 
 

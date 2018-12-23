@@ -47,7 +47,8 @@
         <activity android:name=".VocabularyBuilderActivity" />
         <activity android:name=".ChooseWordForVocabularyActivity" />
         <activity android:name=".ListWordsActivity" />
-        <activity android:name=".QuizWordsActivity"></activity>
+        <activity android:name=".QuizWordsActivity" />
+        <activity android:name=".PlayerActivity"></activity>
     </application>
 
 </manifest>

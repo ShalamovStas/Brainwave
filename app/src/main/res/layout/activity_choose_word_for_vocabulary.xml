@@ -51,13 +51,6 @@
                 android:hint="Russian"
                 />
 
-            <Button
-                android:id="@+id/btn_paste_choose_word_vocabulary"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="3"
-                android:text="Paste" />
-
         </LinearLayout>
 
     </LinearLayout>
@@ -65,7 +58,7 @@
     <LinearLayout
         android:id="@+id/layout_line_choose_word_vocabulary"
         android:layout_width="match_parent"
-        android:layout_height="1dp"
+        android:layout_height="3dp"
         android:layout_marginTop="5dp"
         android:layout_below="@+id/layout_for_word_choose_word_vocabulary"
         android:orientation="horizontal"
@@ -114,7 +107,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:orientation="horizontal"
-        android:weightSum="2">
+        android:weightSum="3">
 
         <Button
             android:id="@+id/btn_save_choose_word_vocabulary"
@@ -126,11 +119,20 @@
             android:textColor="@color/myColorWhite" />
 
         <Button
-            android:id="@+id/btn_gotodictionary_choose_word_vocabulary"
+            android:id="@+id/btn_paste_choose_word_vocabulary"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@color/myColorIndigo300"
+            android:text="paste"
+            android:textColor="@color/myColorWhite" />
+
+        <Button
+            android:id="@+id/btn_gotodictionary_choose_word_vocabulary"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@color/myColorIndigo400"
             android:text="go to dictionary"
             android:textColor="@color/myColorWhite" />
 

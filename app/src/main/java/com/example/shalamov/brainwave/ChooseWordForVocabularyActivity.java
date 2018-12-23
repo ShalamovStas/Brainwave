@@ -4,6 +4,7 @@ import android.content.ActivityNotFoundException;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -42,7 +43,9 @@ public class ChooseWordForVocabularyActivity extends AppCompatActivity {
     }
 
     private void setDataToLayout() {
-        String[] words = mQuizLogic.getCurrentSentenceArray();
+
+        String[] words = getRusWords();
+
         mLayoutForAddContent.removeAllViews();
         for (int i = 0; i < words.length; i++) {
             final View mLayout = getLayoutInflater().inflate(R.layout.element_choose_world_for_vocab, null);
@@ -54,7 +57,13 @@ public class ChooseWordForVocabularyActivity extends AppCompatActivity {
             mLayoutPieceOfSentence.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    mEditTextEng.setText(mEditTextEng.getText().toString() + " " + mTextPieceOfSentence.getText().toString());
+                    mTextPieceOfSentence.setTextColor(Color.parseColor("#3F51B5"));
+
+                    if(mEditTextEng.getText().length() == 0){
+                        mEditTextEng.setText(mTextPieceOfSentence.getText().toString());
+                    }else {
+                        mEditTextEng.setText(mEditTextEng.getText().toString() + " " + mTextPieceOfSentence.getText().toString());
+                    }
                     mEditTextEng.setFocusableInTouchMode(true);
                     mEditTextRu.setFocusableInTouchMode(true);
                 }
@@ -65,6 +74,12 @@ public class ChooseWordForVocabularyActivity extends AppCompatActivity {
         }
 
 
+    }
+
+    private String[] getRusWords() {
+        String sentence = mQuizLogic.getSentenceString(currentSentenceIndex);
+        String[] engAndRusArray = sentence.split("[=>]");
+        return engAndRusArray[0].split("[ ]");
     }
 
 

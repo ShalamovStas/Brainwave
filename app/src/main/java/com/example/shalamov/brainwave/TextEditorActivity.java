@@ -11,9 +11,9 @@ import com.example.shalamov.brainwave.utils.Lesson;
 public class TextEditorActivity extends AppCompatActivity {
 
     int currentSentenceIndex, lessonNumber;
-    Button mBtnSave, mBtnCancel;
+    Button mBtnSave, mBtnCancel, mBtnCleanText;
     QuizLogic mQuizLogic;
-    EditText mEditText;
+    EditText mEditTextEng, mEditTextRu;
     Lesson lesson;
 
     @Override
@@ -29,21 +29,38 @@ public class TextEditorActivity extends AppCompatActivity {
     }
 
     private void setTextToField() {
-        mEditText.setText(mQuizLogic.getCurrentSentenceString());
+
+        String[] allTextArray = mQuizLogic.getCurrentSentenceString().split("[=>]");
+
+        mEditTextEng.setText(allTextArray[0]);
+        if(allTextArray.length >= 3) {
+            mEditTextRu.setText(allTextArray[2]);
+        }else{
+            mEditTextRu.setText("");
+        }
     }
 
     private void initialize() {
         mQuizLogic = Global.getmQuizLogic();
         lesson = (Lesson) Global.getLessonsList().get(lessonNumber);
-        mEditText = (EditText) findViewById(R.id.edit_text);
+        mEditTextEng = (EditText) findViewById(R.id.edit_text_english);
+        mEditTextRu = (EditText) findViewById(R.id.edit_text_russian);
         mBtnSave = (Button) findViewById(R.id.btn_save);
         mBtnCancel = (Button) findViewById(R.id.btn_cancel);
+        mBtnCleanText = (Button) findViewById(R.id.btn_clean);
 
 
         mBtnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Global.getLessonsUtils().changeSentence(lesson, mQuizLogic.getCurrentSentenceString(), mEditText.getText().toString());
+                String newText = "";
+                if(mEditTextRu.getText().toString().length() != 0){
+                    newText = mEditTextEng.getText().toString() + "=>" + mEditTextRu.getText().toString();
+                }else{
+                    newText = mEditTextEng.getText().toString();
+                }
+
+                Global.getLessonsUtils().changeSentence(lesson, mQuizLogic.getCurrentSentenceString(), newText);
 
                 finish();
             }
@@ -56,6 +73,13 @@ public class TextEditorActivity extends AppCompatActivity {
             }
         });
 
+        mBtnCleanText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mEditTextEng.setText("");
+                mEditTextRu.setText("");
+            }
+        });
 
     }
 

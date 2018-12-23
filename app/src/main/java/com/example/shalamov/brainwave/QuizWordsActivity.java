@@ -1,20 +1,25 @@
 package com.example.shalamov.brainwave;
 
+import android.speech.tts.TextToSpeech;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.shalamov.brainwave.utils.Lesson;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
-public class QuizWordsActivity extends AppCompatActivity {
+public class QuizWordsActivity extends AppCompatActivity{
     private Lesson lesson;
     private int lessonNumber;
     private LinearLayout mLayoutNext, mLayoutPrevious;
@@ -22,6 +27,9 @@ public class QuizWordsActivity extends AppCompatActivity {
     private TextView textViewFirst, textViewSecond;
     private ArrayList arrayListwords;
     private ActionBar ab;
+    private TextToSpeech mTTS;
+    private boolean speechIsPossible;
+    private ProgressBar progressBar;
 
     private String[] wordsRusArray, wordsEngArray;
     //логика работы
@@ -44,6 +52,7 @@ public class QuizWordsActivity extends AppCompatActivity {
     }
 
     private void init() {
+//        mTTS = new TextToSpeech(this, this);
         lesson = (Lesson) Global.getLessonsList().get(lessonNumber);
         arrayListwords = lesson.getArrayListWords();
         currentIndex = 0;
@@ -58,6 +67,9 @@ public class QuizWordsActivity extends AppCompatActivity {
         mLayoutNext = (LinearLayout) findViewById(R.id.btn_next_quiz_words);
         mLayoutPrevious = (LinearLayout) findViewById(R.id.btn_previous_quiz_words);
 
+        progressBar = (ProgressBar) findViewById(R.id.progressBar);
+        setProgressBarData();
+
 
         mLayoutNext.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -66,12 +78,15 @@ public class QuizWordsActivity extends AppCompatActivity {
                 switch (mode){
                     case 0:
                         clickNextWordMode0();
+                        setProgressBarData();
                         break;
                     case 1:
                         clickNextWordMode1();
+                        setProgressBarData();
                         break;
                     case 2:
                         clickNextWordMode2();
+                        setProgressBarData();
                         break;
                 }
                 ab.setSubtitle("#" + (currentIndex + 1) + " from " + arrayListwords.size());
@@ -85,18 +100,30 @@ public class QuizWordsActivity extends AppCompatActivity {
                 switch (mode){
                     case 0:
                         clickPreviousWordMode0();
+                        setProgressBarData();
                         break;
                     case 1:
                         clickPreviousWordMode1();
+                        setProgressBarData();
                         break;
                     case 2:
                         clickPreviousWordMode2();
+                        setProgressBarData();
                         break;
                 }
                 ab.setSubtitle("#" + (currentIndex + 1) + " from " + arrayListwords.size());
             }
         });
 
+    }
+
+    private void setProgressBarData() {
+        double value1 = 100/wordsEngArray.length;
+        int progress = (int) value1 * (currentIndex+1);
+        if(currentIndex == (wordsEngArray.length - 1)){
+            progress = 100;
+        }
+        progressBar.setProgress(progress);
     }
 
     private void createArrays() {
@@ -229,7 +256,8 @@ public class QuizWordsActivity extends AppCompatActivity {
             currentIndex = 0;
         }
         if (currentIndex < 0) {
-            currentIndex = arrayListwords.size() - 1;
+//            currentIndex = arrayListwords.size() - 1;
+            currentIndex = 0;
         }
     }
 
@@ -261,6 +289,15 @@ public class QuizWordsActivity extends AppCompatActivity {
             case R.id.action:
                 setOptionIcon(item);
                 break;
+            case R.id.action_play:
+//                if(speechIsPossible) {
+//
+//                    String text = "А Васька слушает да ест";
+//                    mTTS.speak(text, TextToSpeech.QUEUE_FLUSH, null);
+//                }else{
+//                    Toast.makeText(this, "false", Toast.LENGTH_SHORT).show();
+//                }
+
         }
 
         return true;
@@ -287,6 +324,30 @@ public class QuizWordsActivity extends AppCompatActivity {
                 translationIsNotShown = false;
 //                clickNextWordMode0();
                 break;
+
         }
     }
+
+//    @Override
+//    public void onInit(int status) {
+//        if (status == TextToSpeech.SUCCESS) {
+//
+//            Locale locale = new Locale("ru");
+//
+//            int result = mTTS.setLanguage(locale);
+//            //int result = mTTS.setLanguage(Locale.getDefault());
+//
+//            if (result == TextToSpeech.LANG_MISSING_DATA
+//                    || result == TextToSpeech.LANG_NOT_SUPPORTED) {
+//                Toast.makeText(this, "Этот язык не поддерживается", Toast.LENGTH_SHORT).show();
+//                Log.e("TTS", "Извините, этот язык не поддерживается");
+//            } else {
+//
+//                speechIsPossible = true;
+//            }
+//
+//        } else {
+//            Log.e("TTS", "Ошибка!");
+//        }
+//    }
 }
