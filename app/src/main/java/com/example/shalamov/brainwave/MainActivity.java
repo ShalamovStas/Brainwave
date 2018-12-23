@@ -213,10 +213,11 @@ public class MainActivity extends AppCompatActivity {
                 view1.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        Intent intent = new Intent(MainActivity.this, ActivityNavigation.class);
-                        intent.putExtra("number", Integer.toString(numberOfElement));
+                        Intent intent = new Intent(MainActivity.this, ActivityBeforeTraining.class);
+                        intent.putExtra("lessonNumber", Integer.toString(numberOfElement));
 
                         startActivity(intent);
+
 
                     }
                 });
@@ -281,10 +282,11 @@ public class MainActivity extends AppCompatActivity {
                 view1.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        Intent intent = new Intent(MainActivity.this, ActivityNavigation.class);
-                        intent.putExtra("number", Integer.toString(numberOfElement));
+                        Intent intent = new Intent(MainActivity.this, ActivityBeforeTraining.class);
+                        intent.putExtra("lessonNumber", Integer.toString(numberOfElement));
 
                         startActivity(intent);
+
 
                     }
                 });

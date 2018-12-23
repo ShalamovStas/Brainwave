@@ -256,7 +256,7 @@ public class LessonsUtils {
             }
         }
 
-        if(flag) {
+        if (flag) {
             words.add(text);
 
             // создание поля textFavorite для модели с учтом скорректированого предложения
@@ -280,6 +280,24 @@ public class LessonsUtils {
                     words.remove(i);
                 }
             }
+            String wordsString = arrayListToString(words);
+            lesson.setWords(wordsString);
+        }
+    }
+
+    public void changeWord(Lesson lesson, String oldText, String newText) {
+
+        ArrayList<String> words = lesson.getArrayListWords();
+
+        if (words.size() != 0) {
+
+            for (int i = 0; i < words.size(); i++) {
+
+                if (words.get(i).equalsIgnoreCase(oldText)) {
+                    words.set(i, newText);
+                }
+            }
+
             String wordsString = arrayListToString(words);
             lesson.setWords(wordsString);
         }
@@ -458,7 +476,6 @@ public class LessonsUtils {
 
         return allTextArray[0];
     }
-
 
 
 }

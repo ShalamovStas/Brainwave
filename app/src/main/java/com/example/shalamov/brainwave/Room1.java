@@ -247,6 +247,7 @@ public class Room1 extends AppCompatActivity {
                 Intent intent = new Intent(Room1.this, ChooseWordForVocabularyActivity.class);
                 intent.putExtra("lessonNumber", Integer.toString(lessonNumber));
                 intent.putExtra("currentSentenceIndex", Integer.toString(mQuizLogic.getCurrentSentenceIndex()));
+                intent.putExtra("addNewWordFlag", "0");
                 startActivity(intent);
             }
         });

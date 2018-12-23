@@ -7,39 +7,41 @@
     android:orientation="vertical"
     tools:context=".ActivityBeforeTraining">
 
-    <ScrollView
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        android:background="@color/myColorWhite"
+        android:orientation="vertical">
+        <TextView
+            android:id="@+id/number_of_sentences"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:text="Количство предложений: 20"
+            android:textColor="@color/colorPrimary"
+            android:textStyle="bold" />
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:layout_height="1dp"
+            android:background="@color/colorPrimary">
 
+        </LinearLayout>
+    </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/myColorWhite"
-                android:orientation="vertical">
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="vertical"
+        android:fillViewport="true">
 
-                <TextView
-                    android:id="@+id/number_of_sentences"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
-                    android:text="Количство предложений: 20"
-                    android:textColor="@color/colorPrimary"
-                    android:textStyle="bold" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="@color/colorPrimary">
-
-                </LinearLayout>
-            </LinearLayout>
-
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingTop="10dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp">
 
             <!--line 1-->
             <LinearLayout
@@ -52,7 +54,7 @@
                     android:id="@+id/btn_only_text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
+                    android:layout_margin="5dp"
                     android:layout_weight="1"
                     android:background="@color/myColorIndigo300"
                     android:orientation="vertical">
@@ -80,7 +82,7 @@
                     android:id="@+id/btn_list"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
+                    android:layout_margin="5dp"
                     android:layout_weight="1"
                     android:background="@color/myColorGreen400"
                     android:orientation="vertical">
@@ -117,7 +119,7 @@
                     android:id="@+id/btn_favorite"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
+                    android:layout_margin="5dp"
                     android:layout_weight="1"
                     android:background="@color/myColorOrange200"
                     android:orientation="vertical">
@@ -145,7 +147,7 @@
                     android:id="@+id/btn_text_with_translation"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
+                    android:layout_margin="5dp"
                     android:layout_weight="1"
                     android:background="@color/myColorIndigo400"
                     android:orientation="vertical">
@@ -184,7 +186,7 @@
                     android:id="@+id/btn_words_list"
                     android:layout_width="match_parent"
                     android:layout_height="70dp"
-                    android:layout_margin="10dp"
+                    android:layout_margin="5dp"
                     android:background="@color/myColorGrey400"
                     android:orientation="vertical"
                     android:layout_weight="1">
@@ -205,7 +207,7 @@
                     android:id="@+id/btn_quiz_for_words"
                     android:layout_width="match_parent"
                     android:layout_height="70dp"
-                    android:layout_margin="10dp"
+                    android:layout_margin="5dp"
                     android:background="@color/myColorGreen400"
                     android:orientation="vertical"
                     android:layout_weight="1">
@@ -235,7 +237,7 @@
                     android:id="@+id/btn_vocabulary_builder"
                     android:layout_width="match_parent"
                     android:layout_height="70dp"
-                    android:layout_margin="10dp"
+                    android:layout_margin="5dp"
                     android:background="@color/myColorGrey500"
                     android:orientation="vertical">
 
@@ -263,7 +265,7 @@
                     android:id="@+id/btn_player"
                     android:layout_width="match_parent"
                     android:layout_height="70dp"
-                    android:layout_margin="10dp"
+                    android:layout_margin="5dp"
                     android:background="@color/myColorIndigo300"
                     android:orientation="vertical">
 

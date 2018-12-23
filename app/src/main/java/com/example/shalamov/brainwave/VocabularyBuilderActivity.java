@@ -77,6 +77,7 @@ public class VocabularyBuilderActivity extends AppCompatActivity {
                 Intent intent = new Intent(VocabularyBuilderActivity.this, ChooseWordForVocabularyActivity.class);
                 intent.putExtra("lessonNumber", Integer.toString(lessonNumber));
                 intent.putExtra("currentSentenceIndex", Integer.toString(mQuizLogic.getCurrentSentenceIndex()));
+                intent.putExtra("addNewWordFlag", "0");
                 startActivity(intent);
             }
         });

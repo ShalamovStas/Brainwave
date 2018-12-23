@@ -23,23 +23,55 @@ public class ChooseWordForVocabularyActivity extends AppCompatActivity {
     private EditText mEditTextEng, mEditTextRu;
     private Button mBtnDelete, mBtnSave, mBtnGoToDictionary, mBtnPaste;
     private LinearLayout mLayoutForAddContent;
-    private int lessonNumber;
+    private int lessonNumber, addNewWordFlag, mode;
     private int currentSentenceIndex;
     private ClipboardManager clipboard;
     private QuizLogic mQuizLogic;
     private Lesson lesson;
+    private String oldText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_choose_word_for_vocabulary);
 
+
         lessonNumber = Integer.parseInt(getIntent().getStringExtra("lessonNumber"));
         currentSentenceIndex = Integer.parseInt(getIntent().getStringExtra("currentSentenceIndex"));
+        addNewWordFlag = Integer.parseInt(getIntent().getStringExtra("addNewWordFlag"));
         clipboard = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
         init();
         setListeners();
-        setDataToLayout();
+
+        switch (addNewWordFlag) {
+            //ДОБАВЛЕНИЕ НОВОГО СЛОВА
+            case 1:
+                mode = 1;
+                mEditTextEng.setFocusableInTouchMode(true);
+                mEditTextRu.setFocusableInTouchMode(true);
+                break;
+            //РЕДАКТИРОВАНИЕ СУЩЕСТВУЮЩЕГО
+            case 2:
+                mode = 2;
+                oldText = getIntent().getStringExtra("text");
+                setDataToLayoutCorrectingMode(oldText);
+                mEditTextEng.setFocusableInTouchMode(true);
+                mEditTextRu.setFocusableInTouchMode(true);
+                break;
+            //ДОБАВЛЕНИЕ НОВОГО ИЗ ТЕКСТА
+            default:
+                mode = 3;
+                setDataToLayout();
+                break;
+        }
+
+    }
+
+    private void setDataToLayoutCorrectingMode(String text) {
+        String[] wordsRusEng = text.split("[=>]");
+        mEditTextEng.setText(wordsRusEng[0]);
+        mEditTextRu.setText(wordsRusEng[2]);
+
     }
 
     private void setDataToLayout() {
@@ -59,9 +91,9 @@ public class ChooseWordForVocabularyActivity extends AppCompatActivity {
                 public void onClick(View view) {
                     mTextPieceOfSentence.setTextColor(Color.parseColor("#3F51B5"));
 
-                    if(mEditTextEng.getText().length() == 0){
+                    if (mEditTextEng.getText().length() == 0) {
                         mEditTextEng.setText(mTextPieceOfSentence.getText().toString());
-                    }else {
+                    } else {
                         mEditTextEng.setText(mEditTextEng.getText().toString() + " " + mTextPieceOfSentence.getText().toString());
                     }
                     mEditTextEng.setFocusableInTouchMode(true);
@@ -100,8 +132,6 @@ public class ChooseWordForVocabularyActivity extends AppCompatActivity {
         mEditTextRu.setFocusableInTouchMode(false);
 
 
-
-
     }
 
     private void setListeners() {
@@ -136,22 +166,52 @@ public class ChooseWordForVocabularyActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                if (mEditTextEng.getText().toString().length() != 0 & mEditTextRu.getText().toString().length() != 0) {
-                    saveWord();
+                switch (mode){
+                    case 1:
+                       addNewWord();
+                        break;
+                    case 2:
+                        correctingWord();
+                        break;
+                    case 3:
+                        addNewWord();
+                        break;
                 }
+
+
 
             }
         });
     }
 
-    private void saveWord() {
-        boolean flag = Global.getLessonsUtils().addWord(lesson, mEditTextEng.getText().toString() + "=>" + mEditTextRu.getText().toString());
-
-        if (flag) {
-            Toast.makeText(ChooseWordForVocabularyActivity.this, mEditTextEng.getText().toString() + " saved!", Toast.LENGTH_SHORT).show();
+    private void correctingWord() {
+        if (mEditTextEng.getText().toString().length() != 0 & mEditTextRu.getText().toString().length() != 0) {
+            String newText = mEditTextEng.getText().toString() + "=>" + mEditTextRu.getText().toString();
+            Global.getLessonsUtils().changeWord(lesson, oldText, newText);
+            Intent intent = new Intent();
+            setResult(1, intent);
             finish();
         } else {
-            Toast.makeText(ChooseWordForVocabularyActivity.this, "Слово уже добавлено!", Toast.LENGTH_SHORT).show();
+        Toast.makeText(ChooseWordForVocabularyActivity.this, "Поля не заполнены!", Toast.LENGTH_SHORT).show();
+    }
+
+    }
+
+    private void addNewWord(){
+        if (mEditTextEng.getText().toString().length() != 0 & mEditTextRu.getText().toString().length() != 0) {
+            boolean flag = Global.getLessonsUtils().addWord(lesson, mEditTextEng.getText().toString() + "=>" + mEditTextRu.getText().toString());
+
+            if(flag){
+                Toast.makeText(ChooseWordForVocabularyActivity.this, mEditTextEng.getText().toString() + " saved!", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent();
+                setResult(1, intent);
+                finish();
+            }else{
+                Toast.makeText(ChooseWordForVocabularyActivity.this, "Слово уже добавлено!", Toast.LENGTH_SHORT).show();
+            }
+
+        } else {
+            Toast.makeText(ChooseWordForVocabularyActivity.this, "Поля не заполнены!", Toast.LENGTH_SHORT).show();
         }
     }
 
