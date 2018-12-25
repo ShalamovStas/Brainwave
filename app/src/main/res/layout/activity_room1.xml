@@ -125,7 +125,7 @@
         android:id="@+id/bottom_navigation_choose_word_for_vocabulary"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
+        android:layout_above="@+id/navigation_bottom"
         android:orientation="horizontal"
         android:weightSum="5">
 
@@ -198,18 +198,13 @@
                 android:layout_height="35dp"
                 android:background="@drawable/ic_translate"/>
         </LinearLayout>
-
-
-
-
-
     </LinearLayout>
 
     <android.support.design.widget.BottomNavigationView
+        android:layout_alignParentBottom="true"
         android:id="@+id/navigation_bottom"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/bottom_navigation_choose_word_for_vocabulary"
         android:background="@color/myColorIndigo200"
         app:itemIconTint="@color/myColor1"
         app:itemTextColor="@color/myColor1"

@@ -62,7 +62,7 @@ public class ListWordsActivity extends AppCompatActivity {
             final LinearLayout mLayoutPieceOfSentence = (LinearLayout) mLayout.findViewById(R.id.buttonPieceOfSentence);
             final TextView mTextPieceOfSentence = (TextView) mLayoutPieceOfSentence.findViewById(R.id.text_piece_of_sentence);
 
-            mTextPieceOfSentence.setText(Html.fromHtml(Global.getLessonsUtils().formTextForWebBoltFormat(words.get(i).toString())));
+            mTextPieceOfSentence.setText(Html.fromHtml(Global.getLessonsUtils().formTextForWordList(words.get(i).toString())));
            if(i % 2 == 0){
                mLayoutPieceOfSentence.setBackgroundColor(ContextCompat.getColor(ListWordsActivity.this, R.color.myColorWhite));
            }

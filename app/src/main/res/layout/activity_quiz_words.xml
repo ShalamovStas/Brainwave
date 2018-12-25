@@ -47,15 +47,23 @@
             android:layout_weight="1"
             android:gravity="center">
 
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+
             <TextView
                 android:id="@+id/text_second_words_activity"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
                 android:text="Слово"
                 android:gravity="center"
                 android:textColor="@color/myColorCorrectTextGreen800"
                 android:textSize="35sp"
                 android:textStyle="bold"/>
+
+            </ScrollView>
         </LinearLayout>
 
 

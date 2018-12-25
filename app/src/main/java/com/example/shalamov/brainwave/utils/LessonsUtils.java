@@ -478,4 +478,37 @@ public class LessonsUtils {
     }
 
 
+    public String formTextForWordList(String textSentence) {
+        String[] allTextArray = textSentence.split("[=>]");
+        int size = allTextArray.length;
+        String finalText = "";
+        switch (size) {
+            case 0:
+                finalText = "<b><font color=#FF0000>ERROR</font></b>";
+                break;
+            case 1:
+                finalText = "<b><font color=#082779>" + allTextArray[0] + "</font></b>";
+                break;
+            case 3:
+                finalText = "<b><font color=#082779>" + allTextArray[0] + "</font></b>" +
+                        "<br><font color=#205128>" + allTextArray[2] + "</font>";
+                break;
+            case 5:
+//                finalText = "<b><font color=#082779>" + allTextArray[0] + "</font></b>" +
+//                        "<br><br><font color=#205128>" + allTextArray[2] + "</font>" +
+//                        "<br><i><u><font color=#9f3924 size=100>" + allTextArray[4] + "</font></u></i>";
+
+                finalText = "<b><font color=#082779>" + allTextArray[0] + "</font></b>" +
+                        "<br><font color=#205128>" + allTextArray[2] + "</font>" +
+                        "<br><small>Пример: </small><i><small><font color=#9f3924 size=100>" + allTextArray[4] + "</font></small></i>" +
+                        "<br>";
+                break;
+            default:
+                finalText = "<b><font color=#082779>" + textSentence + "</font></b>";
+                break;
+
+        }
+
+        return finalText;
+    }
 }
