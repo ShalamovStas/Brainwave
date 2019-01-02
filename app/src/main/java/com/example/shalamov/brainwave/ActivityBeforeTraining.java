@@ -1,6 +1,7 @@
 package com.example.shalamov.brainwave;
 
 import android.content.Intent;
+import android.graphics.drawable.TransitionDrawable;
 import android.speech.tts.TextToSpeech;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -36,6 +37,16 @@ public class ActivityBeforeTraining extends AppCompatActivity {
 
         init();
         setListeners();
+
+        TransitionDrawable trans = (TransitionDrawable) mBtnOnlyText.getBackground();
+        trans.startTransition(4000);
+
+        TransitionDrawable trans2 = (TransitionDrawable) mBtnTextWithTranslation.getBackground();
+        trans2.startTransition(1000);
+
+        TransitionDrawable trans3 = (TransitionDrawable) mBtnQuizForWords.getBackground();
+        trans3.startTransition(3000);
+
 //        setParameters();
     }
 

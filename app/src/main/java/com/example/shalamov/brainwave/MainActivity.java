@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.drawable.AnimationDrawable;
+import android.graphics.drawable.TransitionDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -21,6 +23,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.shalamov.brainwave.utils.FilesUtils;
@@ -39,6 +42,7 @@ public class MainActivity extends AppCompatActivity {
 
     String TAG = "MainActivity";
     private LinearLayout mMainLayout;
+    RelativeLayout relativeLayout;
     private Animation animation;
     private FloatingActionButton mActionButton;
     private Button mBtnAllLessons, mBtnSources, mBtnWords;
@@ -82,6 +86,16 @@ public class MainActivity extends AppCompatActivity {
         initializing();
 
         addElementsToLayouts();
+
+        relativeLayout = (RelativeLayout) findViewById(R.id.relative_layout_activity_main);
+//        TransitionDrawable animationDrawable = relativeLayout.getBackground();
+        TransitionDrawable trans = (TransitionDrawable) relativeLayout.getBackground();
+        trans.startTransition(4000);
+
+//        animationDrawable.setEnterFadeDuration(2000);
+//        animationDrawable.setExitFadeDuration(4000);
+//        animationDrawable.start();
+
     }
 
 
@@ -235,6 +249,8 @@ public class MainActivity extends AppCompatActivity {
     private void initializing() {
         // поиск элементов во вьюхе
         mMainLayout = (LinearLayout) findViewById(R.id.layoutMainActivity);
+
+
         mActionButton = (FloatingActionButton) findViewById(R.id.floatingActionButton);
 
         mBtnAllLessons = findViewById(R.id.btn_all_lessons);
@@ -459,10 +475,10 @@ public class MainActivity extends AppCompatActivity {
         mBtnAllLessons.setTextColor(Color.parseColor("#ffffff"));
 
 
-        mBtnSources.setBackgroundColor(Color.parseColor("#e0e0e0"));
+        mBtnSources.setBackgroundColor(Color.parseColor("#f5f5f5"));
         mBtnSources.setTextColor(Color.parseColor("#757575"));
 
-        mBtnWords.setBackgroundColor(Color.parseColor("#e0e0e0"));
+        mBtnWords.setBackgroundColor(Color.parseColor("#f5f5f5"));
         mBtnWords.setTextColor(Color.parseColor("#757575"));
         mActionButton.setVisibility(View.VISIBLE);
     }
@@ -473,10 +489,10 @@ public class MainActivity extends AppCompatActivity {
         mBtnSources.setTextColor(Color.parseColor("#ffffff"));
 
 
-        mBtnAllLessons.setBackgroundColor(Color.parseColor("#e0e0e0"));
+        mBtnAllLessons.setBackgroundColor(Color.parseColor("#f5f5f5"));
         mBtnAllLessons.setTextColor(Color.parseColor("#757575"));
 
-        mBtnWords.setBackgroundColor(Color.parseColor("#e0e0e0"));
+        mBtnWords.setBackgroundColor(Color.parseColor("#f5f5f5"));
         mBtnWords.setTextColor(Color.parseColor("#757575"));
 
         mActionButton.setVisibility(View.INVISIBLE);
@@ -487,10 +503,10 @@ public class MainActivity extends AppCompatActivity {
         mBtnWords.setTextColor(Color.parseColor("#ffffff"));
 
 
-        mBtnAllLessons.setBackgroundColor(Color.parseColor("#e0e0e0"));
+        mBtnAllLessons.setBackgroundColor(Color.parseColor("#f5f5f5"));
         mBtnAllLessons.setTextColor(Color.parseColor("#757575"));
 
-        mBtnSources.setBackgroundColor(Color.parseColor("#e0e0e0"));
+        mBtnSources.setBackgroundColor(Color.parseColor("#f5f5f5"));
         mBtnSources.setTextColor(Color.parseColor("#757575"));
         mActionButton.setVisibility(View.VISIBLE);
     }
