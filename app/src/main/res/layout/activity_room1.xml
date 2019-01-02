@@ -8,7 +8,6 @@
     android:orientation="vertical">
 
 
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -89,7 +88,7 @@
                     android:id="@+id/layout_tap_quiz"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                   android:layout_weight="1"
+                    android:layout_weight="1"
                     android:orientation="vertical">
 
                 </LinearLayout>
@@ -104,8 +103,6 @@
                 </LinearLayout>
 
             </LinearLayout>
-
-
 
 
         </LinearLayout>
@@ -124,88 +121,110 @@
     <LinearLayout
         android:id="@+id/bottom_navigation_choose_word_for_vocabulary"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
         android:layout_above="@+id/navigation_bottom"
         android:orientation="horizontal"
-        android:weightSum="5">
+        android:weightSum="6">
+
 
         <LinearLayout
             android:id="@+id/btn_word_vocabulary_builder"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1"
-            android:gravity="center"
-            android:background="@color/colorPrimary">
+            android:background="@color/myColorIndigo400"
+            android:gravity="center">
+
             <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
                 android:layout_margin="8dp"
-                android:layout_width="35dp"
-                android:layout_height="35dp"
-                android:background="@drawable/ic_add_word"/>
+                android:background="@drawable/ic_add_word" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/btn_add_to_favorite_activity_room1"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@color/myColorIndigo200"
+            android:gravity="center">
+
+            <ImageView
+                android:id="@+id/image_btn_add_to_favorite_activity_room1"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_margin="8dp"
+                android:background="@drawable/ic_empty" />
         </LinearLayout>
 
         <LinearLayout
             android:id="@+id/btn_clean_text"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1"
-            android:gravity="center"
-            android:background="@color/myColorIndigo400">
+            android:background="@color/myColorIndigo400"
+            android:gravity="center">
+
             <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
                 android:layout_margin="8dp"
-                android:layout_width="35dp"
-                android:layout_height="35dp"
-                android:background="@drawable/ic_delete_ru"/>
+                android:background="@drawable/ic_delete_ru" />
         </LinearLayout>
 
         <LinearLayout
             android:id="@+id/btn_correct_text"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1"
-            android:gravity="center"
-            android:background="@color/colorPrimary">
+            android:background="@color/myColorIndigo200"
+            android:gravity="center">
+
             <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
                 android:layout_margin="8dp"
-                android:layout_width="35dp"
-                android:layout_height="35dp"
-                android:background="@drawable/ic_pen"/>
+                android:background="@drawable/ic_pen" />
         </LinearLayout>
 
         <LinearLayout
             android:id="@+id/btn_paste"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1"
-            android:gravity="center"
-            android:background="@color/myColorIndigo400">
+            android:background="@color/myColorIndigo400"
+            android:gravity="center">
+
             <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
                 android:layout_margin="8dp"
-                android:layout_width="35dp"
-                android:layout_height="35dp"
-                android:background="@drawable/ic_add_ru"/>
+                android:background="@drawable/ic_add_ru" />
         </LinearLayout>
 
         <LinearLayout
             android:id="@+id/btn_go_to_translator"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1"
-            android:gravity="center"
-            android:background="@color/colorPrimary">
+            android:background="@color/myColorIndigo200"
+            android:gravity="center">
+
             <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
                 android:layout_margin="8dp"
-                android:layout_width="35dp"
-                android:layout_height="35dp"
-                android:background="@drawable/ic_translate"/>
+                android:background="@drawable/ic_translate" />
         </LinearLayout>
     </LinearLayout>
 
     <android.support.design.widget.BottomNavigationView
-        android:layout_alignParentBottom="true"
         android:id="@+id/navigation_bottom"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/myColorIndigo200"
+        android:layout_alignParentBottom="true"
+        android:background="@color/colorPrimary"
         app:itemIconTint="@color/myColor1"
         app:itemTextColor="@color/myColor1"
         app:menu="@menu/bottom_navigation_items">
@@ -213,32 +232,23 @@
     </android.support.design.widget.BottomNavigationView>
 
 
-
-
-
-
-
-
-
-
     <!--<LinearLayout-->
-        <!--android:id="@+id/btn_add_rus"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_above="@+id/navigation_bottom"-->
-        <!--android:layout_alignParentEnd="true"-->
-        <!--android:layout_marginEnd="190dp"-->
-        <!--android:layout_marginBottom="7dp"-->
-        <!--android:background="@drawable/press_selector">-->
+    <!--android:id="@+id/btn_add_rus"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_above="@+id/navigation_bottom"-->
+    <!--android:layout_alignParentEnd="true"-->
+    <!--android:layout_marginEnd="190dp"-->
+    <!--android:layout_marginBottom="7dp"-->
+    <!--android:background="@drawable/press_selector">-->
 
 
-        <!--<ImageView-->
-            <!--android:layout_width="40dp"-->
-            <!--android:layout_height="40dp"-->
-            <!--android:background="@android:drawable/ic_input_add" />-->
+    <!--<ImageView-->
+    <!--android:layout_width="40dp"-->
+    <!--android:layout_height="40dp"-->
+    <!--android:background="@android:drawable/ic_input_add" />-->
 
     <!--</LinearLayout>-->
-
 
 
 </RelativeLayout>

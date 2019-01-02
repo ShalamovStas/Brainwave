@@ -33,8 +33,11 @@ public class Room1 extends AppCompatActivity {
     private TextView textFieldForLearning;
     private Lesson lesson;
     private LinearLayout layoutForClick;
+    private LinearLayout mLayoutAddToFavorite;
+    private ImageView mImageForLayoutAddToFavorite;
     private TextToSpeech textToSpeech;
     private ClipboardManager clipboard;
+    private ImageView mImageFavoriteOrNot;
     final String TAG = "Room1";
 
     @Override
@@ -75,18 +78,14 @@ public class Room1 extends AppCompatActivity {
         LinearLayout mLayoutCorrectText = findViewById(R.id.btn_correct_text);
         LinearLayout mLayoutPaste = findViewById(R.id.btn_paste);
         LinearLayout mLayoutGoToChooseWordForVocabulary = findViewById(R.id.btn_word_vocabulary_builder);
+        mLayoutAddToFavorite = findViewById(R.id.btn_add_to_favorite_activity_room1);
+        mImageForLayoutAddToFavorite = findViewById(R.id.image_btn_add_to_favorite_activity_room1);
         BottomNavigationView bottomNavigationItemView = findViewById(R.id.navigation_bottom);
         textFieldForLearning = findViewById(R.id.text_field_for_learning);
 
-        final ImageView mImageFavoriteOrNot = (ImageView) findViewById(R.id.image_favorite_or_not);
+        mImageFavoriteOrNot = (ImageView) findViewById(R.id.image_favorite_or_not);
 
-        if (!mQuizLogic.checkIfFavoriteTextEmpty(lesson)) {
-            if (mQuizLogic.checkFavoriteSentence(lesson, mQuizLogic.getSentenceString(currentSentenceIndex))) {
-                Global.getImageUtils().updateLabel("favorite_sentence_quiz", mImageFavoriteOrNot);
-            } else {
-                Global.getImageUtils().updateLabel("not_favorite_sentence_quiz", mImageFavoriteOrNot);
-            }
-        }
+        checkFavoriteAndUpdateLabels();
 
         textFieldForLearning.setText(Html.fromHtml(Global.getLessonsUtils().formTextForWebBoltFormat(mQuizLogic.allWord())));
 
@@ -99,16 +98,7 @@ public class Room1 extends AppCompatActivity {
                         textFieldForLearning.setText(Html.fromHtml(Global.getLessonsUtils().formTextForWeb(mQuizLogic.previousSentence())));
                         currentSentenceIndex = mQuizLogic.getCurrentSentenceIndex();
                         ab.setSubtitle("#" + mQuizLogic.getCurrentSentenceInt() + " from " + mQuizLogic.getNumberOfSentences());
-
-                        if (!mQuizLogic.checkIfFavoriteTextEmpty(lesson)) {
-                            if (mQuizLogic.checkFavoriteSentence(lesson, mQuizLogic.getSentenceString(currentSentenceIndex))) {
-                                Global.getImageUtils().updateLabel("favorite_sentence_quiz", mImageFavoriteOrNot);
-                            } else {
-                                Global.getImageUtils().updateLabel("not_favorite_sentence_quiz", mImageFavoriteOrNot);
-                            }
-                        }
-
-
+                        checkFavoriteAndUpdateLabels();
                         break;
                     case R.id.ok:
                         textFieldForLearning.setText(mQuizLogic.setCurrWordNull());
@@ -118,20 +108,8 @@ public class Room1 extends AppCompatActivity {
 
                         currentSentenceIndex = mQuizLogic.getCurrentSentenceIndex();
                         ab.setSubtitle("#" + mQuizLogic.getCurrentSentenceInt() + " from " + mQuizLogic.getNumberOfSentences());
-                        if (!mQuizLogic.checkIfFavoriteTextEmpty(lesson)) {
-                            if (mQuizLogic.checkFavoriteSentence(lesson, mQuizLogic.getSentenceString(currentSentenceIndex))) {
-                                Global.getImageUtils().updateLabel("favorite_sentence_quiz", mImageFavoriteOrNot);
-                            } else {
-                                Global.getImageUtils().updateLabel("not_favorite_sentence_quiz", mImageFavoriteOrNot);
-                            }
-                        }
-
+                        checkFavoriteAndUpdateLabels();
                         break;
-//                    case R.id.next_plus:
-//                        mQuizLogic.nextSentencePlus();
-//                        textFieldForLearning.setText(mQuizLogic.nextWord());
-//                        ab.setSubtitle("#" + mQuizLogic.getCurrentSentenceInt() + " from " + mQuizLogic.getNumberOfSentences());
-//                        break;
                 }
                 return true;
             }
@@ -168,14 +146,7 @@ public class Room1 extends AppCompatActivity {
 
                 currentSentenceIndex = mQuizLogic.getCurrentSentenceIndex();
                 ab.setSubtitle("#" + mQuizLogic.getCurrentSentenceInt() + " from " + mQuizLogic.getNumberOfSentences());
-
-                if (!mQuizLogic.checkIfFavoriteTextEmpty(lesson)) {
-                    if (mQuizLogic.checkFavoriteSentence(lesson, mQuizLogic.getSentenceString(currentSentenceIndex))) {
-                        Global.getImageUtils().updateLabel("favorite_sentence_quiz", mImageFavoriteOrNot);
-                    } else {
-                        Global.getImageUtils().updateLabel("not_favorite_sentence_quiz", mImageFavoriteOrNot);
-                    }
-                }
+                checkFavoriteAndUpdateLabels();
             }
         });
 
@@ -186,13 +157,7 @@ public class Room1 extends AppCompatActivity {
 
                 currentSentenceIndex = mQuizLogic.getCurrentSentenceIndex();
                 ab.setSubtitle("#" + mQuizLogic.getCurrentSentenceInt() + " from " + mQuizLogic.getNumberOfSentences());
-                if (!mQuizLogic.checkIfFavoriteTextEmpty(lesson)) {
-                    if (mQuizLogic.checkFavoriteSentence(lesson, mQuizLogic.getSentenceString(currentSentenceIndex))) {
-                        Global.getImageUtils().updateLabel("favorite_sentence_quiz", mImageFavoriteOrNot);
-                    } else {
-                        Global.getImageUtils().updateLabel("not_favorite_sentence_quiz", mImageFavoriteOrNot);
-                    }
-                }
+                checkFavoriteAndUpdateLabels();
             }
         });
 
@@ -251,6 +216,33 @@ public class Room1 extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        mLayoutAddToFavorite.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                if(Global.getLessonsUtils().checkIfExistThisSentenceInFavorite(lesson, mQuizLogic.getCurrentSentenceString())){
+                    Global.getLessonsUtils().deleteFavoriteSentence(lesson, mQuizLogic.getCurrentSentenceString());
+                    Global.getImageUtils().updateLabel("not_favorite_sentence_quiz", mImageFavoriteOrNot);
+                    Global.getImageUtils().updateLabel("favorite_sentence_quiz", mImageForLayoutAddToFavorite);
+                }else{
+                    Global.getLessonsUtils().addFavoriteSentence(lesson, mQuizLogic.getCurrentSentenceString());
+                    Global.getImageUtils().updateLabel("favorite_sentence_quiz", mImageFavoriteOrNot);
+                    Global.getImageUtils().updateLabel("not_favorite_sentence_quiz", mImageForLayoutAddToFavorite);
+                }
+
+            }
+        });
+    }
+
+    private void checkFavoriteAndUpdateLabels() {
+        if(Global.getLessonsUtils().checkIfExistThisSentenceInFavorite(lesson, mQuizLogic.getCurrentSentenceString())){
+            Global.getImageUtils().updateLabel("favorite_sentence_quiz", mImageFavoriteOrNot);
+            Global.getImageUtils().updateLabel("not_favorite_sentence_quiz", mImageForLayoutAddToFavorite);
+        }else{
+            Global.getImageUtils().updateLabel("not_favorite_sentence_quiz", mImageFavoriteOrNot);
+            Global.getImageUtils().updateLabel("favorite_sentence_quiz", mImageForLayoutAddToFavorite);
+        }
     }
 
     private void copyData(String textForClean) {
@@ -260,7 +252,7 @@ public class Room1 extends AppCompatActivity {
         if(text.length >= 3){
             ClipData myClip = ClipData.newPlainText("text", text[2]);
             clipboard.setPrimaryClip(myClip);
-//            Log.d(TAG, "\ncopiedText: " + text[2]);
+
         }
     }
 

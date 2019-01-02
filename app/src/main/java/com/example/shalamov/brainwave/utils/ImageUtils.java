@@ -152,7 +152,8 @@ public class ImageUtils {
                 break;
             case "favorite_sentence_quiz":
                 mLabelLesson.setImageResource(mStars[2]);
-                break;case "not_favorite_sentence_quiz":
+                break;
+            case "not_favorite_sentence_quiz":
                 mLabelLesson.setImageResource(mStars[3]);
                 break;
             case "nothing":
@@ -160,5 +161,6 @@ public class ImageUtils {
                 break;
 
 
-        }}
+        }
+    }
 }

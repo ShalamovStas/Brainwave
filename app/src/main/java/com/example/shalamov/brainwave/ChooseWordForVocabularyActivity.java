@@ -10,6 +10,7 @@ import android.net.Uri;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
 import android.widget.Button;
@@ -21,6 +22,7 @@ import android.widget.Toast;
 import com.example.shalamov.brainwave.utils.Lesson;
 
 public class ChooseWordForVocabularyActivity extends AppCompatActivity {
+    String TAG = "ChooseWordForVocabularyActivity";
     private EditText mEditTextEng, mEditTextRu;
     private Button mBtnDelete, mBtnSave, mBtnGoToDictionary, mBtnPaste;
     private TextView mEditTextExampleUsage;
@@ -252,8 +254,10 @@ public class ChooseWordForVocabularyActivity extends AppCompatActivity {
     private void correctingWord() {
         if (mEditTextEng.getText().toString().length() != 0 & mEditTextRu.getText().toString().length() != 0) {
             String newText = mEditTextEng.getText().toString() + "=>" + mEditTextRu.getText().toString()
-                    + "=>" + getExampleOfUsageWord();
+                    + "=>" + getExampleOfUsageWord() + "=>1";
             Global.getLessonsUtils().changeWord(lesson, oldText, newText);
+            Log.d(TAG, "\noldText = " + oldText);
+            Log.d(TAG, "\nnewText = " + newText);
             Intent intent = new Intent();
             setResult(1, intent);
             finish();
@@ -268,7 +272,7 @@ public class ChooseWordForVocabularyActivity extends AppCompatActivity {
         if (mEditTextEng.getText().toString().length() != 0 & mEditTextRu.getText().toString().length() != 0) {
             boolean flag = false;
             flag = Global.getLessonsUtils().addWord(lesson, mEditTextEng.getText().toString() + "=>" + mEditTextRu.getText().toString()
-                    + "=>" + getExampleOfUsageWord());
+                    + "=>" + getExampleOfUsageWord() + "=>1" );
 
             if (flag) {
                 Toast.makeText(ChooseWordForVocabularyActivity.this, mEditTextEng.getText().toString() + " saved!", Toast.LENGTH_SHORT).show();
@@ -305,10 +309,18 @@ public class ChooseWordForVocabularyActivity extends AppCompatActivity {
     }
 
     private String getExampleOfUsageWord() {
+        String text;
         if (mEditTextExampleUsage != null) {
+            if(mEditTextExampleUsage.getText().toString().equalsIgnoreCase("")){
+                text = "-";
+            }else{
+                text = mEditTextExampleUsage.getText().toString();
+            }
             return mEditTextExampleUsage.getText().toString();
         } else {
-            return "";
+            text = "-";
         }
+
+        return text;
     }
 }

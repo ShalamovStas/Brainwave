@@ -1,12 +1,17 @@
 package com.example.shalamov.brainwave;
 
+import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.CountDownTimer;
 import android.speech.tts.TextToSpeech;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.shalamov.brainwave.utils.Lesson;
@@ -25,11 +30,16 @@ public class PlayerActivity extends AppCompatActivity {
     private TextToSpeech mTTSRu;
     private TextToSpeech mTTSEng;
 
-    private String[] wordsRusArray, wordsEngArray;
+    private ArrayList<String> wordsRusArray, wordsEngArray;
 
     private boolean speechIsPossible, speechPlays;
 
     private CountDownTimer timer;
+    private TextView textViewLog;
+
+    private TextToSpeech TTSEng;
+    TextToSpeech TTSRu;
+    private boolean needStopPlayer;
 
 
     @Override
@@ -41,126 +51,232 @@ public class PlayerActivity extends AppCompatActivity {
         lesson = (Lesson) Global.getLessonsList().get(lessonNumber);
         init();
         setListeners();
+
+
     }
+
 
     private void setListeners() {
         mBtnPlayStop.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 if (speechPlays) {
-
-                    mBtnPlayStop.setImageResource(R.drawable.ic_play_color);
+                    mBtnPlayStop.setBackgroundResource(R.drawable.ic_play_color);
                     speechPlays = false;
-
+                    needStopPlayer = true;
                 } else {
+                    mBtnPlayStop.setBackgroundResource(R.drawable.ic_pause_color);
+                    new MyAsinkTask().execute();
                     speechPlays = true;
-                    mBtnPlayStop.setImageResource(R.drawable.ic_pause_color);
-
-                    Thread thread = new Thread() {
-                        public void run() {
-                            Log.d(TAG, "\nstart thread");
-                            byte count = 0;
-                            while (speechPlays) {
-                                Log.d(TAG, "\nthread" + count);
-                                count++;
-
-                                try {
-                                    sleep(500);
-                                } catch (InterruptedException e) {
-                                    e.printStackTrace();
-                                }
-                                if(count == 10){
-                                    speechPlays = false;
-                                }
-                            }
-                            Log.d(TAG, "\nfinish thread");
-                        }
-                    };
-
-                    thread.run();
-
-                    Log.d(TAG, "\nafter thread.run();");
+                    needStopPlayer = false;
 
                 }
+
+
+//                mTTSRu.speak("Это пример", TextToSpeech.QUEUE_FLUSH, null);
+
+
+
             }
         });
     }
 
-    private void stopPlayer() {
 
-        if (timer != null) {
-            timer.cancel();
-        }
+
+    private void sayEnglish(int index) {
+        TTSEng.speak(wordsEngArray.get(index), TextToSpeech.QUEUE_FLUSH, null);
+
     }
 
-    private void startPlayer(int milisInFuture, int countDownInterval) {
-        final int mIF = milisInFuture;
-        timer = new CountDownTimer(milisInFuture, countDownInterval) {
-            @Override
-            public void onTick(long l) {
+    private void sayRussian(int index) {
+        TTSRu.speak(wordsRusArray.get(index), TextToSpeech.QUEUE_FLUSH, null);
 
-                int progress = (int) (mIF / 1000);
-                if (progress == 2) {
-                    mTTSRu.speak("Пример", TextToSpeech.QUEUE_FLUSH, null);
-                }
-            }
-
-            @Override
-            public void onFinish() {
-                mTTSRu.speak("Пример", TextToSpeech.QUEUE_FLUSH, null);
-                mBtnPlayStop.setImageResource(R.drawable.ic_play_color);
-            }
-        }.start();
     }
+
 
     private void init() {
 //        mTTSRu = new TextToSpeech(this, this);
 //        mTTSEng = new TextToSpeech(this, this);
         mBtnPlayStop = (ImageView) findViewById(R.id.play_pause);
+        textViewLog = (TextView) findViewById(R.id.log_text_view);
         lesson = (Lesson) Global.getLessonsList().get(lessonNumber);
         arrayListWords = lesson.getArrayListWords();
         createArrays();
         speechPlays = false;
+        needStopPlayer = true;
+
+
+        TTSEng = new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() {
+            @Override
+            public void onInit(int i) {
+                if (i != TextToSpeech.ERROR) {
+                    TTSEng.setLanguage(Locale.UK);
+                }
+            }
+        });
+
+        TTSRu = new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() {
+            @Override
+            public void onInit(int i) {
+                if (i != TextToSpeech.ERROR) {
+                    Locale locale = new Locale("ru");
+                    TTSRu.setLanguage(locale);
+                }
+            }
+        });
+
     }
 
     private void createArrays() {
-        wordsEngArray = new String[arrayListWords.size()];
-        wordsRusArray = new String[arrayListWords.size()];
+        wordsEngArray = new ArrayList();
+        wordsRusArray = new ArrayList();
 
         for (int i = 0; i < arrayListWords.size(); i++) {
             String[] wordsArrayAfterSplit = arrayListWords.get(i).toString().split("[=>]");
 
-            wordsEngArray[i] = wordsArrayAfterSplit[0];
-            wordsRusArray[i] = wordsArrayAfterSplit[2];
+            if(wordsArrayAfterSplit.length == 7){
+                if(wordsArrayAfterSplit[6].equalsIgnoreCase("1")){
+                    wordsEngArray.add(wordsArrayAfterSplit[0]);
+                    wordsRusArray.add(wordsArrayAfterSplit[2]);
+                }
+            }else {
+                wordsEngArray.add(wordsArrayAfterSplit[0]);
+                wordsRusArray.add(wordsArrayAfterSplit[2]);
+            }
 
         }
     }
 
+    @Override
+    protected void onDestroy() {
 
-//    @Override
-//    public void onInit(int status) {
-//        if (status == TextToSpeech.SUCCESS) {
-//
-//            Locale localeRu = new Locale("ru");
-//            Locale localeEng = new Locale("en-US");
-//
-//            int result1 = mTTSRu.setLanguage(localeRu);
-//            int result2 = mTTSEng.setLanguage(localeEng);
-//
-//            //int result = mTTSRu.setLanguage(Locale.getDefault());
-//
-//            if (result1 == TextToSpeech.LANG_MISSING_DATA
-//                    || result1 == TextToSpeech.LANG_NOT_SUPPORTED) {
-//                Toast.makeText(this, "Этот язык не поддерживается", Toast.LENGTH_SHORT).show();
-//                Log.e("TTS", "Извините, этот язык не поддерживается");
-//            } else {
-//
-//                speechIsPossible = true;
-//            }
-//
-//        } else {
-//            Log.e("TTS", "Ошибка!");
-//        }
-//    }
+        if (TTSEng != null) {
+            TTSEng.stop();
+            TTSEng.shutdown();
+        }
+
+        if (TTSRu != null) {
+            TTSRu.stop();
+            TTSRu.shutdown();
+        }
+        super.onDestroy();
+    }
+
+    @Override
+    public void onBackPressed() {
+        needStopPlayer = true;
+        finish();
+
+    }
+
+
+    private class MyAsinkTask extends AsyncTask<String, Integer, String> {
+
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+//            Toast.makeText(PlayerActivity.this, "start", Toast.LENGTH_SHORT).show();
+            // Do something like display a progress bar
+        }
+
+        @Override
+        protected String doInBackground(String... strings) {
+
+            int i = 0;
+
+            while(!needStopPlayer) {
+
+                for (int j = 0; j < 5; j++) {
+                    if (needStopPlayer) {
+                        break;
+                    }
+                    try {
+                        Thread.sleep(200);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    if (needStopPlayer) {
+                        break;
+                    }
+                    try {
+                        Thread.sleep(200);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    if (needStopPlayer) {
+                        break;
+                    }
+                    try {
+                        Thread.sleep(200);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    if (needStopPlayer) {
+                        break;
+                    }
+                    try {
+                        Thread.sleep(200);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    if (needStopPlayer) {
+                        break;
+                    }
+                    try {
+                        Thread.sleep(200);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    if (needStopPlayer) {
+                        break;
+                    }
+
+
+                    if (j == 1 || j == 3) {
+                        publishProgress(i, j);
+                    }
+                }
+
+                i++;
+
+                if(i == wordsEngArray.size()){
+                    i = 0;
+                }
+            }
+
+
+            return null;
+        }
+
+        @Override
+        protected void onProgressUpdate(Integer... values) {
+            super.onProgressUpdate(values);
+
+            textViewLog.setText("currentIndex = " + values[0]);
+            if (values[1] == 1){
+                sayEnglish(values[0]);
+            }
+            if (values[1] == 3){
+                sayRussian(values[0]);
+            }
+            // Do things like update the progress bar
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            super.onPostExecute(result);
+//            Toast.makeText(PlayerActivity.this, "finish", Toast.LENGTH_SHORT).show();
+            mBtnPlayStop.setBackgroundResource(R.drawable.ic_play_color);
+            speechPlays = false;
+            needStopPlayer = false;
+            textViewLog.setText("--log--" );
+
+            // Do things like hide the progress bar or change a TextView
+        }
+    }
+
+
 }
+
+

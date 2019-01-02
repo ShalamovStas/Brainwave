@@ -31,15 +31,6 @@
             android:name=".ActivityNavigation"
             android:label="@string/title_activity_navigation"
             android:theme="@style/AppTheme.NoActionBar" />
-
-        <receiver
-            android:name=".RemoteControlReceiver"
-            android:enabled="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MEDIA_BUTTON" />
-            </intent-filter>
-        </receiver>
-
         <activity android:name=".Room1" />
         <activity android:name=".TextEditorActivity" />
         <activity android:name=".ActivityBeforeTraining" />
@@ -48,7 +39,8 @@
         <activity android:name=".ChooseWordForVocabularyActivity" />
         <activity android:name=".ListWordsActivity" />
         <activity android:name=".QuizWordsActivity" />
-        <activity android:name=".PlayerActivity"></activity>
+        <activity android:name=".PlayerActivity" />
+        <activity android:name=".InfoActivity"></activity>
     </application>
 
 </manifest>

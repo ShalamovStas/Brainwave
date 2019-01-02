@@ -27,10 +27,15 @@
     <color name="myColorIndigo300">#7986cb</color>
     <color name="myColorIndigo400">#5c6bc0</color>
 
+    <color name="myColorBlueGray600">#546e7a</color>
+
 
 
     <color name="myColorGreen400">#66bb6a</color>
     <color name="myColorGreen600">#43a047</color>
+
+
+    <color name="myColorLightGreen600">#7cb342</color>
 
 
     <color name="myColorOrange200">#ffab40</color>
@@ -44,6 +49,14 @@
 
     <color name="myColorCorrectTextGreen800">#2e7d32</color>
     <color name="myColorNotCorrectTextOrange800">#d84315</color>
+
+
+
+    <color name="myColorPosition1">#82b1ff</color>
+    <color name="myColorPosition2">#0F5085</color>
+    <color name="myColorPosition3">#008CFF</color>
+    <color name="myColorPosition4">#276981</color>
+
 
 
 

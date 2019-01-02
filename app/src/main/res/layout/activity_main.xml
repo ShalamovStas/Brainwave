@@ -11,267 +11,261 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_above="@+id/bottom_panel">
 
 
-        <HorizontalScrollView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/myColorGrey100"
-            android:scrollbars="none">
+
+        <!--<HorizontalScrollView-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:background="@color/myColorGrey100"-->
+        <!--android:scrollbars="none">-->
 
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_margin="5dp">
+        <!--<LinearLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:layout_margin="5dp">-->
 
 
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:id="@+id/all_button">
+        <!--<LinearLayout-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_gravity="center"-->
+        <!--android:id="@+id/all_button">-->
 
-                    <ImageView
+        <!--<ImageView-->
 
-                        android:layout_width="@dimen/size_label_in_nav_panel"
-                        android:layout_height="@dimen/size_label_in_nav_panel"
-                        android:layout_marginEnd="@dimen/layout_margin_navigation_panel"
-                        android:layout_marginStart="@dimen/layout_margin_navigation_panel"
-                        android:background="@drawable/ic_list_lessons"/>
-                </LinearLayout>
+        <!--android:layout_width="@dimen/size_label_in_nav_panel"-->
+        <!--android:layout_height="@dimen/size_label_in_nav_panel"-->
+        <!--android:layout_marginEnd="@dimen/layout_margin_navigation_panel"-->
+        <!--android:layout_marginStart="@dimen/layout_margin_navigation_panel"-->
+        <!--android:background="@drawable/ic_list_lessons"/>-->
+        <!--</LinearLayout>-->
 
-                <!--<LinearLayout-->
-                    <!---->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:layout_margin="10dp"-->
-                    <!--android:background="@drawable/style1_pressed">-->
+        <!--&lt;!&ndash;<LinearLayout&ndash;&gt;-->
+        <!--&lt;!&ndash;&ndash;&gt;-->
+        <!--&lt;!&ndash;android:layout_width="wrap_content"&ndash;&gt;-->
+        <!--&lt;!&ndash;android:layout_height="wrap_content"&ndash;&gt;-->
+        <!--&lt;!&ndash;android:layout_margin="10dp"&ndash;&gt;-->
+        <!--&lt;!&ndash;android:background="@drawable/style1_pressed">&ndash;&gt;-->
 
-                    <!--<TextView-->
+        <!--&lt;!&ndash;<TextView&ndash;&gt;-->
 
-                        <!--android:layout_width="wrap_content"-->
-                        <!--android:layout_height="wrap_content"-->
-                        <!--android:text="All lessons"-->
-                        <!--android:textColor="@color/colorPrimaryDark" />-->
+        <!--&lt;!&ndash;android:layout_width="wrap_content"&ndash;&gt;-->
+        <!--&lt;!&ndash;android:layout_height="wrap_content"&ndash;&gt;-->
+        <!--&lt;!&ndash;android:text="All lessons"&ndash;&gt;-->
+        <!--&lt;!&ndash;android:textColor="@color/colorPrimaryDark" />&ndash;&gt;-->
 
-                    <!--&lt;!&ndash;<ImageView&ndash;&gt;-->
-                        <!--&lt;!&ndash;android:layout_width="20dp"&ndash;&gt;-->
-                        <!--&lt;!&ndash;android:layout_height="20dp"&ndash;&gt;-->
-                        <!--&lt;!&ndash;android:layout_marginStart="10dp"&ndash;&gt;-->
-                        <!--&lt;!&ndash;android:background="@drawable/ic_star" />&ndash;&gt;-->
+        <!--&lt;!&ndash;&lt;!&ndash;<ImageView&ndash;&gt;&ndash;&gt;-->
+        <!--&lt;!&ndash;&lt;!&ndash;android:layout_width="20dp"&ndash;&gt;&ndash;&gt;-->
+        <!--&lt;!&ndash;&lt;!&ndash;android:layout_height="20dp"&ndash;&gt;&ndash;&gt;-->
+        <!--&lt;!&ndash;&lt;!&ndash;android:layout_marginStart="10dp"&ndash;&gt;&ndash;&gt;-->
+        <!--&lt;!&ndash;&lt;!&ndash;android:background="@drawable/ic_star" />&ndash;&gt;&ndash;&gt;-->
 
-                <!--</LinearLayout>-->
-
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:id="@+id/important_button">
-
-                    <ImageView
-
-                        android:layout_width="@dimen/size_label_in_nav_panel"
-                        android:layout_height="@dimen/size_label_in_nav_panel"
-                        android:layout_marginEnd="@dimen/layout_margin_navigation_panel"
-                        android:layout_marginStart="@dimen/layout_margin_navigation_panel"
-                        android:background="@drawable/ic_important"/>
-                </LinearLayout>
-
-                <!--<LinearLayout-->
-                    <!--android:id="@+id/important_button"-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:layout_margin="10dp"-->
-                    <!--android:background="@drawable/style1_pressed">-->
-
-                    <!--<TextView-->
-
-                        <!--android:layout_width="wrap_content"-->
-                        <!--android:layout_height="wrap_content"-->
-                        <!--android:text="Impontant"-->
-                        <!--android:textColor="@color/colorPrimaryDark" />-->
-
-                    <!--<ImageView-->
-                        <!--android:layout_width="20dp"-->
-                        <!--android:layout_height="20dp"-->
-                        <!--android:layout_marginStart="10dp"-->
-                        <!--android:background="@drawable/ic_star" />-->
-
-                <!--</LinearLayout>-->
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:id="@+id/current_button">
-
-                    <ImageView
-
-                        android:layout_width="@dimen/size_label_in_nav_panel"
-                        android:layout_height="@dimen/size_label_in_nav_panel"
-                        android:layout_marginEnd="@dimen/layout_margin_navigation_panel"
-                        android:layout_marginStart="@dimen/layout_margin_navigation_panel"
-                        android:background="@drawable/ic_current_lesson"/>
-                </LinearLayout>
-
-                <!--<LinearLayout-->
-                    <!--android:id="@+id/current_button"-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:layout_margin="10dp"-->
-                    <!--android:background="@drawable/style1_pressed">-->
-
-                    <!--<TextView-->
-
-                        <!--android:layout_width="wrap_content"-->
-                        <!--android:layout_height="wrap_content"-->
-                        <!--android:text="Current"-->
-                        <!--android:textColor="@color/colorPrimaryDark" />-->
-                <!--</LinearLayout>-->
+        <!--&lt;!&ndash;</LinearLayout>&ndash;&gt;-->
 
 
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:id="@+id/temp_button">
+        <!--<LinearLayout-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_gravity="center"-->
+        <!--android:id="@+id/important_button">-->
 
-                    <ImageView
+        <!--<ImageView-->
 
-                        android:layout_width="@dimen/size_label_in_nav_panel"
-                        android:layout_height="@dimen/size_label_in_nav_panel"
-                        android:layout_marginEnd="@dimen/layout_margin_navigation_panel"
-                        android:layout_marginStart="@dimen/layout_margin_navigation_panel"
-                        android:background="@drawable/ic_temp_lesson"/>
-                </LinearLayout>
+        <!--android:layout_width="@dimen/size_label_in_nav_panel"-->
+        <!--android:layout_height="@dimen/size_label_in_nav_panel"-->
+        <!--android:layout_marginEnd="@dimen/layout_margin_navigation_panel"-->
+        <!--android:layout_marginStart="@dimen/layout_margin_navigation_panel"-->
+        <!--android:background="@drawable/ic_important"/>-->
+        <!--</LinearLayout>-->
 
-                <!--<LinearLayout-->
-                    <!--android:id="@+id/temp_button"-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:layout_margin="10dp"-->
-                    <!--android:background="@drawable/style1_pressed">-->
+        <!--&lt;!&ndash;<LinearLayout&ndash;&gt;-->
+        <!--&lt;!&ndash;android:id="@+id/important_button"&ndash;&gt;-->
+        <!--&lt;!&ndash;android:layout_width="wrap_content"&ndash;&gt;-->
+        <!--&lt;!&ndash;android:layout_height="wrap_content"&ndash;&gt;-->
+        <!--&lt;!&ndash;android:layout_margin="10dp"&ndash;&gt;-->
+        <!--&lt;!&ndash;android:background="@drawable/style1_pressed">&ndash;&gt;-->
 
-                    <!--<TextView-->
+        <!--&lt;!&ndash;<TextView&ndash;&gt;-->
 
-                        <!--android:layout_width="wrap_content"-->
-                        <!--android:layout_height="wrap_content"-->
-                        <!--android:text="Temp"-->
-                        <!--android:textColor="@color/colorPrimaryDark" />-->
+        <!--&lt;!&ndash;android:layout_width="wrap_content"&ndash;&gt;-->
+        <!--&lt;!&ndash;android:layout_height="wrap_content"&ndash;&gt;-->
+        <!--&lt;!&ndash;android:text="Impontant"&ndash;&gt;-->
+        <!--&lt;!&ndash;android:textColor="@color/colorPrimaryDark" />&ndash;&gt;-->
 
-                    <!--&lt;!&ndash;<ImageView&ndash;&gt;-->
-                    <!--&lt;!&ndash;android:layout_width="20dp"&ndash;&gt;-->
-                    <!--&lt;!&ndash;android:layout_height="20dp"&ndash;&gt;-->
-                    <!--&lt;!&ndash;android:layout_marginStart="10dp"&ndash;&gt;-->
-                    <!--&lt;!&ndash;android:background="@drawable/ic_star" />&ndash;&gt;-->
+        <!--&lt;!&ndash;<ImageView&ndash;&gt;-->
+        <!--&lt;!&ndash;android:layout_width="20dp"&ndash;&gt;-->
+        <!--&lt;!&ndash;android:layout_height="20dp"&ndash;&gt;-->
+        <!--&lt;!&ndash;android:layout_marginStart="10dp"&ndash;&gt;-->
+        <!--&lt;!&ndash;android:background="@drawable/ic_star" />&ndash;&gt;-->
 
-                <!--</LinearLayout>-->
+        <!--&lt;!&ndash;</LinearLayout>&ndash;&gt;-->
 
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:id="@+id/lesson_button">
+        <!--<LinearLayout-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_gravity="center"-->
+        <!--android:id="@+id/current_button">-->
 
-                    <ImageView
-                        android:layout_width="@dimen/size_label_in_nav_panel"
-                        android:layout_height="@dimen/size_label_in_nav_panel"
-                        android:layout_marginEnd="@dimen/layout_margin_navigation_panel"
-                        android:layout_marginStart="@dimen/layout_margin_navigation_panel"
-                        android:background="@drawable/ic_layout0"/>
-                </LinearLayout>
+        <!--<ImageView-->
 
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:id="@+id/jw_button">
+        <!--android:layout_width="@dimen/size_label_in_nav_panel"-->
+        <!--android:layout_height="@dimen/size_label_in_nav_panel"-->
+        <!--android:layout_marginEnd="@dimen/layout_margin_navigation_panel"-->
+        <!--android:layout_marginStart="@dimen/layout_margin_navigation_panel"-->
+        <!--android:background="@drawable/ic_current_lesson"/>-->
+        <!--</LinearLayout>-->
 
-                    <ImageView
+        <!--&lt;!&ndash;<LinearLayout&ndash;&gt;-->
+        <!--&lt;!&ndash;android:id="@+id/current_button"&ndash;&gt;-->
+        <!--&lt;!&ndash;android:layout_width="wrap_content"&ndash;&gt;-->
+        <!--&lt;!&ndash;android:layout_height="wrap_content"&ndash;&gt;-->
+        <!--&lt;!&ndash;android:layout_margin="10dp"&ndash;&gt;-->
+        <!--&lt;!&ndash;android:background="@drawable/style1_pressed">&ndash;&gt;-->
 
-                        android:layout_width="@dimen/size_label_in_nav_panel"
-                        android:layout_height="@dimen/size_label_in_nav_panel"
-                        android:layout_marginEnd="@dimen/layout_margin_navigation_panel"
-                        android:layout_marginStart="@dimen/layout_margin_navigation_panel"
-                        android:background="@drawable/ic_layout18"/>
-                </LinearLayout>
+        <!--&lt;!&ndash;<TextView&ndash;&gt;-->
 
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:id="@+id/solutions_sb_button">
-
-                    <ImageView
-
-                        android:layout_width="@dimen/size_label_in_nav_panel"
-                        android:layout_height="@dimen/size_label_in_nav_panel"
-                        android:layout_marginEnd="@dimen/layout_margin_navigation_panel"
-                        android:layout_marginStart="@dimen/layout_margin_navigation_panel"
-                        android:background="@drawable/ic_layout21"/>
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:id="@+id/solutions_wb_button">
-
-                    <ImageView
-
-                        android:layout_width="@dimen/size_label_in_nav_panel"
-                        android:layout_height="@dimen/size_label_in_nav_panel"
-                        android:layout_marginEnd="@dimen/layout_margin_navigation_panel"
-                        android:layout_marginStart="@dimen/layout_margin_navigation_panel"
-                        android:background="@drawable/ic_layout22"/>
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:id="@+id/bbc_button">
-
-                    <ImageView
-
-                        android:layout_width="@dimen/size_label_in_nav_panel"
-                        android:layout_height="@dimen/size_label_in_nav_panel"
-                        android:layout_marginEnd="@dimen/layout_margin_navigation_panel"
-                        android:layout_marginStart="@dimen/layout_margin_navigation_panel"
-                        android:background="@drawable/ic_layout23"/>
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:id="@+id/headphone_button">
-
-                    <ImageView
-
-                        android:layout_width="@dimen/size_label_in_nav_panel"
-                        android:layout_height="@dimen/size_label_in_nav_panel"
-                        android:layout_marginEnd="@dimen/layout_margin_navigation_panel"
-                        android:layout_marginStart="@dimen/layout_margin_navigation_panel"
-                        android:background="@drawable/ic_layout27"/>
-                </LinearLayout>
+        <!--&lt;!&ndash;android:layout_width="wrap_content"&ndash;&gt;-->
+        <!--&lt;!&ndash;android:layout_height="wrap_content"&ndash;&gt;-->
+        <!--&lt;!&ndash;android:text="Current"&ndash;&gt;-->
+        <!--&lt;!&ndash;android:textColor="@color/colorPrimaryDark" />&ndash;&gt;-->
+        <!--&lt;!&ndash;</LinearLayout>&ndash;&gt;-->
 
 
-            </LinearLayout>
-        </HorizontalScrollView>
+        <!--<LinearLayout-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_gravity="center"-->
+        <!--android:id="@+id/temp_button">-->
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/myColorGrey100"
-            android:elevation="2dp"
-            android:translationZ="2dp">
+        <!--<ImageView-->
 
-        </LinearLayout>
+        <!--android:layout_width="@dimen/size_label_in_nav_panel"-->
+        <!--android:layout_height="@dimen/size_label_in_nav_panel"-->
+        <!--android:layout_marginEnd="@dimen/layout_margin_navigation_panel"-->
+        <!--android:layout_marginStart="@dimen/layout_margin_navigation_panel"-->
+        <!--android:background="@drawable/ic_temp_lesson"/>-->
+        <!--</LinearLayout>-->
+
+        <!--&lt;!&ndash;<LinearLayout&ndash;&gt;-->
+        <!--&lt;!&ndash;android:id="@+id/temp_button"&ndash;&gt;-->
+        <!--&lt;!&ndash;android:layout_width="wrap_content"&ndash;&gt;-->
+        <!--&lt;!&ndash;android:layout_height="wrap_content"&ndash;&gt;-->
+        <!--&lt;!&ndash;android:layout_margin="10dp"&ndash;&gt;-->
+        <!--&lt;!&ndash;android:background="@drawable/style1_pressed">&ndash;&gt;-->
+
+        <!--&lt;!&ndash;<TextView&ndash;&gt;-->
+
+        <!--&lt;!&ndash;android:layout_width="wrap_content"&ndash;&gt;-->
+        <!--&lt;!&ndash;android:layout_height="wrap_content"&ndash;&gt;-->
+        <!--&lt;!&ndash;android:text="Temp"&ndash;&gt;-->
+        <!--&lt;!&ndash;android:textColor="@color/colorPrimaryDark" />&ndash;&gt;-->
+
+        <!--&lt;!&ndash;&lt;!&ndash;<ImageView&ndash;&gt;&ndash;&gt;-->
+        <!--&lt;!&ndash;&lt;!&ndash;android:layout_width="20dp"&ndash;&gt;&ndash;&gt;-->
+        <!--&lt;!&ndash;&lt;!&ndash;android:layout_height="20dp"&ndash;&gt;&ndash;&gt;-->
+        <!--&lt;!&ndash;&lt;!&ndash;android:layout_marginStart="10dp"&ndash;&gt;&ndash;&gt;-->
+        <!--&lt;!&ndash;&lt;!&ndash;android:background="@drawable/ic_star" />&ndash;&gt;&ndash;&gt;-->
+
+        <!--&lt;!&ndash;</LinearLayout>&ndash;&gt;-->
+
+        <!--<LinearLayout-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_gravity="center"-->
+        <!--android:id="@+id/lesson_button">-->
+
+        <!--<ImageView-->
+        <!--android:layout_width="@dimen/size_label_in_nav_panel"-->
+        <!--android:layout_height="@dimen/size_label_in_nav_panel"-->
+        <!--android:layout_marginEnd="@dimen/layout_margin_navigation_panel"-->
+        <!--android:layout_marginStart="@dimen/layout_margin_navigation_panel"-->
+        <!--android:background="@drawable/ic_layout0"/>-->
+        <!--</LinearLayout>-->
+
+        <!--<LinearLayout-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_gravity="center"-->
+        <!--android:id="@+id/jw_button">-->
+
+        <!--<ImageView-->
+
+        <!--android:layout_width="@dimen/size_label_in_nav_panel"-->
+        <!--android:layout_height="@dimen/size_label_in_nav_panel"-->
+        <!--android:layout_marginEnd="@dimen/layout_margin_navigation_panel"-->
+        <!--android:layout_marginStart="@dimen/layout_margin_navigation_panel"-->
+        <!--android:background="@drawable/ic_layout18"/>-->
+        <!--</LinearLayout>-->
+
+        <!--<LinearLayout-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_gravity="center"-->
+        <!--android:id="@+id/solutions_sb_button">-->
+
+        <!--<ImageView-->
+
+        <!--android:layout_width="@dimen/size_label_in_nav_panel"-->
+        <!--android:layout_height="@dimen/size_label_in_nav_panel"-->
+        <!--android:layout_marginEnd="@dimen/layout_margin_navigation_panel"-->
+        <!--android:layout_marginStart="@dimen/layout_margin_navigation_panel"-->
+        <!--android:background="@drawable/ic_layout21"/>-->
+        <!--</LinearLayout>-->
+
+        <!--<LinearLayout-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_gravity="center"-->
+        <!--android:id="@+id/solutions_wb_button">-->
+
+        <!--<ImageView-->
+
+        <!--android:layout_width="@dimen/size_label_in_nav_panel"-->
+        <!--android:layout_height="@dimen/size_label_in_nav_panel"-->
+        <!--android:layout_marginEnd="@dimen/layout_margin_navigation_panel"-->
+        <!--android:layout_marginStart="@dimen/layout_margin_navigation_panel"-->
+        <!--android:background="@drawable/ic_layout22"/>-->
+        <!--</LinearLayout>-->
+
+        <!--<LinearLayout-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_gravity="center"-->
+        <!--android:id="@+id/bbc_button">-->
+
+        <!--<ImageView-->
+
+        <!--android:layout_width="@dimen/size_label_in_nav_panel"-->
+        <!--android:layout_height="@dimen/size_label_in_nav_panel"-->
+        <!--android:layout_marginEnd="@dimen/layout_margin_navigation_panel"-->
+        <!--android:layout_marginStart="@dimen/layout_margin_navigation_panel"-->
+        <!--android:background="@drawable/ic_layout23"/>-->
+        <!--</LinearLayout>-->
+
+        <!--<LinearLayout-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_gravity="center"-->
+        <!--android:id="@+id/headphone_button">-->
+
+        <!--<ImageView-->
+
+        <!--android:layout_width="@dimen/size_label_in_nav_panel"-->
+        <!--android:layout_height="@dimen/size_label_in_nav_panel"-->
+        <!--android:layout_marginEnd="@dimen/layout_margin_navigation_panel"-->
+        <!--android:layout_marginStart="@dimen/layout_margin_navigation_panel"-->
+        <!--android:background="@drawable/ic_layout27"/>-->
+        <!--</LinearLayout>-->
+
+
+        <!--</LinearLayout>-->
+        <!--</HorizontalScrollView>-->
+
 
 
         <!--<TextView-->
@@ -285,14 +279,15 @@
         <ScrollView
             android:id="@+id/scroll_view_level_1"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal">
+            android:layout_height="match_parent"
+            android:layout_gravity="center_horizontal"
+            >
 
 
             <LinearLayout
                 android:id="@+id/layoutMainActivity"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:orientation="vertical">
 
                 <!--<TextView-->
@@ -307,19 +302,99 @@
 
             </LinearLayout>
         </ScrollView>
-
     </LinearLayout>
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/floatingActionButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
+        android:layout_above="@+id/bottom_panel"
         android:layout_margin="16dp"
         android:clickable="true"
         android:src="@drawable/ic_add"
         app:backgroundTint="@color/colorPrimary" />
+
+    <LinearLayout
+        android:id="@+id/bottom_panel"
+        android:layout_alignParentBottom="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="3">
+
+
+        <Button
+            android:id="@+id/btn_all_lessons"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="ВСЕ УРОКИ"
+            android:background="@color/myColorIndigo400"
+            android:textColor="@color/myColorWhite"/>
+
+        <Button
+            android:id="@+id/btn_sources"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="ИСТОЧНИКИ"
+            android:background="@color/myColorGrey300"
+            android:textColor="@color/myColorGrey600"/>
+
+        <Button
+            android:id="@+id/btn_all_favorite"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="СЛОВА"
+            android:background="@color/myColorGrey300"
+            android:textColor="@color/myColorGrey600"/>
+        <!--<LinearLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:layout_weight="1"-->
+        <!--android:background="@color/colorPrimary"-->
+        <!--android:gravity="center"-->
+        <!--android:orientation="vertical">-->
+
+        <!--<TextView-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:text="ВСЕ УРОКИ"-->
+        <!--android:textColor="@color/myColorWhite" />-->
+        <!--</LinearLayout>-->
+
+        <!--<LinearLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:layout_weight="1"-->
+        <!--android:background="@color/myColorWhite"-->
+        <!--android:gravity="center"-->
+        <!--android:orientation="vertical">-->
+
+        <!--<TextView-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:text="ИСТОЧНИКИ"-->
+        <!--android:textColor="@color/colorPrimary" />-->
+        <!--</LinearLayout>-->
+
+        <!--<LinearLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:layout_weight="1"-->
+        <!--android:background="@color/myColorWhite"-->
+        <!--android:gravity="center"-->
+        <!--android:orientation="vertical">-->
+
+        <!--<TextView-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:text="ИЗБРАННОЕ"-->
+        <!--android:textColor="@color/colorPrimary" />-->
+        <!--</LinearLayout>-->
+    </LinearLayout>
 
 
 </RelativeLayout>

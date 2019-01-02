@@ -22,7 +22,7 @@ public class ActivityBeforeTraining extends AppCompatActivity {
     private Lesson lesson;
 
 
-    LinearLayout mBtnOnlyText, mBtnList, mBtnFavorite, mBtnTextWithTranslation, mBtnVocabularyBuilder , mBtnWordsList, mBtnQuizForWords, mBtnPlayer;
+    LinearLayout mBtnOnlyText, mBtnList, mBtnFavorite, mBtnTextWithTranslation, mBtnWordsList, mBtnQuizForWords, mBtnPlayer;
     TextView mTextNumberOfSentences;
 
 
@@ -36,7 +36,7 @@ public class ActivityBeforeTraining extends AppCompatActivity {
 
         init();
         setListeners();
-        setParameters();
+//        setParameters();
     }
 
 
@@ -54,8 +54,7 @@ public class ActivityBeforeTraining extends AppCompatActivity {
         mBtnList = (LinearLayout) findViewById(R.id.btn_list);
         mBtnFavorite = (LinearLayout) findViewById(R.id.btn_favorite);
         mBtnTextWithTranslation = (LinearLayout) findViewById(R.id.btn_text_with_translation);
-        mTextNumberOfSentences = (TextView) findViewById(R.id.number_of_sentences);
-        mBtnVocabularyBuilder = (LinearLayout) findViewById(R.id.btn_vocabulary_builder);
+//        mTextNumberOfSentences = (TextView) findViewById(R.id.number_of_sentences);
         mBtnWordsList = (LinearLayout) findViewById(R.id.btn_words_list);
         mBtnQuizForWords = (LinearLayout) findViewById(R.id.btn_quiz_for_words);
         mBtnPlayer = (LinearLayout) findViewById(R.id.btn_player);
@@ -71,6 +70,7 @@ public class ActivityBeforeTraining extends AppCompatActivity {
             }
         });
 
+        //предложения по очереди
         mBtnTextWithTranslation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -113,15 +113,6 @@ public class ActivityBeforeTraining extends AppCompatActivity {
             }
         });
 
-        mBtnVocabularyBuilder.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                Intent intent = new Intent(ActivityBeforeTraining.this, VocabularyBuilderActivity.class);
-                intent.putExtra("lessonNumber", Integer.toString(lessonNumber));
-                startActivity(intent);
-            }
-        });
 
 
         mBtnWordsList.setOnClickListener(new View.OnClickListener() {
@@ -155,13 +146,13 @@ public class ActivityBeforeTraining extends AppCompatActivity {
         mBtnPlayer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                if(lesson.getArrayListWords().size() != 0) {
-//                    Intent intent = new Intent(ActivityBeforeTraining.this, PlayerActivity.class);
-//                    intent.putExtra("lessonNumber", Integer.toString(lessonNumber));
-//                    startActivity(intent);
-//                }else{
-//                    Toast.makeText(ActivityBeforeTraining.this, "Нет слов для изучения!", Toast.LENGTH_SHORT).show();
-//                }
+                if(lesson.getArrayListWords().size() != 0) {
+                    Intent intent = new Intent(ActivityBeforeTraining.this, PlayerActivity.class);
+                    intent.putExtra("lessonNumber", Integer.toString(lessonNumber));
+                    startActivity(intent);
+                }else{
+                    Toast.makeText(ActivityBeforeTraining.this, "Нет слов для изучения!", Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }
@@ -189,7 +180,7 @@ public class ActivityBeforeTraining extends AppCompatActivity {
         if (id == R.id.action_save) {
 
             Global.getJsonUtils().saveFromModelToFile();
-            Toast.makeText(this, "Saved", Toast.LENGTH_SHORT).show();
+//            Toast.makeText(this, "Saved", Toast.LENGTH_SHORT).show();
 
             return true;
         }
@@ -200,7 +191,7 @@ public class ActivityBeforeTraining extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         Global.getJsonUtils().saveFromModelToFile();
-        Toast.makeText(this, "Saved", Toast.LENGTH_SHORT).show();
+//        Toast.makeText(this, "Saved", Toast.LENGTH_SHORT).show();
         finish();
     }
 }

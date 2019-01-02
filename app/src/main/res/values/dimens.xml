@@ -9,4 +9,13 @@
     <dimen name="image_size_for_ic_drawable">100dp</dimen>
     <dimen name="layout_margin_navigation_panel">5dp</dimen>
     <dimen name="size_label_in_nav_panel">50dp</dimen>
+
+
+    <dimen name="size1_text_activity_before_training">15sp</dimen>
+    <dimen name="size2_text_activity_before_training">18sp</dimen>
+
+
+    <dimen name="layout_height_activity_before_training">120sp</dimen>
+
+
 </resources>

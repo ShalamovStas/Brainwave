@@ -22,7 +22,6 @@ import android.widget.Toast;
 import com.example.shalamov.brainwave.utils.Lesson;
 
 import java.util.ArrayList;
-import java.util.Locale;
 
 public class QuizWordsActivity extends AppCompatActivity {
     String TAG = "QuizWordsActivity";
@@ -31,13 +30,13 @@ public class QuizWordsActivity extends AppCompatActivity {
     private LinearLayout mLayoutNext, mLayoutPrevious;
     private RelativeLayout basicLayout;
     private TextView textViewFirst, textViewSecond;
-    private ArrayList arrayListwords;
+    private ArrayList arrayListWords;
     private ActionBar ab;
     private TextToSpeech mTTS;
     private boolean speechIsPossible;
     private ProgressBar progressBar;
 
-    private String[] wordsRusArray, wordsEngArray;
+    private ArrayList<String> wordsRusArray, wordsEngArray, examplesOfTheUsageArray;
     //логика работы
     int currentIndex;
     byte mode;
@@ -60,7 +59,7 @@ public class QuizWordsActivity extends AppCompatActivity {
     private void init() {
 //        mTTS = new TextToSpeech(this, this);
         lesson = (Lesson) Global.getLessonsList().get(lessonNumber);
-        arrayListwords = lesson.getArrayListWords();
+        arrayListWords = lesson.getArrayListWords();
         currentIndex = 0;
         mode = 0;
         translationIsNotShown = false;
@@ -95,7 +94,7 @@ public class QuizWordsActivity extends AppCompatActivity {
                         setProgressBarData();
                         break;
                 }
-                ab.setSubtitle("#" + (currentIndex + 1) + " from " + arrayListwords.size());
+                ab.setSubtitle("#" + (currentIndex + 1) + " from " + wordsEngArray.size());
             }
         });
 
@@ -103,7 +102,7 @@ public class QuizWordsActivity extends AppCompatActivity {
             @Override
             public boolean onLongClick(View view) {
 
-                if (!((currentIndex + 10) > wordsEngArray.length)) {
+                if (!((currentIndex + 10) > wordsEngArray.size())) {
                     currentIndex = currentIndex + 9;
 
                     switch (mode) {
@@ -120,7 +119,7 @@ public class QuizWordsActivity extends AppCompatActivity {
                             setProgressBarData();
                             break;
                     }
-                    ab.setSubtitle("#" + (currentIndex + 1) + " from " + arrayListwords.size());
+                    ab.setSubtitle("#" + (currentIndex + 1) + " from " + wordsEngArray.size());
 
                 }
                 return true;
@@ -145,7 +144,7 @@ public class QuizWordsActivity extends AppCompatActivity {
                         setProgressBarData();
                         break;
                 }
-                ab.setSubtitle("#" + (currentIndex + 1) + " from " + arrayListwords.size());
+                ab.setSubtitle("#" + (currentIndex + 1) + " from " + wordsEngArray.size());
             }
         });
 
@@ -161,36 +160,52 @@ public class QuizWordsActivity extends AppCompatActivity {
     }
 
     private void setProgressBarData() {
-        double value1 = 100 / wordsEngArray.length;
+        double value1 = 100 / wordsEngArray.size();
         int progress = (int) value1 * (currentIndex + 1);
-        if (currentIndex == (wordsEngArray.length - 1)) {
+        if (currentIndex == (wordsEngArray.size() - 1)) {
             progress = 100;
         }
         progressBar.setProgress(progress);
     }
 
     private void createArrays() {
-        wordsEngArray = new String[arrayListwords.size()];
-        wordsRusArray = new String[arrayListwords.size()];
+        wordsEngArray = new ArrayList();
+        wordsRusArray = new ArrayList();
+        examplesOfTheUsageArray = new ArrayList<>();
 
-        for (int i = 0; i < arrayListwords.size(); i++) {
-            String[] wordsArrayAfterSplit = arrayListwords.get(i).toString().split("[=>]");
+        for (int i = 0; i < arrayListWords.size(); i++) {
+            String[] wordsArrayAfterSplit = arrayListWords.get(i).toString().split("[=>]");
 
-            wordsEngArray[i] = wordsArrayAfterSplit[0];
-            wordsRusArray[i] = wordsArrayAfterSplit[2];
+            if (wordsArrayAfterSplit.length == 7) {
+                if (wordsArrayAfterSplit[6].equalsIgnoreCase("1")) {
+                    wordsEngArray.add(wordsArrayAfterSplit[0]);
+                    wordsRusArray.add(wordsArrayAfterSplit[2]);
+                    examplesOfTheUsageArray.add(wordsArrayAfterSplit[4]);
+                }
+            } else {
+                wordsEngArray.add(wordsArrayAfterSplit[0]);
+                wordsRusArray.add(wordsArrayAfterSplit[2]);
+                if(wordsArrayAfterSplit.length > 4){
+                    examplesOfTheUsageArray.add(wordsArrayAfterSplit[4]);
+                }else{
+                    examplesOfTheUsageArray.add("- ");
+                }
+            }
+
 
         }
     }
 
+
     private void clickNextWordMode1() {
 
         if (translationIsNotShown) {
-            textViewSecond.setText(wordsRusArray[currentIndex]);
+            textViewSecond.setText(wordsRusArray.get(currentIndex));
             translationIsNotShown = false;
         } else {
             currentIndex++;
             checkOutOfArray();
-            textViewFirst.setText(wordsEngArray[currentIndex]);
+            textViewFirst.setText(wordsEngArray.get(currentIndex));
             textViewSecond.setText("");
             translationIsNotShown = true;
         }
@@ -199,40 +214,42 @@ public class QuizWordsActivity extends AppCompatActivity {
     private void clickPreviousWordMode1() {
 
         if (translationIsNotShown) {
-            textViewSecond.setText(wordsRusArray[currentIndex]);
+            textViewSecond.setText(wordsRusArray.get(currentIndex));
             translationIsNotShown = false;
         } else {
             currentIndex--;
             checkOutOfArray();
-            textViewFirst.setText(wordsEngArray[currentIndex]);
+            textViewFirst.setText(wordsEngArray.get(currentIndex));
             textViewSecond.setText("");
             translationIsNotShown = true;
         }
     }
 
     private void clickNextWordMode0() {
+
         currentIndex++;
         checkOutOfArray();
-        textViewFirst.setText(wordsEngArray[currentIndex]);
-        textViewSecond.setText(wordsRusArray[currentIndex]);
+        Log.d(TAG, "clickNextWordMode0()\n===============\n" + "currentIndex = " + currentIndex);
+        textViewFirst.setText(wordsEngArray.get(currentIndex));
+        textViewSecond.setText(wordsRusArray.get(currentIndex));
     }
 
     private void clickPreviousWordMode0() {
         currentIndex--;
         checkOutOfArray();
-        textViewFirst.setText(wordsEngArray[currentIndex]);
-        textViewSecond.setText(wordsRusArray[currentIndex]);
+        textViewFirst.setText(wordsEngArray.get(currentIndex));
+        textViewSecond.setText(wordsRusArray.get(currentIndex));
     }
 
     private void clickNextWordMode2() {
 
         if (translationIsNotShown) {
-            textViewSecond.setText(wordsEngArray[currentIndex]);
+            textViewSecond.setText(wordsEngArray.get(currentIndex));
             translationIsNotShown = false;
         } else {
             currentIndex++;
             checkOutOfArray();
-            textViewFirst.setText(wordsRusArray[currentIndex]);
+            textViewFirst.setText(wordsRusArray.get(currentIndex));
             textViewSecond.setText("");
             translationIsNotShown = true;
         }
@@ -241,12 +258,12 @@ public class QuizWordsActivity extends AppCompatActivity {
     private void clickPreviousWordMode2() {
 
         if (translationIsNotShown) {
-            textViewSecond.setText(wordsEngArray[currentIndex]);
+            textViewSecond.setText(wordsEngArray.get(currentIndex));
             translationIsNotShown = false;
         } else {
             currentIndex--;
             checkOutOfArray();
-            textViewFirst.setText(wordsRusArray[currentIndex]);
+            textViewFirst.setText(wordsRusArray.get(currentIndex));
             textViewSecond.setText("");
             translationIsNotShown = true;
         }
@@ -257,33 +274,33 @@ public class QuizWordsActivity extends AppCompatActivity {
         checkOutOfArray();
 
 
-//        String[] wordsArrayAfterSplit = splitWord(arrayListwords.get(currentIndex).toString());
+//        String[] wordsArrayAfterSplit = splitWord(arrayListWords.get(currentIndex).toString());
 
         switch (mode) {
             case 0:
-                textViewFirst.setText(wordsEngArray[currentIndex]);
-                textViewSecond.setText(wordsRusArray[currentIndex]);
+                textViewFirst.setText(wordsEngArray.get(currentIndex));
+                textViewSecond.setText(wordsRusArray.get(currentIndex));
                 break;
             case 1:
                 if (translationIsNotShown) {
-                    textViewSecond.setText(wordsRusArray[currentIndex]);
+                    textViewSecond.setText(wordsRusArray.get(currentIndex));
                     translationIsNotShown = false;
                 } else {
                     currentIndex++;
                     checkOutOfArray();
-                    textViewFirst.setText(wordsEngArray[currentIndex]);
+                    textViewFirst.setText(wordsEngArray.get(currentIndex));
                     textViewSecond.setText("");
                     translationIsNotShown = true;
                 }
                 break;
             case 2:
                 if (translationIsNotShown) {
-                    textViewSecond.setText(wordsEngArray[currentIndex]);
+                    textViewSecond.setText(wordsEngArray.get(currentIndex));
                     translationIsNotShown = false;
                 } else {
                     currentIndex++;
                     checkOutOfArray();
-                    textViewFirst.setText(wordsRusArray[currentIndex]);
+                    textViewFirst.setText(wordsRusArray.get(currentIndex));
                     textViewSecond.setText("");
                     translationIsNotShown = true;
                 }
@@ -291,15 +308,15 @@ public class QuizWordsActivity extends AppCompatActivity {
 
         }
 
-        ab.setSubtitle("#" + (currentIndex + 1) + " from " + arrayListwords.size());
+        ab.setSubtitle("#" + (currentIndex + 1) + " from " + wordsEngArray.size());
     }
 
     private void checkOutOfArray() {
-        if (currentIndex >= arrayListwords.size()) {
+        if (currentIndex >= wordsRusArray.size()) {
             currentIndex = 0;
         }
         if (currentIndex < 0) {
-//            currentIndex = arrayListwords.size() - 1;
+//            currentIndex = arrayListWords.size() - 1;
             currentIndex = 0;
         }
     }
@@ -351,23 +368,23 @@ public class QuizWordsActivity extends AppCompatActivity {
     }
 
 
-    private void showExampleOfUsageAlertDialog(){
-        String[] text = arrayListwords.get(currentIndex).toString().split("[=>]");
+    private void showExampleOfUsageAlertDialog() {
+        String[] text = arrayListWords.get(currentIndex).toString().split("[=>]");
         if (text.length >= 5) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(QuizWordsActivity.this);
-           builder.setTitle("Пример использования слова");
-           EditText editText = new EditText(QuizWordsActivity.this);
-           editText.setText(text[4]);
-           editText.setFocusable(false);
-           editText.setTextSize(TypedValue.COMPLEX_UNIT_SP, 30);
-           builder.setView(editText);
-           builder.setPositiveButton("Ок", new DialogInterface.OnClickListener() {
-               @Override
-               public void onClick(DialogInterface dialogInterface, int i) {
-               }
-           });
+            AlertDialog.Builder builder = new AlertDialog.Builder(QuizWordsActivity.this);
+            builder.setTitle("Пример использования слова");
+            EditText editText = new EditText(QuizWordsActivity.this);
+            editText.setText(text[4]);
+            editText.setFocusable(false);
+            editText.setTextSize(TypedValue.COMPLEX_UNIT_SP, 30);
+            builder.setView(editText);
+            builder.setPositiveButton("Ок", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                }
+            });
 
-           builder.create().show();
+            builder.create().show();
         } else {
             Toast.makeText(this, "Пример отсутствует", Toast.LENGTH_SHORT).show();
         }
@@ -375,39 +392,28 @@ public class QuizWordsActivity extends AppCompatActivity {
     }
 
     private void showExampleOfUsage() {
-        String[] text = arrayListwords.get(currentIndex).toString().split("[=>]");
-
-        if (text.length >= 5) {
-
-
-            textViewSecond.setText(Html.fromHtml(getFormattedExampleOfUsage(text[4], wordsEngArray[currentIndex])));
-
-//
-
-
-        } else {
-            Toast.makeText(this, "Пример отсутствует", Toast.LENGTH_SHORT).show();
-        }
+        String text = examplesOfTheUsageArray.get(currentIndex);
+        textViewSecond.setText(Html.fromHtml(getFormattedExampleOfUsage(text, wordsEngArray.get(currentIndex))));
     }
 
     private String getFormattedExampleOfUsage(String text, String word) {
         // text - английское предложение
         Log.d(TAG, "getFormattedExampleOfUsage(String text, String word)\n");
         StringBuilder finalText = new StringBuilder();
-    String[] splitText = text.split(word);
+        String[] splitText = text.split(word);
 
         finalText.append("<b><font color=#2e7d32>");
         for (int i = 0; i < splitText.length; i++) {
-            Log.d(TAG, "splitText[i] = [" + splitText[i]+ "]");
+            Log.d(TAG, "splitText[i] = [" + splitText[i] + "]");
             finalText.append(splitText[i]);
 
-            if(i == 0){
+            if (i == 0) {
                 finalText.append("</font></b>");
-                finalText.append("<font color=#9f3924>" +  word  + "</font>");
+                finalText.append("<font color=#9f3924>" + word + "</font>");
                 finalText.append("<b><font color=#2e7d32>");
             }
 
-            if(i == 1 & splitText.length > 2){
+            if (i == 1 & splitText.length > 2) {
                 finalText.append("</font></b>");
                 finalText.append("<font color=#9f3924>" + word + "</font>");
                 finalText.append("<b><font color=#205128>");
@@ -444,26 +450,4 @@ public class QuizWordsActivity extends AppCompatActivity {
         }
     }
 
-//    @Override
-//    public void onInit(int status) {
-//        if (status == TextToSpeech.SUCCESS) {
-//
-//            Locale locale = new Locale("ru");
-//
-//            int result = mTTS.setLanguage(locale);
-//            //int result = mTTS.setLanguage(Locale.getDefault());
-//
-//            if (result == TextToSpeech.LANG_MISSING_DATA
-//                    || result == TextToSpeech.LANG_NOT_SUPPORTED) {
-//                Toast.makeText(this, "Этот язык не поддерживается", Toast.LENGTH_SHORT).show();
-//                Log.e("TTS", "Извините, этот язык не поддерживается");
-//            } else {
-//
-//                speechIsPossible = true;
-//            }
-//
-//        } else {
-//            Log.e("TTS", "Ошибка!");
-//        }
-//    }
 }

@@ -13,4 +13,20 @@
         android:layout_height="100dp"
         android:background="@drawable/ic_play_color"/>
 
+    <SeekBar
+        android:layout_margin="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/log_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="log"
+        android:textSize="25sp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerInParent="true"/>
+
+
+
 </RelativeLayout>

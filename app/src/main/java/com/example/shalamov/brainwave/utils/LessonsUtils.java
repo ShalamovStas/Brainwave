@@ -9,9 +9,10 @@ import java.util.ArrayList;
 public class LessonsUtils {
 
     final String TAG = "LessonUtils";
-
-    // класс для работы с объектами Lesson и списком уроков
-    // изменение объектов, добавление новых, итд
+    //==============================================================================================
+    //==============================================================================================
+    // Работа с объектами модели - создание объекта Lesson, его изменение,
+    // удаление
 
     public void createLesson(int number, String name, String text, String textFavorite, String description1, String words, String label, String progress) {
 
@@ -51,78 +52,6 @@ public class LessonsUtils {
 
     }
 
-    //метод для разделения текста на отдельные предложения, которые записываются в коллекцию
-    private void splitSentence(String text, ArrayList<String> textArrayList) {
-        Log.d(TAG, "\n======================splitSentence start======================");
-        Log.d(TAG, "\ntext:[" + "" + text + "]");
-
-
-        //разделение текста начального [ . Aaa 1. Bbb 2. Ccc 3] на предложения по признаку точки
-        // результат разделения: [ ] [Aaa 1] [ Bbb 2] [ Ccc 3].
-        String[] allTextArray = text.split("[.\\?\\!\\\n]");
-//
-        //цикл для удаления пробелов перед началом предложения
-        // проходим по всем элементам массива, созданого их общего текста
-        // для первого элемента, который равен [ ], flag = true;
-        // while ->
-        //if (true) {
-        //выделяем первый элемент substring
-        // если первій элемент == " "
-        // присваиваем элементу массива знаяение без первого элемента
-        // flag = true; цикл повторяется до тех пор, пока не будут удалены все пробелы
-        // (условие substring.equalsIgnoreCase(" ") это регулирует)
-
-        boolean needToDeleteEmptyElement = false; // если в массиве присутствуют пустые элементы, например
-        // [][Aaa 1][Bbb 2][Ccc 3] - первый элемент не содержит символов.
-        // этот флаг служит для указания того, что необходимо удалить пустые элементы
-
-        int count = 0; // счетчик для защиты от бесконечного цикла
-        boolean flag;
-        for (int i = 0; i < allTextArray.length; i++) {
-            flag = true;
-            count = 0;
-            while (flag) {
-                if (allTextArray[i].length() != 0) {
-                    count++;
-                    String substring = allTextArray[i].substring(0, 1);
-
-                    if (substring.equalsIgnoreCase(" ")) {
-                        allTextArray[i] = allTextArray[i].substring(1, allTextArray[i].length());
-                        flag = true;
-                    }
-                    if (!substring.equalsIgnoreCase(" ")) {
-                        flag = false;
-                    }
-                }
-
-                if (allTextArray[i].length() == 0) {
-                    needToDeleteEmptyElement = true;
-                    flag = false;
-                }
-                //защита от бесконечного цикла
-                if (count == 5) {
-                    flag = false;
-                }
-            }
-
-        }
-
-        // проверяем условие если существуют пустые элементы в массиве,
-        // то создаем новую коллекцию, в которую запишем все элементы массива без пустых элементов
-
-
-        for (int i = 0; i < allTextArray.length; i++) {
-            if (allTextArray[i].length() != 0) {
-                textArrayList.add(allTextArray[i]);
-            }
-        }
-
-
-        // на в даной точке имеем либо массив либо коллекцию
-        Log.d(TAG, "\ntextArrayList:[" + "" + textArrayList.toString() + "]");
-        Log.d(TAG, "\n======================splitSentence end======================");
-    }
-
     public void changeLesson(int number, String name, String text, String description1, String words, String label, String progress) {
 
         Lesson lesson = (Lesson) Global.getLessonsList().get(number);
@@ -148,7 +77,15 @@ public class LessonsUtils {
 
     }
 
-    // метод изменения предложения
+    public void deleteLesson(int index) {
+        Global.getLessonsList().remove(index);
+        Global.getJsonUtils().saveFromModelToFile();
+    }
+
+    //==============================================================================================
+    //==============================================================================================
+    // Работа с предложениями - изменение предложений, удаление предложений
+
     public void changeSentence(Lesson lesson, String oldSentence, String newSentence) {
 
         // изменяем основной текст
@@ -223,9 +160,30 @@ public class LessonsUtils {
         }
     }
 
-    public void deleteLesson(int index) {
-        Global.getLessonsList().remove(index);
-        Global.getJsonUtils().saveFromModelToFile();
+
+    //==============================================================================================
+    //==============================================================================================
+    //Методы для работы с Отмеченными предложениями
+    public void deleteFavoriteSentence(Lesson lesson, String text) {
+
+        ArrayList<String> textArrayListFavorite = lesson.getArrayListTextFavorite();
+
+        if (textArrayListFavorite.size() != 0) {
+
+            for (int i = 0; i < textArrayListFavorite.size(); i++) {
+
+                if (textArrayListFavorite.get(i).equalsIgnoreCase(text)) {
+                    textArrayListFavorite.remove(i);
+                }
+            }
+            // создание поля textFavorite для модели с учтом скорректированого предложения
+            if (textArrayListFavorite.size() != 0) {
+                String textLessonFavorite = arrayListToString(textArrayListFavorite);
+                lesson.setTextFavorite(textLessonFavorite);
+            }
+        }
+
+
     }
 
     public void addFavoriteSentence(Lesson lesson, String text) {
@@ -240,6 +198,25 @@ public class LessonsUtils {
         lesson.setTextFavorite(textLessonFavorite);
         Log.d(TAG, "textLessonFavorite = " + textLessonFavorite);
     }
+
+    public boolean checkIfExistThisSentenceInFavorite(Lesson lesson, String text){
+        boolean flag = false;
+        ArrayList favoriteSentencesArray = lesson.getArrayListTextFavorite();
+
+        if(favoriteSentencesArray.size() != 0){
+
+            for (int i = 0; i < favoriteSentencesArray.size(); i++) {
+                if(favoriteSentencesArray.get(i).toString().equalsIgnoreCase(text)){
+                    flag = true;
+                }
+            }
+        }
+
+        return flag;
+    }
+    //==============================================================================================
+    //==============================================================================================
+    //Методы для работы со словами для изучения
 
     public boolean addWord(Lesson lesson, String text) {
         Log.d(TAG, "=========addWord()=========");
@@ -259,7 +236,7 @@ public class LessonsUtils {
         if (flag) {
             words.add(text);
 
-            // создание поля textFavorite для модели с учтом скорректированого предложения
+            // создание поля words для модели с учтом скорректированого
             String wordsString = arrayListToString(words);
             lesson.setWords(wordsString);
             Log.d(TAG, "words = " + wordsString);
@@ -300,73 +277,121 @@ public class LessonsUtils {
 
             String wordsString = arrayListToString(words);
             lesson.setWords(wordsString);
+            Log.d(TAG, wordsString);
         }
     }
 
-    public void deleteFavoriteSentence(Lesson lesson, String text) {
+    public void updateWordLearnNotLearn(Lesson lesson, int index, String flag) {
 
-        ArrayList<String> textArrayListFavorite = lesson.getArrayListTextFavorite();
+        String[] splitArray = lesson.getArrayListWords().get(index).split("[=>]");
 
-        if (textArrayListFavorite.size() != 0) {
+        if (splitArray.length >= 7) {
+            splitArray[6] = flag;
+        }
 
-            for (int i = 0; i < textArrayListFavorite.size(); i++) {
+        StringBuilder result = new StringBuilder();
 
-                if (textArrayListFavorite.get(i).equalsIgnoreCase(text)) {
-                    textArrayListFavorite.remove(i);
-                }
-            }
-            // создание поля textFavorite для модели с учтом скорректированого предложения
-            if (textArrayListFavorite.size() != 0) {
-                String textLessonFavorite = arrayListToString(textArrayListFavorite);
-                lesson.setTextFavorite(textLessonFavorite);
+
+        for (int i = 0; i < splitArray.length; i++) {
+            result.append(splitArray[i]);
+            if (splitArray[i].length() == 0) {
+                result.append("=>");
             }
         }
+
+        if (splitArray.length <= 3) {
+            result.append("=>-");
+        }
+
+        if (splitArray.length < 7) {
+            result.append("=>");
+            result.append(flag);
+        }
+
+        Log.d(TAG, "\n\nupdateWordLearnNotLearn - end\nresult.toString() = " + result.toString());
+
+
+        changeWord(lesson, lesson.getArrayListWords().get(index), result.toString());
 
 
     }
 
-    public String deleteElementInString(String allText, String elementForDelete) {
+    public boolean checkFlagLearnNotLearn(Lesson lesson, int index) {
+        boolean flag = true;
+        String[] splitArray = lesson.getArrayListWords().get(index).split("[=>]");
 
-        //разделение текста начального [Aaa 1. Bbb 2. Ccc 3] на предложения по признаку точки
-        // результат разделения: [Aaa 1] [ Bbb 2] [ Ccc 3].
-        String[] allTextArray = allText.split("[.\\?\\!\\\n]");
+        if (splitArray.length == 7) {
+
+            switch (splitArray[6]) {
+                case "0":
+                    flag = false;
+                    break;
+                case "1":
+                    flag = true;
+                    break;
+                default:
+                    flag = true;
+                    break;
+            }
+        }
+
+        return flag;
+
+    }
+
+    //==============================================================================================
+    //==============================================================================================
+    //Вспомогательные методы - разделения текста, заполнения коллекций,
+    //формирования текста с html атрибутами и тд
+    //метод для разделения текста на отдельные предложения, которые записываются в коллекцию
+    private void splitSentence(String text, ArrayList<String> textArrayList) {
+        Log.d(TAG, "\n======================splitSentence start======================");
+        Log.d(TAG, "\ntext:[" + "" + text + "]");
+
+
+        //разделение текста начального [ . Aaa 1. Bbb 2. Ccc 3] на предложения по признаку точки
+        // результат разделения: [ ] [Aaa 1] [ Bbb 2] [ Ccc 3].
+        String[] allTextArray = text.split("[.\\?\\!\\\n]");
 //
         //цикл для удаления пробелов перед началом предложения
-        // проходим по всем элементам массива, созданого их общего текста allText
-        // для второго элемента, который равен [ Bbb 2], flag = true;
+        // проходим по всем элементам массива, созданого их общего текста
+        // для первого элемента, который равен [ ], flag = true;
         // while ->
         //if (true) {
         //выделяем первый элемент substring
-        // если первій элемент == " " а он и равен пробелу " "
+        // если первій элемент == " "
         // присваиваем элементу массива знаяение без первого элемента
         // flag = true; цикл повторяется до тех пор, пока не будут удалены все пробелы
         // (условие substring.equalsIgnoreCase(" ") это регулирует)
 
         boolean needToDeleteEmptyElement = false; // если в массиве присутствуют пустые элементы, например
         // [][Aaa 1][Bbb 2][Ccc 3] - первый элемент не содержит символов.
-        ArrayList<String> allTextArrayWithoutEmptyElements;
+        // этот флаг служит для указания того, что необходимо удалить пустые элементы
+
+        int count = 0; // счетчик для защиты от бесконечного цикла
         boolean flag;
-        //защита от бесконечного цыкла
-        int count = 0;
         for (int i = 0; i < allTextArray.length; i++) {
-            count = 0;
             flag = true;
+            count = 0;
             while (flag) {
                 if (allTextArray[i].length() != 0) {
-
+                    count++;
                     String substring = allTextArray[i].substring(0, 1);
+
                     if (substring.equalsIgnoreCase(" ")) {
                         allTextArray[i] = allTextArray[i].substring(1, allTextArray[i].length());
                         flag = true;
-                    } else {
+                    }
+                    if (!substring.equalsIgnoreCase(" ")) {
                         flag = false;
                     }
-                } else {
+                }
+
+                if (allTextArray[i].length() == 0) {
                     needToDeleteEmptyElement = true;
                     flag = false;
                 }
-
-                count++;
+                //защита от бесконечного цикла
                 if (count == 5) {
                     flag = false;
                 }
@@ -374,29 +399,100 @@ public class LessonsUtils {
 
         }
 
-        // на даном этапе имеем массив, созданый из текста allText
-        // с без пробелов в начале предложения
+        // проверяем условие если существуют пустые элементы в массиве,
+        // то создаем новую коллекцию, в которую запишем все элементы массива без пустых элементов
 
 
-        StringBuilder newText = new StringBuilder();
-        boolean needPoint;
-        for (int j = 0; j < allTextArray.length; j++) {
-            needPoint = false;
-            if (!allTextArray[j].equalsIgnoreCase(elementForDelete)) {
-                newText.append(allTextArray[j]);
-                needPoint = true;
+        for (int i = 0; i < allTextArray.length; i++) {
+            if (allTextArray[i].length() != 0) {
+                textArrayList.add(allTextArray[i]);
             }
+        }
 
-            //условте && needPoint позволяет не добовлять точку после последнего предложения
-            if ((allTextArray.length - 1) != j && needPoint) {
-                newText.append(".");
-            }
+
+        // на в даной точке имеем либо массив либо коллекцию
+        Log.d(TAG, "\ntextArrayList:[" + "" + textArrayList.toString() + "]");
+        Log.d(TAG, "\n======================splitSentence end======================");
+    }
+
+    public String[] formTextForWordList(String textSentence) {
+        String[] allTextArray = textSentence.split("[=>]");
+        int size = allTextArray.length;
+        String finalText = "";
+        int flagLearnNotLearn = 1;
+        switch (size) {
+            case 0:
+                finalText = "<b><font color=#FF0000>ERROR</font></b>";
+                break;
+            case 1:
+                finalText = "<b><font color=#082779>" + allTextArray[0] + "</font></b>";
+                break;
+            case 3:
+                finalText = "<b><font color=#082779>" + allTextArray[0] + "</font></b>" +
+                        "<br><font color=#205128>" + allTextArray[2] + "</font>";
+                break;
+            case 5:
+//                finalText = "<b><font color=#082779>" + allTextArray[0] + "</font></b>" +
+//                        "<br><br><font color=#205128>" + allTextArray[2] + "</font>" +
+//                        "<br><i><u><font color=#9f3924 size=100>" + allTextArray[4] + "</font></u></i>";
+
+                finalText = "<b><font color=#082779>" + allTextArray[0] + "</font></b>" +
+                        "<br><font color=#205128>" + allTextArray[2] + "</font>" +
+                        "<br><small>Пример: </small><i><small><font color=#9f3924 size=100>" + allTextArray[4] + "</font></small></i>" +
+                        "<br>";
+                break;
+
+            case 7:
+//                finalText = "<b><font color=#082779>" + allTextArray[0] + "</font></b>" +
+//                        "<br><br><font color=#205128>" + allTextArray[2] + "</font>" +
+//                        "<br><i><u><font color=#9f3924 size=100>" + allTextArray[4] + "</font></u></i>";
+
+                if (allTextArray[4].equalsIgnoreCase("-")) {
+                    finalText = "<b><font color=#082779>" + allTextArray[0] + "</font></b>" +
+                            "<br><font color=#205128>" + allTextArray[2] + "</font>";
+                } else {
+                    finalText = "<b><font color=#082779>" + allTextArray[0] + "</font></b>" +
+                            "<br><font color=#205128>" + allTextArray[2] + "</font>" +
+                            "<br><small>Пример: </small><i><small><font color=#9f3924 size=100>" + allTextArray[4] + "</font></small></i>" +
+                            "<br>";
+                }
+                break;
+            default:
+                finalText = "<b><font color=#082779>" + textSentence + "</font></b>";
+                break;
 
         }
 
-        return newText.toString();
+        if (size >= 7) {
+
+            switch (allTextArray[6]) {
+                case "0":
+                    flagLearnNotLearn = 0;
+                    break;
+                case "1":
+                    flagLearnNotLearn = 1;
+                    break;
+                default:
+                    flagLearnNotLearn = 1;
+                    break;
+            }
+
+        } else {
+            flagLearnNotLearn = 1;
+        }
+
+        String[] answer = {finalText, Integer.toString(flagLearnNotLearn)};
+        Log.d(TAG, "formTextForWordList ==== end===\nanswer[0] = " + answer[0] + "\nanswer[1] = " + answer[1]);
+        Log.d(TAG, "=\n\n==============================================================================\n\n");
+
+        return answer;
     }
 
+    public String cleanText(String textSentence) {
+        String[] allTextArray = textSentence.split("[=>]");
+
+        return allTextArray[0];
+    }
 
     private String arrayListToString(ArrayList<String> array) {
 
@@ -471,44 +567,78 @@ public class LessonsUtils {
         return finalText;
     }
 
-    public String cleanText(String textSentence) {
-        String[] allTextArray = textSentence.split("[=>]");
+    public String deleteElementInString(String allText, String elementForDelete) {
 
-        return allTextArray[0];
-    }
+        //разделение текста начального [Aaa 1. Bbb 2. Ccc 3] на предложения по признаку точки
+        // результат разделения: [Aaa 1] [ Bbb 2] [ Ccc 3].
+        String[] allTextArray = allText.split("[.\\?\\!\\\n]");
+//
+        //цикл для удаления пробелов перед началом предложения
+        // проходим по всем элементам массива, созданого их общего текста allText
+        // для второго элемента, который равен [ Bbb 2], flag = true;
+        // while ->
+        //if (true) {
+        //выделяем первый элемент substring
+        // если первій элемент == " " а он и равен пробелу " "
+        // присваиваем элементу массива знаяение без первого элемента
+        // flag = true; цикл повторяется до тех пор, пока не будут удалены все пробелы
+        // (условие substring.equalsIgnoreCase(" ") это регулирует)
 
+        boolean needToDeleteEmptyElement = false; // если в массиве присутствуют пустые элементы, например
+        // [][Aaa 1][Bbb 2][Ccc 3] - первый элемент не содержит символов.
+        ArrayList<String> allTextArrayWithoutEmptyElements;
+        boolean flag;
+        //защита от бесконечного цыкла
+        int count = 0;
+        for (int i = 0; i < allTextArray.length; i++) {
+            count = 0;
+            flag = true;
+            while (flag) {
+                if (allTextArray[i].length() != 0) {
 
-    public String formTextForWordList(String textSentence) {
-        String[] allTextArray = textSentence.split("[=>]");
-        int size = allTextArray.length;
-        String finalText = "";
-        switch (size) {
-            case 0:
-                finalText = "<b><font color=#FF0000>ERROR</font></b>";
-                break;
-            case 1:
-                finalText = "<b><font color=#082779>" + allTextArray[0] + "</font></b>";
-                break;
-            case 3:
-                finalText = "<b><font color=#082779>" + allTextArray[0] + "</font></b>" +
-                        "<br><font color=#205128>" + allTextArray[2] + "</font>";
-                break;
-            case 5:
-//                finalText = "<b><font color=#082779>" + allTextArray[0] + "</font></b>" +
-//                        "<br><br><font color=#205128>" + allTextArray[2] + "</font>" +
-//                        "<br><i><u><font color=#9f3924 size=100>" + allTextArray[4] + "</font></u></i>";
+                    String substring = allTextArray[i].substring(0, 1);
+                    if (substring.equalsIgnoreCase(" ")) {
+                        allTextArray[i] = allTextArray[i].substring(1, allTextArray[i].length());
+                        flag = true;
+                    } else {
+                        flag = false;
+                    }
+                } else {
+                    needToDeleteEmptyElement = true;
+                    flag = false;
+                }
 
-                finalText = "<b><font color=#082779>" + allTextArray[0] + "</font></b>" +
-                        "<br><font color=#205128>" + allTextArray[2] + "</font>" +
-                        "<br><small>Пример: </small><i><small><font color=#9f3924 size=100>" + allTextArray[4] + "</font></small></i>" +
-                        "<br>";
-                break;
-            default:
-                finalText = "<b><font color=#082779>" + textSentence + "</font></b>";
-                break;
+                count++;
+                if (count == 5) {
+                    flag = false;
+                }
+            }
 
         }
 
-        return finalText;
+        // на даном этапе имеем массив, созданый из текста allText
+        // с без пробелов в начале предложения
+
+
+        StringBuilder newText = new StringBuilder();
+        boolean needPoint;
+        for (int j = 0; j < allTextArray.length; j++) {
+            needPoint = false;
+            if (!allTextArray[j].equalsIgnoreCase(elementForDelete)) {
+                newText.append(allTextArray[j]);
+                needPoint = true;
+            }
+
+            //условте && needPoint позволяет не добовлять точку после последнего предложения
+            if ((allTextArray.length - 1) != j && needPoint) {
+                newText.append(".");
+            }
+
+        }
+
+        return newText.toString();
     }
+    //==============================================================================================
+    //==============================================================================================
+
 }

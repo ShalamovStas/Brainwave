@@ -94,7 +94,7 @@ public class ActivityNavigation extends AppCompatActivity
     boolean notePadShow;
     //    boolean previousLayoutIsTraining;
     String[] history = {"null", "null"};
-    TextToSpeech t1;
+    private TextToSpeech t1;
     boolean dayTheme; // дневная тема если true, режим день
     String theme;
 
