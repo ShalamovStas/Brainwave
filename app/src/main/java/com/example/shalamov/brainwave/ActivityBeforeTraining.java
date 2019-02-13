@@ -2,9 +2,7 @@ package com.example.shalamov.brainwave;
 
 import android.content.Intent;
 import android.graphics.drawable.TransitionDrawable;
-import android.speech.tts.TextToSpeech;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -14,13 +12,12 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.shalamov.brainwave.utils.Lesson;
-
-import org.w3c.dom.Text;
+import com.example.shalamov.brainwave.utils.LessonModel;
 
 public class ActivityBeforeTraining extends AppCompatActivity {
     private int lessonNumber, currentSentenceIndex, numberOfFavoriteSentences;
-    private Lesson lesson;
+    private LessonModel lesson;
+    private ActionBar ab;
 
 
     LinearLayout mBtnOnlyText, mBtnList, mBtnFavorite, mBtnTextWithTranslation, mBtnWordsList, mBtnQuizForWords, mBtnPlayer;
@@ -33,19 +30,19 @@ public class ActivityBeforeTraining extends AppCompatActivity {
         setContentView(R.layout.activity_basic_choose_training);
 
         lessonNumber = Integer.parseInt(getIntent().getStringExtra("lessonNumber"));
-        lesson = (Lesson) Global.getLessonsList().get(lessonNumber);
-
+        lesson = (LessonModel) Global.getLessonsList().get(lessonNumber);
+        ab = getSupportActionBar();
         init();
         setListeners();
 
         TransitionDrawable trans = (TransitionDrawable) mBtnOnlyText.getBackground();
-        trans.startTransition(4000);
+        trans.startTransition(1000);
 
         TransitionDrawable trans2 = (TransitionDrawable) mBtnTextWithTranslation.getBackground();
         trans2.startTransition(1000);
 
         TransitionDrawable trans3 = (TransitionDrawable) mBtnQuizForWords.getBackground();
-        trans3.startTransition(3000);
+        trans3.startTransition(1000);
 
 //        setParameters();
     }
@@ -61,6 +58,7 @@ public class ActivityBeforeTraining extends AppCompatActivity {
     private void init() {
         currentSentenceIndex = 0;
         Global.getmQuizLogic().setLesson(lesson);
+        ab.setSubtitle(lesson.getName());
         mBtnOnlyText = (LinearLayout) findViewById(R.id.btn_only_text);
         mBtnList = (LinearLayout) findViewById(R.id.btn_list);
         mBtnFavorite = (LinearLayout) findViewById(R.id.btn_favorite);

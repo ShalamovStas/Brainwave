@@ -6,22 +6,20 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ScrollView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.example.shalamov.brainwave.utils.Lesson;
+import com.example.shalamov.brainwave.utils.LessonModel;
 
 public class TextActivity extends AppCompatActivity {
 
     private TextView textView;
     private int lessonNumber;
-    private Lesson lesson;
+    private LessonModel lesson;
     private ActionBar ab;
     private ScrollView scrollView;
 
@@ -39,7 +37,7 @@ public class TextActivity extends AppCompatActivity {
         scrollView = (ScrollView) findViewById(R.id.scroll_text_activity);
 
         lessonNumber = Integer.parseInt(getIntent().getStringExtra("lessonNumber"));
-        lesson = (Lesson) Global.getLessonsList().get(lessonNumber);
+        lesson = (LessonModel) Global.getLessonsList().get(lessonNumber);
 
         setTextToView();
     }

@@ -6,167 +6,186 @@
     android:layout_height="match_parent"
     tools:context=".ChooseWordForVocabularyActivity">
 
-    <LinearLayout
-        android:id="@+id/layout_for_word_choose_word_vocabulary"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:orientation="vertical">
 
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:weightSum="4">
-
-            <EditText
-                android:layout_marginStart="5dp"
-                android:background="@null"
-                android:id="@+id/eng_text_choose_word_vocabulary"
+            <LinearLayout
+                android:id="@+id/layout_for_word_choose_word_vocabulary"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:textSize="23sp"
-                android:hint="English" />
+                android:layout_marginTop="10dp"
+                android:orientation="vertical">
 
-            <Button
-                android:id="@+id/btn_delete_choose_word_vocabulary"
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:weightSum="4">
+
+                    <EditText
+                        android:id="@+id/eng_text_choose_word_vocabulary"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="5dp"
+                        android:layout_weight="1"
+                        android:background="@null"
+                        android:layout_margin="5dp"
+                        android:hint="English"
+                        android:textSize="23sp" />
+
+                    <Button
+                        android:id="@+id/btn_delete_choose_word_vocabulary"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:layout_weight="3"
+                        android:text="Стереть" />
+
+                </LinearLayout>
+
+                <!--<LinearLayout-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:background="@color/myColorGrey300"-->
+                    <!--android:orientation="horizontal">-->
+
+                    <!--<TextView-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:layout_margin="5dp"-->
+                        <!--android:text="Перевод:"-->
+                        <!--android:textColor="@color/myColorGrey600"-->
+                        <!--android:textStyle="bold" />-->
+
+                <!--</LinearLayout>-->
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:weightSum="4">
+
+                    <EditText
+                        android:id="@+id/ru_text_choose_word_vocabulary"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:hint="Rus" />
+                </LinearLayout>
+
+
+
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:id="@+id/layout_line_choose_word_vocabulary"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_weight="3"
-                android:text="BCKSP" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:background="@color/myColorGrey200">
-
-            <TextView
-                android:layout_margin="5dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Перевод:"
-                android:textColor="@color/myColorGrey600"
-                android:textStyle="bold"/>
-
-        </LinearLayout>
+                android:layout_height="1dp"
+                android:layout_below="@+id/layout_for_word_choose_word_vocabulary"
+                android:background="@color/colorPrimary"
+                android:orientation="horizontal">
+            </LinearLayout>
 
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:weightSum="4">
-
-            <EditText
-                android:id="@+id/ru_text_choose_word_vocabulary"
+            <ScrollView
+                android:id="@+id/horiz_scroll_choose_word"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:hint="Russian"
-                />
-        </LinearLayout>
+                android:layout_above="@+id/bottom_navigation_choose_word_for_vocabulary"
+                android:layout_below="@+id/layout_line_choose_word_vocabulary">
+
+                <LinearLayout
+                    android:id="@+id/layout_for_add_content_choose_word_vocabulary"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:paddingLeft="5dp"
+                    android:paddingTop="5dp"
+                    android:paddingRight="5dp">
+
+                    <LinearLayout
+                        android:id="@+id/container_example_of_usage_word"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:background="@color/myColorGrey300"
+                        android:orientation="horizontal">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:layout_margin="10dp">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Пример использования слова:"
+
+                                />
+
+                            <TextView
+                                android:id="@+id/example_of_usage_text"
+                                android:text="-"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:textSize="22sp"
+                                />
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                    <!--<TextView-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_margin="10dp"-->
+                    <!--android:text="Text"-->
+                    <!--android:textColor="@color/colorPrimaryDark"-->
+                    <!--android:textSize="22sp"-->
+                    <!--android:textStyle="bold" />-->
+                </LinearLayout>
+            </ScrollView>
 
 
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginTop="10dp"
-            android:background="@color/myColorGrey200"
-            >
-            <TextView
-                android:layout_margin="5dp"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:id="@+id/bottom_navigation_choose_word_for_vocabulary"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Дополнительно:"
-                android:textColor="@color/myColorGrey600"
-                android:textStyle="bold"/>
+                android:layout_alignParentBottom="true"
+                android:orientation="horizontal"
+                android:weightSum="3">
 
-        </LinearLayout>
-    </LinearLayout>
+                <Button
+                    android:id="@+id/btn_save_choose_word_vocabulary"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@color/myColorIndigo400"
+                    android:text="save"
+                    android:textColor="@color/myColorWhite" />
 
+                <Button
+                    android:id="@+id/btn_paste_choose_word_vocabulary"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@color/myColorIndigo300"
+                    android:text="paste"
+                    android:textColor="@color/myColorWhite" />
 
-    <LinearLayout
-        android:id="@+id/layout_line_choose_word_vocabulary"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
+                <Button
+                    android:id="@+id/btn_gotodictionary_choose_word_vocabulary"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@color/myColorIndigo400"
+                    android:text="dictionary"
+                    android:textColor="@color/myColorWhite" />
 
-        android:layout_below="@+id/layout_for_word_choose_word_vocabulary"
-        android:orientation="horizontal"
-        android:background="@color/colorPrimary">
-    </LinearLayout>
-
-
-    <ScrollView
-        android:id="@+id/horiz_scroll_choose_word"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/layout_line_choose_word_vocabulary"
-        android:layout_above="@+id/bottom_navigation_choose_word_for_vocabulary"
-        >
-
-        <LinearLayout
-            android:id="@+id/layout_for_add_content_choose_word_vocabulary"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:paddingTop="20dp"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp">
-
-            <!--<TextView-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_margin="10dp"-->
-                <!--android:text="Text"-->
-                <!--android:textColor="@color/colorPrimaryDark"-->
-                <!--android:textSize="22sp"-->
-                <!--android:textStyle="bold" />-->
-        </LinearLayout>
-    </ScrollView>
+            </LinearLayout>
 
 
-    <LinearLayout
-        android:id="@+id/bottom_navigation_choose_word_for_vocabulary"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:orientation="horizontal"
-        android:weightSum="3">
 
-        <Button
-            android:id="@+id/btn_save_choose_word_vocabulary"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="@color/myColorIndigo400"
-            android:text="save"
-            android:textColor="@color/myColorWhite" />
-
-        <Button
-            android:id="@+id/btn_paste_choose_word_vocabulary"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="@color/myColorIndigo300"
-            android:text="paste"
-            android:textColor="@color/myColorWhite" />
-
-        <Button
-            android:id="@+id/btn_gotodictionary_choose_word_vocabulary"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="@color/myColorIndigo400"
-            android:text="go to dictionary"
-            android:textColor="@color/myColorWhite" />
-
-    </LinearLayout>
 
 </RelativeLayout>

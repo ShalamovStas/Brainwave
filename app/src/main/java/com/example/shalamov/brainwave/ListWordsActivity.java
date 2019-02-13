@@ -4,17 +4,18 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Html;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.example.shalamov.brainwave.utils.Lesson;
+import com.example.shalamov.brainwave.utils.LessonModel;
+import com.example.shalamov.brainwave.utils.WordModel;
 
 import java.util.ArrayList;
 
@@ -22,17 +23,21 @@ public class ListWordsActivity extends AppCompatActivity {
 
     String TAG = "ListWordsActivity";
     private LinearLayout mLayoutForAddContent;
-
-    private Lesson lesson;
+    private ActionBar ab;
+    private LessonModel lessonMode1;
+    private WordModel lessonMode2;
     private int lessonNumber;
     private FloatingActionButton floatingActionButton;
+    private boolean needToSave = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_words);
         lessonNumber = Integer.parseInt(getIntent().getStringExtra("lessonNumber"));
-        lesson = (Lesson) Global.getLessonsList().get(lessonNumber);
+
+        ab = getSupportActionBar();
+        ab.setTitle("Слова");
         init();
         setListeners();
         setDataForLayout();
@@ -54,18 +59,31 @@ public class ListWordsActivity extends AppCompatActivity {
 
 
     private void setDataForLayout() {
-
         mLayoutForAddContent.removeAllViews();
-        ArrayList words = lesson.getArrayListWords();
+        ArrayList words = null;
+        switch (Global.mode){
+            case 1:
+                lessonMode1 = (LessonModel) Global.getLessonsList().get(lessonNumber);
+                words = lessonMode1.getArrayListWords();
+                break;
+            case 2:
+                lessonMode2 = (WordModel) Global.getLessonsListForMode2().get(lessonNumber);
+                words = lessonMode2.getArrayListWords();
+                break;
+            case 3:
+                break;
+
+        }
+
 
         for (int i = 0; i < words.size(); i++) {
             final int index = i;
             final String text = words.get(i).toString();
-            final View mLayout = getLayoutInflater().inflate(R.layout.element_choose_world_for_vocab, null);
-            final LinearLayout mLayoutPieceOfSentence = (LinearLayout) mLayout.findViewById(R.id.buttonPieceOfSentence);
-            final TextView mTextPieceOfSentence = (TextView) mLayoutPieceOfSentence.findViewById(R.id.text_piece_of_sentence);
+            final View mLayout = getLayoutInflater().inflate(R.layout.element_for_list_words_activity, null);
+            final LinearLayout mLayoutPieceOfSentence = (LinearLayout) mLayout.findViewById(R.id.buttonPieceOfSentence_list_word_activity);
+            final TextView mTextPieceOfSentence = (TextView) mLayoutPieceOfSentence.findViewById(R.id.text_piece_of_sentence_list_word_activity);
 
-            final ImageView mImageLearnNotLearn = (ImageView) mLayout.findViewById(R.id.image_learn_not_learn);
+            final ImageView mImageLearnNotLearn = (ImageView) mLayout.findViewById(R.id.image_learn_not_learn_list_word_activity);
             final LinearLayout mLayoutLearnNotLearn = (LinearLayout) mLayout.findViewById(R.id.btn_learn_not_learn);
 
             String[] informationAboutObject = Global.getLessonsUtils().formTextForWordList(text);
@@ -90,7 +108,12 @@ public class ListWordsActivity extends AppCompatActivity {
                     intent.putExtra("lessonNumber", Integer.toString(lessonNumber));
                     intent.putExtra("currentSentenceIndex", "0");
                     intent.putExtra("addNewWordFlag", "2");
-                    intent.putExtra("text", lesson.getArrayListWords().get(index));
+                    if(Global.mode == 1) {
+                        intent.putExtra("text", lessonMode1.getArrayListWords().get(index));
+                    }
+                    if(Global.mode == 2) {
+                        intent.putExtra("text", lessonMode2.getArrayListWords().get(index));
+                    }
                     startActivityForResult(intent, 1);
                 }
             });
@@ -100,13 +123,26 @@ public class ListWordsActivity extends AppCompatActivity {
                 public boolean onLongClick(View view) {
 
                     AlertDialog.Builder builder = new AlertDialog.Builder(ListWordsActivity.this);
-                    builder.setTitle("Delete word?");
+                    builder.setTitle("Удалить слово?");
                     builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
 
-                            Global.getLessonsUtils().deleteWord(lesson, text);
+                            if(Global.mode == 1) {
+                                Global.getLessonsUtils().deleteWord(lessonMode1, text);
+                            }
+                            if(Global.mode == 2) {
+                                Global.getLessonsUtils().deleteWord(lessonMode2, text);
+                            }
                             mLayoutForAddContent.removeView(mLayout);
+
+                            if(Global.mode == 1) {
+                                Global.getJsonUtils().saveFromModelToFile();
+
+                            }
+                            if(Global.mode == 2) {
+                                Global.getJsonUtils().saveFromModelToFileMode2();
+                            }
                         }
                     }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                         @Override
@@ -116,6 +152,8 @@ public class ListWordsActivity extends AppCompatActivity {
                     });
 
                     builder.create().show();
+
+
                     return true;
                 }
             });
@@ -123,17 +161,35 @@ public class ListWordsActivity extends AppCompatActivity {
             mLayoutLearnNotLearn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    needToSave = true;
+                    boolean flag = false;
+                    if(Global.mode == 1) {
+                        flag = Global.getLessonsUtils().checkFlagLearnNotLearn(lessonMode1, index);
+                    }
+                    if(Global.mode == 2) {
+                        flag = Global.getLessonsUtils().checkFlagLearnNotLearn( lessonMode2, index);
+                    }
 
-                    boolean flag = Global.getLessonsUtils().checkFlagLearnNotLearn(lesson, index);
 
                     if(flag){
                         mImageLearnNotLearn.setBackgroundResource(R.drawable.ic_pause_color);
-                        Global.getLessonsUtils().updateWordLearnNotLearn(lesson, index, "0");
-                        Log.d(TAG, "\n\n wordObject = " + lesson.getArrayListWords().get(index));
+                        if(Global.mode == 1) {
+                            Global.getLessonsUtils().updateWordLearnNotLearn(lessonMode1, index, "0");
+                        }
+                        if(Global.mode == 2) {
+                            Global.getLessonsUtils().updateWordLearnNotLearn(lessonMode2, index, "0");
+                        }
+
+
                     }else{
                         mImageLearnNotLearn.setBackgroundResource(R.drawable.ic_play_color);
-                        Global.getLessonsUtils().updateWordLearnNotLearn(lesson, index, "1");
-                        Log.d(TAG, "\n\n wordObject = " + lesson.getArrayListWords().get(index));
+                        if(Global.mode == 1) {
+                            Global.getLessonsUtils().updateWordLearnNotLearn(lessonMode1, index, "1");
+                        }
+                        if(Global.mode == 2) {
+                            Global.getLessonsUtils().updateWordLearnNotLearn(lessonMode2, index, "1");
+                        }
+
                     }
 
                 }
@@ -155,6 +211,21 @@ public class ListWordsActivity extends AppCompatActivity {
         if (requestCode == 1) {
             setDataForLayout();
         }
+    }
+
+        @Override
+    public void onBackPressed() {
+
+        if(needToSave) {
+            if (Global.mode == 1) {
+                Global.getJsonUtils().saveFromModelToFile();
+            }
+            if (Global.mode == 2) {
+                Global.getJsonUtils().saveFromModelToFileMode2();
+            }
+        }
+
+        finish();
     }
 
 

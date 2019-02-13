@@ -40,7 +40,9 @@
         <activity android:name=".ListWordsActivity" />
         <activity android:name=".QuizWordsActivity" />
         <activity android:name=".PlayerActivity" />
-        <activity android:name=".InfoActivity"></activity>
+        <activity android:name=".InfoActivity" />
+        <activity android:name=".BuilderWordsLesson" />
+        <activity android:name=".ActivityBeforeTrainingMode2"></activity>
     </application>
 
 </manifest>

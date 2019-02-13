@@ -3,4 +3,5 @@
     <!-- use whatever drawables you want, gradients, shapes etc-->
     <item android:drawable="@drawable/gradient1" />
     <item android:drawable="@drawable/gradient2" />
+    <item android:drawable="@drawable/gradient1" />
 </transition>

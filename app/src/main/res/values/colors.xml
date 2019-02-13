@@ -57,7 +57,21 @@
     <color name="myColorPosition3">#008CFF</color>
     <color name="myColorPosition4">#276981</color>
 
+    <!--colors for mode in Main Activity-->
 
+    <color name="myColorPrimaryMode2">#00897b</color>
+    <color name="myColorPrimaryDarkMode2">#005b4f</color>
+    <color name="myColorPrimaryLightMode2">#4ebaaa</color>
+
+    <color name="myColorPrimaryMode3">#43a047</color>
+    <color name="myColorPrimaryDarkMode3">#00701a</color>
+    <color name="myColorPrimaryLightMode3">#76d275</color>
+
+    <!--colors for activityBeforeTrainingMode2 in Main Activity-->
+
+    <color name="myColorActivityBeforeTrainingMode2Line1">#4db6ac</color>
+    <color name="myColorActivityBeforeTrainingMode2Line2">#80cbc4</color>
+    <color name="myColorActivityBeforeTrainingMode2Line3">#81c784</color>
 
 
 </resources>

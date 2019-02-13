@@ -1,18 +1,14 @@
 package com.example.shalamov.brainwave;
 
-import android.animation.ObjectAnimator;
 import android.content.ActivityNotFoundException;
 import android.content.ClipData;
 import android.content.ClipboardManager;
-import android.content.ComponentName;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Point;
 import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
-import android.media.AudioManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -39,13 +35,11 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.SeekBar;
 import android.widget.Spinner;
@@ -53,10 +47,8 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.shalamov.brainwave.utils.Lesson;
+import com.example.shalamov.brainwave.utils.LessonModel;
 import com.example.shalamov.brainwave.utils.ToolForNotepad;
-
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -148,7 +140,7 @@ public class ActivityNavigation extends AppCompatActivity
 //    AudioManager manager;
 
     int lessonNumber;
-    Lesson lesson;
+    LessonModel lesson;
     boolean wasChanged = false;
 
     private Spinner spinner;
@@ -179,7 +171,7 @@ public class ActivityNavigation extends AppCompatActivity
 
 
         lessonNumber = Integer.parseInt(getIntent().getStringExtra("lessonNumber"));
-        lesson = (Lesson) Global.getLessonsList().get(lessonNumber);
+        lesson = (LessonModel) Global.getLessonsList().get(lessonNumber);
 
 
 //        oldNameLesson = nameLesson;
@@ -1073,9 +1065,9 @@ public class ActivityNavigation extends AppCompatActivity
 
             for (int i = 0; i < line.size(); i++) {
                 final View mLayout = getLayoutInflater().inflate(R.layout.element_1, null);
-                final LinearLayout mLayoutPieceOfSentence = (LinearLayout) mLayout.findViewById(R.id.buttonPieceOfSentence);
+                final LinearLayout mLayoutPieceOfSentence = (LinearLayout) mLayout.findViewById(R.id.buttonPieceOfSentence_list_word_activity);
 
-                final TextView mTextPieceOfSentence = (TextView) mLayoutPieceOfSentence.findViewById(R.id.text_piece_of_sentence);
+                final TextView mTextPieceOfSentence = (TextView) mLayoutPieceOfSentence.findViewById(R.id.text_piece_of_sentence_list_word_activity);
                 final int indexOfElement;
 
 
@@ -1826,7 +1818,7 @@ public class ActivityNavigation extends AppCompatActivity
 
                     AlertDialog.Builder builder = new AlertDialog.Builder(ActivityNavigation.this);
                     builder.setCancelable(false);
-                    builder.setTitle("Save Lesson?");
+                    builder.setTitle("Save LessonModel?");
                     builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {

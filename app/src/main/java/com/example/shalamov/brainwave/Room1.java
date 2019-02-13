@@ -21,7 +21,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.shalamov.brainwave.utils.Lesson;
+import com.example.shalamov.brainwave.utils.LessonModel;
 
 import java.util.Locale;
 
@@ -31,7 +31,7 @@ public class Room1 extends AppCompatActivity {
     int currentSentenceIndex, lessonNumber, showOnlyFavoriteSentences;
     private ActionBar ab;
     private TextView textFieldForLearning;
-    private Lesson lesson;
+    private LessonModel lesson;
     private LinearLayout layoutForClick;
     private LinearLayout mLayoutAddToFavorite;
     private ImageView mImageForLayoutAddToFavorite;
@@ -58,7 +58,7 @@ public class Room1 extends AppCompatActivity {
     }
 
     private void initializing() {
-        lesson = (Lesson) Global.getLessonsList().get(lessonNumber);
+        lesson = (LessonModel) Global.getLessonsList().get(lessonNumber);
         mQuizLogic = Global.getmQuizLogic();
 
         mQuizLogic.setCurrSentence(currentSentenceIndex);

@@ -1,20 +1,16 @@
 package com.example.shalamov.brainwave;
 
-import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.CountDownTimer;
 import android.speech.tts.TextToSpeech;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.example.shalamov.brainwave.utils.Lesson;
+import com.example.shalamov.brainwave.utils.LessonModel;
+import com.example.shalamov.brainwave.utils.WordModel;
 
 import java.util.ArrayList;
 import java.util.Locale;
@@ -25,7 +21,8 @@ public class PlayerActivity extends AppCompatActivity {
     private ImageView mBtnPlayStop;
 
     private int lessonNumber;
-    private Lesson lesson;
+    private LessonModel lessonModel1;
+    private WordModel lessonModel2;
     private ArrayList arrayListWords;
     private TextToSpeech mTTSRu;
     private TextToSpeech mTTSEng;
@@ -48,7 +45,8 @@ public class PlayerActivity extends AppCompatActivity {
         setContentView(R.layout.activity_player);
 
         lessonNumber = Integer.parseInt(getIntent().getStringExtra("lessonNumber"));
-        lesson = (Lesson) Global.getLessonsList().get(lessonNumber);
+
+
         init();
         setListeners();
 
@@ -99,8 +97,14 @@ public class PlayerActivity extends AppCompatActivity {
 //        mTTSEng = new TextToSpeech(this, this);
         mBtnPlayStop = (ImageView) findViewById(R.id.play_pause);
         textViewLog = (TextView) findViewById(R.id.log_text_view);
-        lesson = (Lesson) Global.getLessonsList().get(lessonNumber);
-        arrayListWords = lesson.getArrayListWords();
+        if(Global.mode == 1) {
+            lessonModel1 = (LessonModel) Global.getLessonsList().get(lessonNumber);
+            arrayListWords = lessonModel1.getArrayListWords();
+        }
+        if(Global.mode == 2){
+            lessonModel2 = (WordModel) Global.getLessonsListForMode2().get(lessonNumber);
+            arrayListWords = lessonModel2.getArrayListWords();
+        }
         createArrays();
         speechPlays = false;
         needStopPlayer = true;

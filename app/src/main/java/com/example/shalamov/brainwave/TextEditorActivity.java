@@ -6,7 +6,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
-import com.example.shalamov.brainwave.utils.Lesson;
+import com.example.shalamov.brainwave.utils.LessonModel;
 
 public class TextEditorActivity extends AppCompatActivity {
 
@@ -14,7 +14,7 @@ public class TextEditorActivity extends AppCompatActivity {
     Button mBtnSave, mBtnCancel, mBtnCleanText;
     QuizLogic mQuizLogic;
     EditText mEditTextEng, mEditTextRu;
-    Lesson lesson;
+    LessonModel lesson;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,7 +42,7 @@ public class TextEditorActivity extends AppCompatActivity {
 
     private void initialize() {
         mQuizLogic = Global.getmQuizLogic();
-        lesson = (Lesson) Global.getLessonsList().get(lessonNumber);
+        lesson = (LessonModel) Global.getLessonsList().get(lessonNumber);
         mEditTextEng = (EditText) findViewById(R.id.edit_text_english);
         mEditTextRu = (EditText) findViewById(R.id.edit_text_russian);
         mBtnSave = (Button) findViewById(R.id.btn_save);

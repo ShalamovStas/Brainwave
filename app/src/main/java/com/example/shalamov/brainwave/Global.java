@@ -3,8 +3,9 @@ package com.example.shalamov.brainwave;
 import com.example.shalamov.brainwave.utils.FilesUtils;
 import com.example.shalamov.brainwave.utils.ImageUtils;
 import com.example.shalamov.brainwave.utils.JsonUtils;
-import com.example.shalamov.brainwave.utils.Lesson;
+import com.example.shalamov.brainwave.utils.LessonModel;
 import com.example.shalamov.brainwave.utils.LessonsUtils;
+import com.example.shalamov.brainwave.utils.WordModel;
 
 import java.util.ArrayList;
 
@@ -14,13 +15,23 @@ import java.util.ArrayList;
 
 public class Global {
 
+    public static byte mode = 1;
     private static JsonUtils jsonUtils;
     private static FilesUtils filesUtils;
-    private static ArrayList<Lesson> lessonsList;
+    private static ArrayList<LessonModel> lessonsList;
+    private static ArrayList<WordModel> lessonsListForMode2;
     private static LessonsUtils lessonsUtils;
     private static ActivityNavigation activityNavigation;
     private static ImageUtils imageUtils;
     private static QuizLogic mQuizLogic;
+
+    public static ArrayList<WordModel> getLessonsListForMode2() {
+        return lessonsListForMode2;
+    }
+
+    public static void setLessonsListForMode2(ArrayList lessonsListForMode2) {
+        Global.lessonsListForMode2 = lessonsListForMode2;
+    }
 
     public static QuizLogic getmQuizLogic() {
         return mQuizLogic;

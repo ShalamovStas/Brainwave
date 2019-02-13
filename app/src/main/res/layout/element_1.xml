@@ -4,7 +4,7 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:id="@+id/buttonPieceOfSentence"
+    android:id="@+id/buttonPieceOfSentence_list_word_activity"
     >
 
         <!--<Button-->
@@ -26,7 +26,7 @@
             android:layout_margin="4dp">
 
                 <TextView
-                    android:id="@+id/text_piece_of_sentence"
+                    android:id="@+id/text_piece_of_sentence_list_word_activity"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="0dp"

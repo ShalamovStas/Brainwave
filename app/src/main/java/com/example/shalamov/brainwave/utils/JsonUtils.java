@@ -11,57 +11,26 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 public class JsonUtils {
-    private JSONArray jsonArray;
-    public JsonUtils(String resource) {
+String TAG = "JsonUtils";
 
 
-        if(resource.equalsIgnoreCase("FileNotFound")){
-            createFirstJsonArray();
-            Log.d("brain", "JsonUtils-constructor-resource.equalsIgnoreCase(FileNotFound)");
-        }else {
-            Log.d("brain", "JsonUtils-constructor-resource.equalsIgnoreCase(FileNotFound)-else resource = " + resource);
-            try {
-//                createFirstJsonArray();
-                jsonArray = new JSONArray(resource);
 
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
-    private void createFirstJsonArray() {
+    // метод читает Json и использует LessonsUtils чтобы создать лист уроков
+    public void readJsonToLessonMode1(String text) {
+        JSONArray jsonArray = null;
         try {
-        jsonArray = new JSONArray();
-
-            for (int i = 0; i < 2; i++) {
-
-                JSONObject jsonObject = new JSONObject();
-                jsonObject.put("number", i);
-                jsonObject.put("lesson_name", "Introduce " + i);
-                jsonObject.put("Text", "This application is very useful " + i);
-                jsonObject.put("TextFavorite", "");
-                jsonObject.put("description1", "description1");
-                jsonObject.put("words", "word=>слово");
-                jsonObject.put("label", "label_0");
-                jsonObject.put("progress", "");
-                jsonArray.put(jsonObject);
-            }
+            jsonArray = new JSONArray(text);
         } catch (JSONException e) {
             e.printStackTrace();
         }
 
-    }
-
-    // метод читает Json и использует LessonsUtils чтобы создать лист уроков
-    public void readJsonToLesson () {
         try {
             JSONObject jsonObject = null;
 
             int numberOfKeysArray = jsonArray.length();
 
             for (int i = 0; i < numberOfKeysArray; i++) {
-                Log.d("brain", "fori - i = " + i);
+
 
                 jsonObject = jsonArray.getJSONObject(i);
 
@@ -80,24 +49,40 @@ public class JsonUtils {
         } catch (JSONException e1) {
             e1.printStackTrace();
         }
-
     }
 
-    public void changeJson (int number, String newText) {
+    public void readJsonToLessonMode2(String text) {
+        JSONArray jsonArray = null;
+        try {
+            jsonArray = new JSONArray(text);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
         try {
             JSONObject jsonObject = null;
-            jsonObject = jsonArray.getJSONObject(number);
-            jsonObject.put("Text", newText);
+
+            int numberOfKeysArray = jsonArray.length();
+
+            for (int i = 0; i < numberOfKeysArray; i++) {
 
 
+                jsonObject = jsonArray.getJSONObject(i);
 
+                Global.getLessonsUtils().createLessonMode2(
+                        i,                                          //номер урока
+                        jsonObject.get("lesson_name").toString(),
+                        jsonObject.get("words").toString(),
+                        jsonObject.get("label").toString());
+
+            }
         } catch (JSONException e1) {
             e1.printStackTrace();
         }
-
     }
 
-    public void saveFromModelToFile(){
+
+    public void saveFromModelToFile() {
 
         try {
             JSONArray jsonArray = new JSONArray();
@@ -105,31 +90,97 @@ public class JsonUtils {
             ArrayList lessonArrayList = Global.getLessonsList();
 
             for (int i = 0; i < lessonArrayList.size(); i++) {
-                Lesson lesson = (Lesson) lessonArrayList.get(i);
-                if(lesson.getTextFavorite() == null){
+                LessonModel lesson = (LessonModel) lessonArrayList.get(i);
+                if (lesson.getTextFavorite() == null) {
                     lesson.setTextFavorite("");
                 }
                 jsonObject = new JSONObject();
-                        jsonObject.put("number", lesson.getNumber());
-                        jsonObject.put("lesson_name", lesson.getName());
-                        jsonObject.put("Text", lesson.getText());
-                        jsonObject.put("TextFavorite", lesson.getTextFavorite());
-                        jsonObject.put("description1", lesson.getDescription1());
-                        jsonObject.put("words", lesson.getWords());
+                jsonObject.put("number", lesson.getNumber());
+                jsonObject.put("lesson_name", lesson.getName());
+                jsonObject.put("Text", lesson.getText());
+                jsonObject.put("TextFavorite", lesson.getTextFavorite());
+                jsonObject.put("description1", lesson.getDescription1());
+                jsonObject.put("words", lesson.getWords());
 
-                        jsonObject.put("label", lesson.getLabel());
-                        jsonObject.put("progress", lesson.getProgress());
+                jsonObject.put("label", lesson.getLabel());
+                jsonObject.put("progress", lesson.getProgress());
 
                 jsonArray.put(jsonObject);
             }
 
             String result = jsonArray.toString();
             Global.getFilesUtils().createFile(result);
-        }catch (JSONException e){
+        } catch (JSONException e) {
 
         }
 
 
     }
+
+    public void saveFromModelToFileMode2() {
+
+        try {
+            JSONArray jsonArray = new JSONArray();
+            JSONObject jsonObject;
+            ArrayList lessonArrayList = Global.getLessonsListForMode2();
+
+            for (int i = 0; i < lessonArrayList.size(); i++) {
+                WordModel lesson = (WordModel) lessonArrayList.get(i);
+
+                jsonObject = new JSONObject();
+                jsonObject.put("number", lesson.getNumber());
+                jsonObject.put("lesson_name", lesson.getName());
+                jsonObject.put("words", lesson.getWords());
+                jsonObject.put("label", lesson.getLabel());
+
+
+                jsonArray.put(jsonObject);
+            }
+
+            String result = jsonArray.toString();
+            Global.getFilesUtils().createFileMode2(result);
+        } catch (JSONException e) {
+
+        }
+    }
+
+    public void exportToFile(int index) {
+
+        try {
+            JSONObject jsonObject;
+            WordModel lesson = Global.getLessonsListForMode2().get(index);
+
+                jsonObject = new JSONObject();
+                jsonObject.put("number", lesson.getNumber());
+                jsonObject.put("lesson_name", lesson.getName());
+                jsonObject.put("words", lesson.getWords());
+                jsonObject.put("label", lesson.getLabel());
+
+            String result = jsonObject.toString();
+            Global.getFilesUtils().exportFile(result);
+
+
+        } catch (JSONException e) {
+
+        }
+    }
+
+    public void importMode2(String text) {
+
+        try {
+            JSONObject jsonObject = new JSONObject(text);
+
+                Global.getLessonsUtils().createLessonMode2(
+                        Global.getLessonsListForMode2().size(),//номер урока
+                        jsonObject.get("lesson_name").toString(),
+                        jsonObject.get("words").toString(),
+                        jsonObject.get("label").toString());
+
+
+        } catch (JSONException e1) {
+            e1.printStackTrace();
+        }
+    }
+
 
 }

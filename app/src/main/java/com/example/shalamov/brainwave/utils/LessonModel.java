@@ -2,7 +2,7 @@ package com.example.shalamov.brainwave.utils;
 
 import java.util.ArrayList;
 
-public class Lesson {
+public class LessonModel {
 
     private int number;
     private String name;

@@ -5,17 +5,16 @@
     android:id="@+id/relative_layout_activity_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/transcription_drawable"
     android:gravity="center"
-    tools:context="com.example.shalamov.brainwave.MainActivity"
-    android:background="@drawable/transcription_drawable">
+    tools:context="com.example.shalamov.brainwave.MainActivity">
 
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:layout_above="@+id/bottom_panel">
-
+        android:layout_above="@+id/bottom_panel"
+        android:orientation="vertical">
 
 
         <!--<HorizontalScrollView-->
@@ -268,7 +267,6 @@
         <!--</HorizontalScrollView>-->
 
 
-
         <!--<TextView-->
         <!--android:layout_width="wrap_content"-->
         <!--android:layout_height="wrap_content" -->
@@ -281,25 +279,36 @@
             android:id="@+id/scroll_view_level_1"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_gravity="center_horizontal"
-            >
-
+            android:layout_gravity="center_horizontal">
 
             <LinearLayout
-                android:id="@+id/layoutMainActivity"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-                <!--<TextView-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:gravity="center_horizontal"-->
-                <!--android:paddingTop="10dp"-->
-                <!--android:paddingBottom="10dp"-->
-                <!--android:textSize="20sp"-->
-                <!--android:text="Lessons"/>-->
 
+                <LinearLayout
+                    android:id="@+id/layoutMainActivity"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <!--<TextView-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:gravity="center_horizontal"-->
+                    <!--android:paddingTop="10dp"-->
+                    <!--android:paddingBottom="10dp"-->
+                    <!--android:textSize="20sp"-->
+                    <!--android:text="Lessons"/>-->
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="80dp">
+
+                </LinearLayout>
 
             </LinearLayout>
         </ScrollView>
@@ -309,48 +318,59 @@
         android:id="@+id/floatingActionButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
         android:layout_above="@+id/bottom_panel"
+        android:layout_alignParentRight="true"
         android:layout_margin="16dp"
         android:clickable="true"
         android:src="@drawable/ic_add"
         app:backgroundTint="@color/colorPrimary" />
 
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/floatingActionButtonImport"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/bottom_panel"
+        android:layout_alignParentLeft="true"
+        android:layout_margin="16dp"
+        android:clickable="true"
+        android:src="@drawable/ic_file_download"
+        app:backgroundTint="@color/colorPrimary" />
+
     <LinearLayout
         android:id="@+id/bottom_panel"
-        android:layout_alignParentBottom="true"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
         android:orientation="horizontal"
         android:weightSum="3">
 
 
         <Button
-            android:id="@+id/btn_all_lessons"
+            android:id="@+id/btn_texts"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="ВСЕ УРОКИ"
             android:background="@color/myColorIndigo400"
-            android:textColor="@color/myColorWhite"/>
+            android:text="ТЕКСТЫ"
+            android:textColor="@color/myColorWhite" />
 
         <Button
-            android:id="@+id/btn_sources"
+            android:id="@+id/btn_words"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="ИСТОЧНИКИ"
             android:background="@color/myColorGrey100"
-            android:textColor="@color/myColorGrey600"/>
-
-        <Button
-            android:id="@+id/btn_all_favorite"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
             android:text="СЛОВА"
+            android:textColor="@color/myColorGrey600" />
+
+        <Button
+            android:id="@+id/btn_others"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
             android:background="@color/myColorGrey100"
-            android:textColor="@color/myColorGrey600"/>
+            android:text="ДРУГОЕ"
+            android:textColor="@color/myColorGrey600" />
         <!--<LinearLayout-->
         <!--android:layout_width="match_parent"-->
         <!--android:layout_height="match_parent"-->

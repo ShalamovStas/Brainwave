@@ -19,13 +19,15 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.shalamov.brainwave.utils.Lesson;
+import com.example.shalamov.brainwave.utils.LessonModel;
+import com.example.shalamov.brainwave.utils.WordModel;
 
 import java.util.ArrayList;
 
 public class QuizWordsActivity extends AppCompatActivity {
     String TAG = "QuizWordsActivity";
-    private Lesson lesson;
+    private LessonModel lessonMode1;
+    private WordModel lessonMode2;
     private int lessonNumber;
     private LinearLayout mLayoutNext, mLayoutPrevious;
     private RelativeLayout basicLayout;
@@ -51,15 +53,21 @@ public class QuizWordsActivity extends AppCompatActivity {
         ab.setDisplayHomeAsUpEnabled(true);
         ab.setDisplayShowHomeEnabled(true);
         lessonNumber = Integer.parseInt(getIntent().getStringExtra("lessonNumber"));
-        lesson = (Lesson) Global.getLessonsList().get(lessonNumber);
+
+
         init();
         showNextWord();
     }
 
     private void init() {
-//        mTTS = new TextToSpeech(this, this);
-        lesson = (Lesson) Global.getLessonsList().get(lessonNumber);
-        arrayListWords = lesson.getArrayListWords();
+        if (Global.mode == 1) {
+            lessonMode1 = (LessonModel) Global.getLessonsList().get(lessonNumber);
+            arrayListWords = lessonMode1.getArrayListWords();
+        }
+        if (Global.mode == 2) {
+            lessonMode2 = (WordModel) Global.getLessonsListForMode2().get(lessonNumber);
+            arrayListWords = lessonMode2.getArrayListWords();
+        }
         currentIndex = 0;
         mode = 0;
         translationIsNotShown = false;
@@ -185,9 +193,9 @@ public class QuizWordsActivity extends AppCompatActivity {
             } else {
                 wordsEngArray.add(wordsArrayAfterSplit[0]);
                 wordsRusArray.add(wordsArrayAfterSplit[2]);
-                if(wordsArrayAfterSplit.length > 4){
+                if (wordsArrayAfterSplit.length > 4) {
                     examplesOfTheUsageArray.add(wordsArrayAfterSplit[4]);
-                }else{
+                } else {
                     examplesOfTheUsageArray.add("- ");
                 }
             }

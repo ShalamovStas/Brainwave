@@ -11,7 +11,7 @@ public class LessonsUtils {
     final String TAG = "LessonUtils";
     //==============================================================================================
     //==============================================================================================
-    // Работа с объектами модели - создание объекта Lesson, его изменение,
+    // Работа с объектами модели - создание объекта LessonModel, его изменение,
     // удаление
 
     public void createLesson(int number, String name, String text, String textFavorite, String description1, String words, String label, String progress) {
@@ -29,11 +29,11 @@ public class LessonsUtils {
         splitSentence(textFavorite, textArrayListFavorite);
         splitSentence(words, textArrayWords);
         //из разделенных предложений с удаленными абзацами  и отступами формируется строка
-        //textLesson, которая бутед записана в модель Lesson
+        //textLesson, которая бутед записана в модель LessonModel
         String textLesson = arrayListToString(textArrayList);
 
 
-        Lesson lesson = new Lesson();
+        LessonModel lesson = new LessonModel();
         lesson.setNumber(number);
         lesson.setName(name);
         lesson.setText(textLesson);
@@ -52,9 +52,33 @@ public class LessonsUtils {
 
     }
 
+    public void createLessonMode2(int number, String name, String words, String label) {
+
+        Log.d(TAG, "\n======================createLessonMode2 start======================");
+
+        ArrayList<String> textArrayWords = new ArrayList<>();
+        //используем метод разделения общего текста text на отдельные предложения и записываем
+        //отдельные предложения в коллекцию - метод splitSentence это позволяет делать
+        splitSentence(words, textArrayWords);
+
+
+        WordModel lesson = new WordModel();
+        lesson.setNumber(number);
+        lesson.setName(name);
+        lesson.setLabel(label);
+        lesson.setWords(words);
+        lesson.setArrayListWords(textArrayWords);
+
+        Log.d(TAG, "number = " + number);
+
+        Global.getLessonsListForMode2().add(lesson);
+
+    }
+
+
     public void changeLesson(int number, String name, String text, String description1, String words, String label, String progress) {
 
-        Lesson lesson = (Lesson) Global.getLessonsList().get(number);
+        LessonModel lesson = (LessonModel) Global.getLessonsList().get(number);
 
         ArrayList<String> textArrayList = lesson.getArrayListText();
         ArrayList<String> textArrayListFavorite = lesson.getArrayListTextFavorite();
@@ -78,15 +102,21 @@ public class LessonsUtils {
     }
 
     public void deleteLesson(int index) {
-        Global.getLessonsList().remove(index);
-        Global.getJsonUtils().saveFromModelToFile();
+        if(Global.mode == 1) {
+            Global.getLessonsList().remove(index);
+            Global.getJsonUtils().saveFromModelToFile();
+        }
+        if(Global.mode == 2) {
+            Global.getLessonsListForMode2().remove(index);
+            Global.getJsonUtils().saveFromModelToFileMode2();
+        }
     }
 
     //==============================================================================================
     //==============================================================================================
     // Работа с предложениями - изменение предложений, удаление предложений
 
-    public void changeSentence(Lesson lesson, String oldSentence, String newSentence) {
+    public void changeSentence(LessonModel lesson, String oldSentence, String newSentence) {
 
         // изменяем основной текст
         // работаем с коллекцией
@@ -129,7 +159,7 @@ public class LessonsUtils {
 
     }
 
-    public void deleteSentence(Lesson lesson, String sentence) {
+    public void deleteSentence(LessonModel lesson, String sentence) {
 
         // работаем с коллекцией
         ArrayList<String> textArrayList = lesson.getArrayListText();
@@ -164,7 +194,7 @@ public class LessonsUtils {
     //==============================================================================================
     //==============================================================================================
     //Методы для работы с Отмеченными предложениями
-    public void deleteFavoriteSentence(Lesson lesson, String text) {
+    public void deleteFavoriteSentence(LessonModel lesson, String text) {
 
         ArrayList<String> textArrayListFavorite = lesson.getArrayListTextFavorite();
 
@@ -186,7 +216,7 @@ public class LessonsUtils {
 
     }
 
-    public void addFavoriteSentence(Lesson lesson, String text) {
+    public void addFavoriteSentence(LessonModel lesson, String text) {
         Log.d(TAG, "=========addFavoriteSentence()=========");
         // изменяем отмеченый текст если он есть
         ArrayList<String> textArrayListFavorite = lesson.getArrayListTextFavorite();
@@ -199,7 +229,7 @@ public class LessonsUtils {
         Log.d(TAG, "textLessonFavorite = " + textLessonFavorite);
     }
 
-    public boolean checkIfExistThisSentenceInFavorite(Lesson lesson, String text){
+    public boolean checkIfExistThisSentenceInFavorite(LessonModel lesson, String text){
         boolean flag = false;
         ArrayList favoriteSentencesArray = lesson.getArrayListTextFavorite();
 
@@ -218,7 +248,7 @@ public class LessonsUtils {
     //==============================================================================================
     //Методы для работы со словами для изучения
 
-    public boolean addWord(Lesson lesson, String text) {
+    public boolean addWord(LessonModel lesson, String text) {
         Log.d(TAG, "=========addWord()=========");
         // изменяем отмеченый текст если он есть
         ArrayList<String> words = lesson.getArrayListWords();
@@ -241,11 +271,36 @@ public class LessonsUtils {
             lesson.setWords(wordsString);
             Log.d(TAG, "words = " + wordsString);
         }
-
         return flag;
     }
 
-    public void deleteWord(Lesson lesson, String text) {
+    public boolean addWord(WordModel lesson, String text) {
+        Log.d(TAG, "=========addWord()=========");
+        // изменяем отмеченый текст если он есть
+        ArrayList<String> words = lesson.getArrayListWords();
+
+        // флаг поиска совпадения
+        //если  такое слово уже существует, операция не завершается и возвращает false
+        boolean flag = true;
+
+        for (int i = 0; i < words.size(); i++) {
+            if (words.get(i).equalsIgnoreCase(text)) {
+                flag = false;
+            }
+        }
+
+        if (flag) {
+            words.add(text);
+
+            // создание поля words для модели с учтом скорректированого
+            String wordsString = arrayListToString(words);
+            lesson.setWords(wordsString);
+            Log.d(TAG, "words = " + wordsString);
+        }
+        return flag;
+    }
+
+    public void deleteWord(LessonModel lesson, String text) {
 
         ArrayList<String> words = lesson.getArrayListWords();
 
@@ -262,9 +317,28 @@ public class LessonsUtils {
         }
     }
 
-    public void changeWord(Lesson lesson, String oldText, String newText) {
+    public void deleteWord(WordModel lesson, String text) {
 
         ArrayList<String> words = lesson.getArrayListWords();
+
+        if (words.size() != 0) {
+
+            for (int i = 0; i < words.size(); i++) {
+
+                if (words.get(i).equalsIgnoreCase(text)) {
+                    words.remove(i);
+                }
+            }
+            String wordsString = arrayListToString(words);
+            lesson.setWords(wordsString);
+        }
+    }
+
+    public void changeWord(LessonModel lesson, String oldText, String newText) {
+
+
+        ArrayList<String> words = lesson.getArrayListWords();
+
 
         if (words.size() != 0) {
 
@@ -276,12 +350,36 @@ public class LessonsUtils {
             }
 
             String wordsString = arrayListToString(words);
+
             lesson.setWords(wordsString);
             Log.d(TAG, wordsString);
         }
     }
 
-    public void updateWordLearnNotLearn(Lesson lesson, int index, String flag) {
+    public void changeWord(WordModel lesson, String oldText, String newText) {
+
+
+        ArrayList<String> words = lesson.getArrayListWords();
+
+
+        if (words.size() != 0) {
+
+            for (int i = 0; i < words.size(); i++) {
+
+                if (words.get(i).equalsIgnoreCase(oldText)) {
+                    words.set(i, newText);
+                }
+            }
+
+            String wordsString = arrayListToString(words);
+
+            lesson.setWords(wordsString);
+            Log.d(TAG, wordsString);
+        }
+    }
+
+
+    public void updateWordLearnNotLearn(LessonModel lesson, int index, String flag) {
 
         String[] splitArray = lesson.getArrayListWords().get(index).split("[=>]");
 
@@ -316,7 +414,65 @@ public class LessonsUtils {
 
     }
 
-    public boolean checkFlagLearnNotLearn(Lesson lesson, int index) {
+    public void updateWordLearnNotLearn(WordModel lesson, int index, String flag) {
+
+        String[] splitArray = lesson.getArrayListWords().get(index).split("[=>]");
+
+        if (splitArray.length >= 7) {
+            splitArray[6] = flag;
+        }
+
+        StringBuilder result = new StringBuilder();
+
+
+        for (int i = 0; i < splitArray.length; i++) {
+            result.append(splitArray[i]);
+            if (splitArray[i].length() == 0) {
+                result.append("=>");
+            }
+        }
+
+        if (splitArray.length <= 3) {
+            result.append("=>-");
+        }
+
+        if (splitArray.length < 7) {
+            result.append("=>");
+            result.append(flag);
+        }
+
+        Log.d(TAG, "\n\nupdateWordLearnNotLearn - end\nresult.toString() = " + result.toString());
+
+
+        changeWord(lesson, lesson.getArrayListWords().get(index), result.toString());
+
+
+    }
+
+    public boolean checkFlagLearnNotLearn(LessonModel lesson, int index) {
+        boolean flag = true;
+        String[] splitArray = lesson.getArrayListWords().get(index).split("[=>]");
+
+        if (splitArray.length == 7) {
+
+            switch (splitArray[6]) {
+                case "0":
+                    flag = false;
+                    break;
+                case "1":
+                    flag = true;
+                    break;
+                default:
+                    flag = true;
+                    break;
+            }
+        }
+
+        return flag;
+
+    }
+
+    public boolean checkFlagLearnNotLearn(WordModel lesson, int index) {
         boolean flag = true;
         String[] splitArray = lesson.getArrayListWords().get(index).split("[=>]");
 

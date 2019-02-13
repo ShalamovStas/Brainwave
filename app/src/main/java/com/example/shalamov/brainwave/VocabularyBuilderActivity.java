@@ -9,14 +9,14 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.example.shalamov.brainwave.utils.Lesson;
+import com.example.shalamov.brainwave.utils.LessonModel;
 
 public class VocabularyBuilderActivity extends AppCompatActivity {
 
     private TextView text;
     private LinearLayout mBtnPrevious, mBtnNext, mBtnCreateVocabulary;
     private int lessonNumber, currentSentenceIndex;
-    private Lesson lesson;
+    private LessonModel lesson;
     private QuizLogic mQuizLogic;
     ActionBar ab;
 
@@ -39,7 +39,7 @@ public class VocabularyBuilderActivity extends AppCompatActivity {
 
     private void init() {
         currentSentenceIndex = 0;
-        lesson = (Lesson) Global.getLessonsList().get(lessonNumber);
+        lesson = (LessonModel) Global.getLessonsList().get(lessonNumber);
         mQuizLogic = Global.getmQuizLogic();
         mQuizLogic.setCurrSentence(currentSentenceIndex);
         mQuizLogic.createArrayCurrentSentence(currentSentenceIndex);

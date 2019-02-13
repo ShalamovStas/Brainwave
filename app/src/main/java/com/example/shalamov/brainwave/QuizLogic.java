@@ -2,7 +2,7 @@ package com.example.shalamov.brainwave;
 
 import android.util.Log;
 
-import com.example.shalamov.brainwave.utils.Lesson;
+import com.example.shalamov.brainwave.utils.LessonModel;
 
 import java.util.ArrayList;
 
@@ -12,7 +12,7 @@ import java.util.ArrayList;
 
 public class QuizLogic {
     final String TAG = "QuizLogic";
-    private Lesson lesson;
+    private LessonModel lesson;
     private String mainText, favoriteText;
     boolean useOnlyFavorite;
     private ArrayList arrayListText;
@@ -31,7 +31,7 @@ public class QuizLogic {
         Log.d("brain", "QuizLogic(constructor)-mainText = " + mainText);
     }
 
-    public void setLesson(Lesson lesson){
+    public void setLesson(LessonModel lesson){
         this.lesson = lesson;
         this.mainText = lesson.getText();
         this.favoriteText = lesson.getTextFavorite();
@@ -325,7 +325,7 @@ public class QuizLogic {
 //        return allSentences;
 //    }
 
-    public boolean checkFavoriteSentence(Lesson lesson, String text) {
+    public boolean checkFavoriteSentence(LessonModel lesson, String text) {
 
         boolean flag = false;
 
@@ -341,7 +341,7 @@ public class QuizLogic {
         return flag;
     }
 
-    public boolean checkIfFavoriteTextEmpty(Lesson lesson) {
+    public boolean checkIfFavoriteTextEmpty(LessonModel lesson) {
 
         boolean flag = false;
         ArrayList<String> arrayListTextFavorite = lesson.getArrayListTextFavorite();
