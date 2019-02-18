@@ -7,16 +7,22 @@ import android.content.ClipboardManager;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
+import android.os.Build;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -26,17 +32,26 @@ import com.example.shalamov.brainwave.utils.WordModel;
 
 public class ChooseWordForVocabularyActivity extends AppCompatActivity {
     String TAG = "ChooseWordForVocabularyActivity";
+
     private EditText mEditTextEng, mEditTextRu;
-    private Button mBtnDelete, mBtnSave, mBtnGoToDictionary, mBtnPaste;
+    private Button mBtnSave, mBtnGoToDictionary;
+    //    private Button mBtnPaste;
     private TextView mTextViewExampleOfUsage;
-    private LinearLayout mLayoutForAddContent, mLayoutContainerExampleOfUsage;
+    private LinearLayout mLayoutForAddContent;
+    private LinearLayout mLayoutContainerExampleOfUsage;
     private int lessonNumber, addNewWordFlag, mode;
     private int currentSentenceIndex;
     private ClipboardManager clipboard;
+    private ClipData clipData;
+    private ActionBar ab;
     private QuizLogic mQuizLogic;
     private LessonModel lessonGlobalMode1;
     private WordModel lessonGlobalMode2;
     private String oldText, exampleOfUsage;
+
+    private ImageView mBtnTranslatorInSentenceContainer, mBtnCopyInSentenceContainer,
+            mBtnPasteInSentenceContainer, mBtnBackspaceInSentenceContainer, mBtnDelete,
+            mBtnBasteRussian;
 
     //в режиме создания нового слова 1 нажатие на paste - вставляем текст в example of usage
     //второе - вставляем скопированный перевод
@@ -47,6 +62,7 @@ public class ChooseWordForVocabularyActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_choose_word_for_vocabulary);
+        ab = getSupportActionBar();
 
 
         lessonNumber = Integer.parseInt(getIntent().getStringExtra("lessonNumber"));
@@ -55,6 +71,7 @@ public class ChooseWordForVocabularyActivity extends AppCompatActivity {
         clipboard = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
         init();
         setListeners();
+        setStyle();
 
         switch (addNewWordFlag) {
             //ДОБАВЛЕНИЕ НОВОГО СЛОВА
@@ -80,6 +97,16 @@ public class ChooseWordForVocabularyActivity extends AppCompatActivity {
 
     }
 
+    private void setStyle() {
+        ab.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.myColor1Palette1)));
+        ab.hide();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            Window window = getWindow();
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            window.setStatusBarColor(getResources().getColor(R.color.myColor1Palette1));
+        }
+
+    }
 
 
     private void setDataToLayoutCorrectingMode(String text) {
@@ -183,11 +210,12 @@ public class ChooseWordForVocabularyActivity extends AppCompatActivity {
         if (Global.mode == 2) {
             lessonGlobalMode2 = (WordModel) Global.getLessonsListForMode2().get(lessonNumber);
         }
+
         mQuizLogic = Global.getmQuizLogic();
         mEditTextEng = (EditText) findViewById(R.id.eng_text_choose_word_vocabulary);
         mEditTextRu = (EditText) findViewById(R.id.ru_text_choose_word_vocabulary);
-        mBtnDelete = (Button) findViewById(R.id.btn_delete_choose_word_vocabulary);
-        mBtnPaste = (Button) findViewById(R.id.btn_paste_choose_word_vocabulary);
+        mBtnDelete = (ImageView) findViewById(R.id.btn_delete_choose_word_vocabulary);
+//        mBtnPaste = (Button) findViewById(R.id.btn_paste_choose_word_vocabulary);
 
         mBtnSave = (Button) findViewById(R.id.btn_save_choose_word_vocabulary);
         mBtnGoToDictionary = (Button) findViewById(R.id.btn_gotodictionary_choose_word_vocabulary);
@@ -197,6 +225,12 @@ public class ChooseWordForVocabularyActivity extends AppCompatActivity {
 
         mEditTextEng.setFocusableInTouchMode(false);
         mEditTextRu.setFocusableInTouchMode(false);
+
+        mBtnTranslatorInSentenceContainer = findViewById(R.id.btn_translator_example_of_usage_word);
+        mBtnCopyInSentenceContainer = findViewById(R.id.btn_copy_example_of_usage_word);
+        mBtnPasteInSentenceContainer = findViewById(R.id.btn_paste_example_of_usage_word);
+        mBtnBackspaceInSentenceContainer = findViewById(R.id.btn_backspace_example_of_usage_word);
+        mBtnBasteRussian = findViewById(R.id.btn_paste_russian_text);
 
         countSaveClick = 0;
 
@@ -235,38 +269,97 @@ public class ChooseWordForVocabularyActivity extends AppCompatActivity {
             }
         });
 
-        mBtnPaste.setOnClickListener(new View.OnClickListener() {
+        mBtnTranslatorInSentenceContainer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                if (mode == 1) {
-                    if (countSaveClick == 0) {
-                        countSaveClick++;
-                        pasteSentenceForExampleOfTheUsageAndCreatePartsOfSentence();
-
-                        InputMethodManager imm = (InputMethodManager) ChooseWordForVocabularyActivity.this.getSystemService(Activity.INPUT_METHOD_SERVICE);
-                        if (imm != null) {
-                            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
-                        }
-
-                    } else {
-                        pasteText();
-                    }
-                } else {
-                    pasteText();
-                }
-
+                openGoogleTranslator(mTextViewExampleOfUsage.getText().toString());
             }
         });
 
-        mBtnDelete.setOnClickListener(new View.OnClickListener() {
+        mBtnCopyInSentenceContainer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (!mTextViewExampleOfUsage.getText().toString().equalsIgnoreCase("-") && mTextViewExampleOfUsage.getText().toString().length() != 0) {
+                    copyTextToBuffer(mTextViewExampleOfUsage.getText().toString());
+                } else {
+                    Toast.makeText(ChooseWordForVocabularyActivity.this, "The field is empty!", Toast.LENGTH_SHORT).show();
+                }
+
+
+            }
+        });
+        mBtnPasteInSentenceContainer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                pasteSentenceForExampleOfTheUsageAndCreatePartsOfSentence();
+                hideKeyboard(mBtnPasteInSentenceContainer);
+            }
+        });
+        mBtnBackspaceInSentenceContainer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mTextViewExampleOfUsage.setText("-");
+                mLayoutForAddContent.removeAllViews();
+                hideKeyboard(mBtnBackspaceInSentenceContainer);
+            }
+        });
+
+        mBtnBasteRussian.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String text = getCopiedText();
+                if (text != null) {
+                    mEditTextRu.setText(text);
+                }
+
+                hideKeyboard(mBtnBasteRussian);
+            }
+        });
+
+//        mBtnPaste.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//
+//                if (mode == 1) {
+//                    if (countSaveClick == 0) {
+//                        countSaveClick++;
+//                        pasteSentenceForExampleOfTheUsageAndCreatePartsOfSentence();
+//
+//                        InputMethodManager imm = (InputMethodManager) ChooseWordForVocabularyActivity.this.getSystemService(Activity.INPUT_METHOD_SERVICE);
+//                        if (imm != null) {
+//                            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+//                        }
+//
+//                    } else {
+//                        String text = getCopiedText();
+//                        if (text != null) {
+//
+//                            mEditTextEng.setText(text);
+//                        }
+//                    }
+//                } else {
+//                    String text = getCopiedText();
+//                    if (text != null) {
+//
+//                        mEditTextEng.setText(text);
+//                    }
+//                }
+//
+//            }
+//        });
+
+        mBtnDelete.setOnClickListener(new View.OnClickListener()
+
+        {
             @Override
             public void onClick(View view) {
                 mEditTextEng.setText("");
                 mEditTextRu.setText("");
             }
         });
-        mBtnGoToDictionary.setOnClickListener(new View.OnClickListener() {
+        mBtnGoToDictionary.setOnClickListener(new View.OnClickListener()
+
+        {
             @Override
             public void onClick(View view) {
                 if (mEditTextEng.getText().toString().length() != 0) {
@@ -278,7 +371,9 @@ public class ChooseWordForVocabularyActivity extends AppCompatActivity {
             }
         });
 
-        mBtnSave.setOnClickListener(new View.OnClickListener() {
+        mBtnSave.setOnClickListener(new View.OnClickListener()
+
+        {
             @Override
             public void onClick(View view) {
 
@@ -305,22 +400,34 @@ public class ChooseWordForVocabularyActivity extends AppCompatActivity {
                 }
 
 
-                if(Global.mode == 1){
+                if (Global.mode == 1) {
                     Global.getJsonUtils().saveFromModelToFile();
                 }
-                if(Global.mode == 2){
+                if (Global.mode == 2) {
                     Global.getJsonUtils().saveFromModelToFileMode2();
                 }
             }
         });
     }
 
+    private void hideKeyboard(View view) {
+        InputMethodManager imm = (InputMethodManager) ChooseWordForVocabularyActivity.this.getSystemService(Activity.INPUT_METHOD_SERVICE);
+        if (imm != null) {
+            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        }
+    }
+
+    private void copyTextToBuffer(String text) {
+        clipData = ClipData.newPlainText("text", text);
+        clipboard.setPrimaryClip(clipData);
+        Toast.makeText(ChooseWordForVocabularyActivity.this, "Text copied", Toast.LENGTH_SHORT).show();
+    }
+
     private void pasteSentenceForExampleOfTheUsageAndCreatePartsOfSentence() {
 
-        ClipData abc = clipboard.getPrimaryClip();
-        ClipData.Item item = abc.getItemAt(0);
-        String dirtySentence = item.getText().toString();
-        if(dirtySentence.length() < 8000) {
+        mLayoutForAddContent.removeAllViews();
+        String dirtySentence = getCopiedText();
+        if (dirtySentence != null && dirtySentence.length() < 8000) {
 
             String cleanSentence = cleanText(dirtySentence);
 
@@ -338,7 +445,7 @@ public class ChooseWordForVocabularyActivity extends AppCompatActivity {
                 mLayoutPieceOfSentence.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        mTextPieceOfSentence.setTextColor(Color.parseColor("#3F51B5"));
+                        mTextPieceOfSentence.setTextColor(Color.parseColor("#ffffff"));
 
                         if (mEditTextEng.getText().length() == 0) {
                             mEditTextEng.setText(mTextPieceOfSentence.getText().toString());
@@ -353,7 +460,6 @@ public class ChooseWordForVocabularyActivity extends AppCompatActivity {
             }
 
 
-
         }
 
     }
@@ -363,7 +469,7 @@ public class ChooseWordForVocabularyActivity extends AppCompatActivity {
         StringBuilder cleanText1 = new StringBuilder();
         for (int i = 0; i < allTextArray.length; i++) {
             cleanText1.append(allTextArray[i]);
-            if(i != allTextArray.length-1 && !allTextArray[i].equalsIgnoreCase(" ")){
+            if (i != allTextArray.length - 1 && !allTextArray[i].equalsIgnoreCase(" ")) {
                 cleanText1.append(" ");
             }
         }
@@ -452,12 +558,16 @@ public class ChooseWordForVocabularyActivity extends AppCompatActivity {
         }
     }
 
-    private void pasteText() {
+    private String getCopiedText() {
         ClipData abc = clipboard.getPrimaryClip();
-        ClipData.Item item = abc.getItemAt(0);
-        String text = item.getText().toString();
-        mEditTextRu.setText(text);
-
+        ClipData.Item item = null;
+        if (abc != null) {
+            item = abc.getItemAt(0);
+            return (item.getText().toString());
+        } else {
+            Toast.makeText(ChooseWordForVocabularyActivity.this, "Text was not copied", Toast.LENGTH_SHORT).show();
+            return null;
+        }
     }
 
     private String getExampleOfUsageWord() {
@@ -475,7 +585,6 @@ public class ChooseWordForVocabularyActivity extends AppCompatActivity {
 
         return text;
     }
-
 
 
 }

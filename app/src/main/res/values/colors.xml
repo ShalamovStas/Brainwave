@@ -23,6 +23,20 @@
     <color name="myColorGrey900">#212121</color>
 
 
+
+
+    <color name="myColor1Palette1">#111d1a</color>
+    <color name="myColor2Palette1">#16362a</color>
+    <color name="myColor3Palette1">#35745e</color>
+    <color name="myColor4Palette1">#408b71</color>
+    <color name="myColor5Palette1">#e8b65d</color>
+
+
+
+
+
+
+
     <color name="myColorIndigo200">#9fa8da</color>
     <color name="myColorIndigo300">#7986cb</color>
     <color name="myColorIndigo400">#5c6bc0</color>

@@ -26,6 +26,7 @@
                             android:layout_height="wrap_content"
                             android:text="Textrghh"
                             android:textSize="22sp"
+                            android:textColor="@color/myColorGrey400"
                             />
 
                 </LinearLayout>
