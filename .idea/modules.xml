@@ -2,8 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/Brainwave.iml" filepath="$PROJECT_DIR$/Brainwave.iml" />
-      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Brainwave.iml" filepath="$PROJECT_DIR$/Brainwave.iml" group="Brainwave" />
+      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" group="Brainwave/app" />
     </modules>
   </component>
 </project>
