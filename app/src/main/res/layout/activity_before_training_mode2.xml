@@ -1,69 +1,101 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:weightSum="3"
     android:orientation="vertical"
-    tools:context=".ActivityBeforeTrainingMode2">
+    android:weightSum="3"
+    tools:context=".ActivityBeforeTrainingMode2"
+    android:background="@color/myColorGrey600"
+    >
+
+    <ImageView
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_centerInParent="true"
+    android:scaleType="centerCrop"
+    android:src="@drawable/ic_superback"
+
+    />
 
     <LinearLayout
-        android:id="@+id/btn_words_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:orientation="horizontal"
-        android:background="@color/myColorActivityBeforeTrainingMode2Line1">
+        android:orientation="vertical">
 
-        <TextView
+
+        <!--==========================LINE 1==========================-->
+        <!--==========================LINE 1==========================-->
+        <!--==========================LINE 1==========================-->
+        <!--==========================LINE 1==========================-->
+        <LinearLayout
+            android:id="@+id/btn_words_list"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_margin="10dp"
-            android:gravity="center"
-            android:text="СПИСОК СЛОВ"
-            android:textColor="@color/myColorWhite"
-            android:textSize="20sp"
-            android:textStyle="bold" />
+            android:layout_weight="1"
+            android:orientation="horizontal">
 
 
-    </LinearLayout>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="10dp"
+                    android:gravity="center"
+                    android:text="СПИСОК СЛОВ"
+                    android:textColor="@color/myColorDark"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
 
-    <LinearLayout
-        android:id="@+id/btn_training"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:orientation="horizontal"
-        android:background="@color/myColorActivityBeforeTrainingMode2Line2">
 
-        <TextView
+        </LinearLayout>
+
+        <!--==========================LINE 2==========================-->
+        <!--==========================LINE 2==========================-->
+        <!--==========================LINE 2==========================-->
+        <!--==========================LINE 2==========================-->
+        <LinearLayout
+            android:id="@+id/btn_training"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_margin="10dp"
-            android:gravity="center"
-            android:text="ТРЕНИРОВКА СЛОВ"
-            android:textColor="@color/myColorWhite"
-            android:textSize="20sp"
-            android:textStyle="bold" />
-    </LinearLayout>
+            android:layout_weight="1"
+            android:orientation="horizontal">
 
-    <LinearLayout
-        android:id="@+id/btn_audio_training"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:orientation="horizontal"
-        android:background="@color/myColorActivityBeforeTrainingMode2Line3">
 
-        <TextView
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="10dp"
+                    android:gravity="center"
+                    android:text="ТРЕНИРОВКА СЛОВ"
+                    android:textColor="@color/myColorWhite"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/btn_audio_training"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_margin="10dp"
-            android:gravity="center"
-            android:text="АУДИО ТРЕНИРОВКА СЛОВ"
-            android:textColor="@color/myColorWhite"
-            android:textSize="20sp"
-            android:textStyle="bold" />
+            android:layout_weight="1"
+            android:orientation="horizontal">
+
+
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="10dp"
+                    android:gravity="center"
+                    android:text="АУДИО ТРНИРОВКА СЛОВ"
+                    android:textColor="@color/myColorWhite"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+
+        </LinearLayout>
     </LinearLayout>
-</LinearLayout>
+</RelativeLayout>
